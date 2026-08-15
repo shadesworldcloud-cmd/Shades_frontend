@@ -120,7 +120,7 @@ const SignIn = () => {
   const googleButtonRef = useRef(null);
   const verificationStartedRef = useRef(false);
   const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
-    || "654177765040-742kbr08fgphkafqnkigb84jnj78o2nj.apps.googleusercontent.com";
+    || "1022754831628-ta16sf3udggob1bsn3d8u4rmuh4jd4d1.apps.googleusercontent.com";
 
   useEffect(() => { if (resetToken) setMode("reset"); }, [resetToken]);
 
