@@ -1,0 +1,82 @@
+.promo-bar {
+  background: var(--bg-sand);
+  text-align: center;
+  padding: 10px 40px;
+  position: relative;
+  /* One line's worth of height held from first paint, so swapping the fallback text for the
+     offer message when it loads cannot move the page below. A long offer message wraps to a
+     second line rather than being clipped — the terms matter more than the strip's height. */
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promo-bar p {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* The offer strip uses the same background as the Women collection box: --bg-sand, with
+   --text-dark on top of it. That pairing already exists on the storefront, so the banner reads as
+   part of the theme rather than as a bar in a colour of its own — and it is the token the Women box
+   itself uses, so the two cannot drift apart.
+   Note this is also the same token .promo-bar already uses for the standing shipping line, so the
+   strip keeps one background whether an offer is live or not; only the wording and the weight
+   change. The previous near-black (#1c1c1c) is gone, and no inline style, utility class, hover rule
+   or media query reintroduces it. */
+.promo-bar-offer {
+  background: var(--bg-sand, #f5f0eb);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.promo-bar-offer p {
+  color: var(--text-dark, #1a1a1a);
+  font-weight: 600;
+  /* The offer message is a sentence, and the strip's default uppercase is what turned a stored
+     "message" into "MESSAGE" shouting across the shop. Sentence case also keeps a long offer line
+     readable, which all-caps does not. The standing shipping line keeps its uppercase styling. */
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 600px) {
+  .promo-bar {
+    padding-left: 12px;
+    padding-right: 40px;
+    /* Room for two lines held from first paint. A long offer message wraps on a phone, and without
+       this the page below jumps down by a line the moment the offer resolves. The cost is a slightly
+       taller strip on small screens; the alternative is a visible shift on every mobile load. */
+    min-height: 52px;
+  }
+  .promo-bar-offer {
+    padding-right: 12px;
+  }
+  .promo-bar p {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  /* Wrap, never clip: the terms matter more than the strip's height. */
+  .promo-bar-offer p {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+}
+
+.promo-close {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  width: 44px;
+  height: 44px;
+  font-size: 14px;
+  color: var(--text-light);
+  cursor: pointer;
+}

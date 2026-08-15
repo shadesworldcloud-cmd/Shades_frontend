@@ -1,0 +1,58 @@
+.returns-admin{display:grid;gap:22px}.returns-title{display:flex;justify-content:space-between;align-items:center}.returns-title h2{font:400 28px Georgia,serif}.returns-title p{margin-top:5px;color:#777}.returns-title button,.refund-form button{padding:11px 17px;border:0;border-radius:5px;background:#293d33;color:#fff;font-weight:700}.return-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.return-stats article{padding:18px;border:1px solid #e3ddd4;border-radius:10px;background:#fff}.return-stats span{display:block;color:#888;font-size:10px;text-transform:uppercase}.return-stats strong{display:block;margin-top:8px;font-size:24px}.returns-list{border:1px solid #e4ddd3;border-radius:10px;background:#fff;overflow:hidden}.returns-list>p{padding:40px;text-align:center;color:#888}.returns-list>button{width:100%;display:grid;grid-template-columns:1fr 1.5fr .6fr .8fr .5fr;gap:15px;align-items:center;padding:17px;border:0;border-top:1px solid #eee7df;background:#fff;text-align:left}/* The row prints "name · email" and the drawer prints SKUs; neither string has a break opportunity,
+   and a grid item's automatic minimum size is its min-content width. */
+.returns-list>button>*{min-width:0}.returns-list small,.return-item small{overflow-wrap:anywhere}
+.returns-list small{display:block;margin-top:4px;color:#888}.returns-list em{width:max-content;padding:6px 9px;border-radius:20px;background:#e8e5df;font-size:9px;font-style:normal}.returns-list em.requested{background:#f5e8c9;color:#76591e}.returns-list em.completed{background:#deeddf;color:#316b3d}.return-backdrop{position:fixed;inset:0;z-index:1100;background:#1815117a}.return-drawer{position:absolute;right:0;width:min(620px,95vw);height:100%;overflow:auto;padding:27px;background:#fbf8f3}.return-drawer header{display:flex;justify-content:space-between}.return-drawer header>button{border:0;background:none;font-size:29px}.return-drawer header span{font-size:10px;text-transform:uppercase}.return-drawer h2{margin:7px 0;font:400 28px Georgia,serif}.return-drawer section{padding:20px 0;border-top:1px solid #e4ddd3}.return-drawer h3{margin-bottom:12px;font-size:11px;text-transform:uppercase}.return-item{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee}.return-item small{display:block;margin-top:4px;color:#888}.return-drawer textarea{width:100%;padding:11px;border:1px solid #d8d0c5}.return-actions{display:flex;gap:8px;margin-top:10px}.return-actions button{padding:10px 13px;border:0;background:#293d33;color:#fff}.return-actions button.danger{background:#923f37}.refund-form{display:grid;grid-template-columns:1fr 1.4fr auto;gap:8px}.refund-form input{min-width:0;padding:11px;border:1px solid #d8d0c5}@media(max-width:800px){.return-stats{grid-template-columns:1fr 1fr}.returns-list>button{grid-template-columns:1fr 1fr}.returns-list>button>*:nth-child(3),.returns-list>button>*:nth-child(5){display:none}.refund-form{grid-template-columns:1fr}}
+.inspection-section>p{margin-bottom:12px;color:#787a74;font-size:11px}.inspection-section label{display:grid;grid-template-columns:1fr 180px;gap:12px;align-items:center;margin-top:8px;padding:10px;background:#f6f2eb;font-size:11px}.inspection-section select{padding:9px;border:1px solid #d4cdc2;border-radius:3px;background:#fff;font:inherit}
+
+/* ── Return status actions ───────────────────────────────────────────────────────────────
+   The Disapprove button previously inherited `.danger { color:#9a3d32 !important }` from
+   AdminProducts.css (CRA css imports are global), which painted #9a3d32 text on its #923f37
+   background — a ~1.02:1 contrast ratio, so the label was invisible. That rule is now scoped
+   to the product rows it was written for; these declarations make this button own its colours
+   outright so no future global rule can silently blank it again. */
+.return-actions {
+  flex-wrap: wrap;
+}
+
+.return-actions button {
+  border-radius: 5px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.return-actions button.danger,
+.return-actions button.danger:hover {
+  /* #fff on #8d332b is ~7.2:1 — comfortably past WCAG AA for normal text. */
+  background: #8d332b;
+  color: #fff;
+}
+
+.return-actions button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+/* Keyboard users must be able to see which action is focused, especially a destructive one. */
+.return-actions button:focus-visible {
+  outline: 3px solid #1f2d26;
+  outline-offset: 2px;
+}
+
+.return-actions button.danger:focus-visible {
+  outline-color: #8d332b;
+}
+
+/* Dim the control while a request is in flight without making the label unreadable. */
+.return-actions button:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+@media (max-width: 560px) {
+  .return-actions button {
+    flex: 1 1 100%;
+    padding: 13px;
+  }
+}

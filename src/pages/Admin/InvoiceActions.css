@@ -1,0 +1,29 @@
+.invoice-download-button {
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 3px;
+  background: #293d33;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.admin-invoice-button {
+  margin-left: auto;
+  padding: 9px 13px;
+  border: 1px solid #26382f;
+  border-radius: 8px;
+  background: #26382f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invoice-download-button:disabled,
+.admin-invoice-button:disabled {
+  opacity: .6;
+  cursor: wait;
+}

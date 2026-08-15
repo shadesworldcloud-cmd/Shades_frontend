@@ -1,0 +1,47 @@
+.category-strip {
+  padding: 60px 0 0;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  color: var(--text-dark);
+}
+
+.category-pills {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.category-pill {
+  min-height: 44px;
+  padding: 10px 28px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: none;
+  font-size: 12px;
+  font-family: inherit;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.25s ease;
+}
+
+.category-pill:hover {
+  border-color: var(--text-dark);
+  color: var(--text-dark);
+}
+
+.category-pill.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}

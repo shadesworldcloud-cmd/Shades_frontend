@@ -1,0 +1,67 @@
+.shop-page {
+  padding: 24px 0 40px;
+}
+
+.shop-header {
+  max-width: 620px;
+  margin-bottom: 8px;
+}
+
+.shop-header span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.shop-header h1 {
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.shop-header p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.shop-error {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: #fbeeec;
+  border-left: 2px solid #9a3d32;
+  color: #9a3d32;
+  font-size: 14px;
+}
+
+.shop-error button {
+  padding: 8px 14px;
+  border: 1px solid #9a3d32;
+  background: #fff;
+  color: #9a3d32;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.shop-empty {
+  padding: 40px 0 60px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 750px) {
+  .shop-header h1 {
+    font-size: 27px;
+  }
+}

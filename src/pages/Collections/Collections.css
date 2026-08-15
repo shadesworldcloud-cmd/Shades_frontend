@@ -1,0 +1,148 @@
+.collections-page {
+  padding: 24px 0 80px;
+}
+
+.collections-back {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 26px;
+}
+
+.collections-back:hover {
+  color: var(--text-dark);
+}
+
+.collections-header,
+.collections-detail-header {
+  max-width: 620px;
+  margin-bottom: 40px;
+}
+
+.collections-header span,
+.collections-detail-header span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.collections-header h1,
+.collections-detail-header h1,
+.collections-missing h1 {
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.collections-header p,
+.collections-detail-header p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.collections-status {
+  padding: 40px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.collections-status button {
+  margin-top: 12px;
+  padding: 9px 15px;
+  border: 1px solid var(--primary);
+  background: #fff;
+  color: var(--primary);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.collections-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.collection-tile {
+  position: relative;
+  display: block;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.collection-tile-bg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s ease;
+}
+
+.collection-tile:hover .collection-tile-bg {
+  transform: scale(1.04);
+}
+
+.collection-tile-body {
+  position: relative;
+  padding: 30px;
+  color: #fff;
+}
+
+.collection-tile-body.dark-text {
+  color: var(--text-dark);
+}
+
+.collection-tile-body span {
+  font-size: 10px;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.collection-tile-body h2 {
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin: 8px 0 8px;
+}
+
+.collection-tile-body p {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 34ch;
+}
+
+.collection-tile-body small {
+  display: block;
+  margin-top: 16px;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.collections-missing {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.collections-missing p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 750px) {
+  .collections-cards {
+    grid-template-columns: 1fr;
+  }
+  .collections-header h1,
+  .collections-detail-header h1 {
+    font-size: 27px;
+  }
+}

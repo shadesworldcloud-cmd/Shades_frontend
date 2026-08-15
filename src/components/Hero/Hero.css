@@ -1,0 +1,23 @@
+.hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 818;
+  overflow: hidden;
+  background: #ead5c3;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* No mobile aspect-ratio override. The hero photo is a 1920x818 banner (2.35:1); forcing the box
+   to 4/3 below 750px made object-fit: cover crop 43% of the picture's width away on a 375px
+   phone (measured: 661px of rendered image in a 375px box). Keeping the image's own ratio at
+   every width shows the whole photograph — a full-bleed banner strip on phones. */

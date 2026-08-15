@@ -1,0 +1,5 @@
+.brand-wordmark { display: inline-flex; align-items: center; line-height: 0; }
+.brand-wordmark img { display: block; width: 210px; height: auto; mix-blend-mode: multiply; }
+.brand-wordmark.compact img { width: 172px; }
+.brand-wordmark.light img { filter: invert(1); mix-blend-mode: screen; }
+@media (max-width: 750px) { .brand-wordmark img { width: 176px; }.brand-wordmark.compact img { width: 146px; } }

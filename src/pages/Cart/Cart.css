@@ -1,0 +1,377 @@
+.cart-discount,.checkout-discount{color:#397048}.promo-success{position:relative;margin-top:10px;padding:11px 48px 11px 12px;border-left:3px solid #477253;background:#eaf3eb;color:#315b3c;font-size:11px}.promo-success strong,.promo-success span{display:block}.promo-success span{margin-top:3px}.promo-success button{position:absolute;right:10px;top:12px;border:0;background:none;color:#315b3c;font-size:10px;text-decoration:underline}.promo-error{margin-top:8px;color:#9a3932;font-size:11px}
+.cart {
+  padding: 24px 0 100px;
+}
+
+.cart-title {
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+/* ── Empty state ── */
+.cart-empty {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.cart-empty p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.cart-empty-cta {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--primary);
+  color: white;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.cart-empty-cta:hover {
+  opacity: 0.85;
+}
+
+/* ── Layout ── */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 60px;
+  align-items: start;
+}
+
+/* ── Items ── */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.cart-item-image {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  background: var(--bg-sand);
+}
+
+.cart-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.cart-item-color {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.cart-item-price {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ── Qty control ── */
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+}
+
+.cart-item-qty button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-dark);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.cart-item-qty span {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-item-total {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 80px;
+  text-align: right;
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--text-light);
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.cart-item-remove:hover {
+  color: var(--danger);
+}
+
+/* ── Summary ── */
+.cart-summary {
+  background: var(--bg-sand);
+  padding: 32px;
+}
+
+.cart-summary h2 {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.cart-summary-total {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+
+.cart-summary-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.cart-free-ship-hint {
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.cart-checkout-btn {
+  width: 100%;
+  padding: 16px 0;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: opacity 0.2s;
+}
+
+.cart-checkout-btn:hover {
+  opacity: 0.85;
+}
+
+/* ── Promo ── */
+.cart-promo {
+  display: flex;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.cart-promo input {
+  flex: 1;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+  background: transparent;
+}
+
+.cart-promo button {
+  padding: 12px 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 750px) {
+  .cart-item {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cart-item-total {
+    min-width: auto;
+  }
+}
+
+/* ── Catalogue gates: a bag that cannot be priced yet must not read as empty ── */
+.cart-status {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cart-status-error {
+  color: #7d2f29;
+}
+
+.cart-status button {
+  margin-top: 16px;
+  padding: 12px 28px;
+  border: 1px solid var(--border);
+  background: none;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ── Degraded row for a line the catalogue can no longer resolve ── */
+.cart-item-unavailable {
+  background: #fbf7f3;
+}
+
+.cart-item-image-missing {
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--text-light);
+}
+
+.cart-item-qty-static {
+  border-style: dashed;
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+.cart-summary-alert {
+  margin-bottom: 16px;
+  padding: 11px 12px;
+  border-left: 3px solid #9a3932;
+  background: #f7ecea;
+  color: #7d2f29;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.cart-checkout-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.cart-checkout-btn:disabled:hover {
+  opacity: 0.55;
+}
+
+/* ── Automatic quantity offer ──────────────────────────────────────────────────────────────── */
+/* The offer's own block in the bag summary: name, non-negotiable terms, the group arithmetic and
+   the nudge toward the next group. Kept inside the summary card so the explanation sits next to the
+   money it explains rather than somewhere the customer has to go looking for it. */
+.cart-offer {
+  border: 1px solid var(--border-soft, #e5e1da);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  background: var(--bg-sand, #faf8f5);
+}
+
+.cart-offer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cart-offer-head strong { font-size: 14px; }
+
+.cart-offer-badge {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  background: #1c1c1c;
+  color: #fff;
+  border-radius: 999px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.cart-offer-terms,
+.cart-offer-calc,
+.cart-offer-progress {
+  font-size: 12px;
+  margin: 6px 0 0;
+  color: var(--text-muted, #6b6b66);
+}
+
+.cart-offer-calc { font-weight: 600; color: var(--text-dark, #1c1c1c); }
+.cart-offer-progress { color: var(--text-dark, #1c1c1c); }
+
+.cart-offer-suppressed,
+.cart-quote-note {
+  font-size: 11px;
+  margin: 8px 0 0;
+  color: var(--text-muted, #6b6b66);
+}
+
+.cart-item-eligibility {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.cart-item-eligibility.eligible { color: #1f7a4d; }
+.cart-item-eligibility.not-eligible { color: var(--text-muted, #6b6b66); }

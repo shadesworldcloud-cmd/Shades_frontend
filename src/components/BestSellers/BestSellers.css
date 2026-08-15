@@ -1,0 +1,47 @@
+.best-sellers { padding: 54px 0 8px; }
+.best-sellers-header { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.best-sellers-header span { color: #8b6b43; font-size: 10px; font-weight: 800; letter-spacing: 1.7px; text-transform: uppercase; }
+.best-sellers-header h2 { margin-top: 8px; font: 400 34px Georgia, serif; }
+
+.best-sellers-arrows { display: flex; gap: 8px; }
+.best-sellers-arrows button {
+  width: 42px; height: 42px; display: grid; place-items: center;
+  border: 1px solid #d5cfc4; border-radius: 50%; background: #fff; color: #262a24;
+  font-size: 16px; cursor: pointer;
+}
+.best-sellers-arrows button:hover:not(:disabled) { border-color: #262a24; background: #262a24; color: #fff; }
+/* Disabled must read as disabled, not just refuse to work. */
+.best-sellers-arrows button:disabled { opacity: .35; cursor: not-allowed; }
+/* Keyboard focus has to stay visible on both the light button and the dark hover state. */
+.best-sellers-arrows button:focus-visible { outline: 2px solid #8b6b43; outline-offset: 2px; }
+
+/* The row is a grid rather than a scroller: the component hands it exactly `perPage` cards, so
+   there is never overflow to clip or scroll. min-width:0 on the tracks keeps a long product name
+   from widening a column past its share. */
+.best-sellers-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
+.best-sellers-row > * { min-width: 0; }
+
+/* Reserves the height of a real card so the ranking arriving does not shove the page down. */
+.best-sellers-skeleton {
+  min-height: 330px; border: 1px solid #e6e2d9; border-radius: 6px;
+  background: linear-gradient(100deg, #f4f2ec 30%, #eae6dd 50%, #f4f2ec 70%);
+}
+
+.best-sellers-error { padding: 34px; border: 1px dashed #d5cec3; border-radius: 6px; text-align: center; color: #7d5a52; }
+.best-sellers-error button { margin-top: 12px; padding: 10px 16px; border: 1px solid #262a24; border-radius: 3px; background: #fff; cursor: pointer; }
+
+/* Screen-reader-only announcement of the current group. */
+.best-sellers-live {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Card counts match pageSizeFor() in BestSellers.jsx — if one changes, change both, or a row
+   renders more cards than it has columns and the last ones clip. */
+@media (max-width: 1023px) { .best-sellers-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .best-sellers-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 519px) {
+  .best-sellers-row { grid-template-columns: minmax(0, 1fr); }
+  .best-sellers-header { align-items: flex-start; }
+  .best-sellers-header h2 { font-size: 27px; }
+}

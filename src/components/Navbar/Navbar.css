@@ -1,0 +1,249 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  transform: translateX(-140px);
+}
+
+/* ── Nav links ── */
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+}
+
+.navbar-menu li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  transition: opacity 0.2s;
+  padding-bottom: 2px;
+}
+
+.navbar-menu li a:hover {
+  opacity: 0.5;
+}
+
+.navbar-menu li a.active {
+  border-bottom: 1.5px solid var(--text-dark);
+}
+
+/* ── Right icons ── */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-right > a,
+.cart-icon-wrapper > a {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+}
+
+.nav-icon {
+  width: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.nav-icon:hover {
+  opacity: 1;
+}
+
+.nav-account {
+  background: none;
+  border: none;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  font-family: inherit;
+  min-height: 44px;
+  transition: opacity 0.2s;
+}
+
+.nav-account:hover {
+  opacity: 0.5;
+}
+
+.nav-user { display: flex; align-items: center; gap: 12px; font-size: 12px; }
+.nav-admin-link { padding: 7px 10px; border-radius: 3px; background: var(--primary); color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
+
+.cart-icon-wrapper {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 500;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Global cart failure notice ── */
+.navbar-cart-error {
+  padding: 9px clamp(20px, 4vw, 40px);
+  border-top: 1px solid #e6cfcb;
+  background: #f7ecea;
+  color: #7d2f29;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.navbar-cart-error a {
+  color: #7d2f29;
+  text-decoration: underline;
+}
+
+/* ── Hamburger ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 210;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--text-dark);
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.hamburger span.open:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+.hamburger span.open:nth-child(2) {
+  opacity: 0;
+}
+.hamburger span.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .navbar-inner {
+    padding: 14px 20px;
+  }
+  /* The wide-screen wordmark offset does not fit once the bar tightens: below this width it
+     pushed the logo past the left edge of the viewport on every page. */
+  .logo-link {
+    transform: none;
+  }
+  .navbar-menu {
+    gap: 20px;
+  }
+  .navbar-menu li a {
+    font-size: 12px;
+  }
+  .navbar-right > .nav-account,
+  .nav-user .nav-account {
+    display: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .logo-link {
+    transform: none;
+  }
+  .navbar-right {
+    gap: 8px;
+  }
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--bg-white);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    z-index: 200;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.35s ease, visibility 0s linear 0.35s;
+  }
+
+  .navbar-menu.open {
+    transform: translateX(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .navbar-menu li a {
+    font-size: 20px;
+    letter-spacing: 3px;
+  }
+
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .logo {
+    width: 100px;
+  }
+}

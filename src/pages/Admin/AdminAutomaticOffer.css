@@ -1,0 +1,216 @@
+/* Deliberately mirrors the coupon section's shapes (.offers-toolbar, .offer-form, .offer-row) so the
+   two offer screens read as one product rather than two, without reusing their class names — the
+   scope pickers and the arithmetic preview have no counterpart there. */
+
+.auto-offer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.auto-offer-toolbar p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 13px;
+  color: var(--text-muted, #6b6b66);
+}
+
+.auto-offer-toolbar > button {
+  border: none;
+  border-radius: 8px;
+  background: #1c1c1c;
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.auto-offer-form {
+  border: 1px solid var(--border-soft, #e5e1da);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  background: #fff;
+}
+
+.auto-offer-form-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.auto-offer-form-heading span {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted, #6b6b66);
+}
+
+.auto-offer-form-heading h2 { margin: 4px 0 0; font-size: 20px; }
+.auto-offer-form-heading p { margin: 0; font-size: 12px; color: var(--text-muted, #6b6b66); }
+
+.auto-offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.auto-offer-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted, #6b6b66);
+}
+
+.auto-offer-grid input,
+.auto-offer-grid select {
+  border: 1px solid var(--border-soft, #e5e1da);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-dark, #1c1c1c);
+  background: #fff;
+}
+
+.auto-offer-grid input:focus-visible,
+.auto-offer-grid select:focus-visible,
+.auto-offer-toolbar > button:focus-visible,
+.auto-offer-actions button:focus-visible,
+.auto-offer-row-actions button:focus-visible {
+  outline: 2px solid #1c1c1c;
+  outline-offset: 2px;
+}
+
+.auto-offer-scope { grid-column: 1 / -1; }
+.auto-offer-scope select { min-height: 132px; }
+
+.auto-offer-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.auto-offer-checkbox input { width: 16px; height: 16px; }
+
+.auto-offer-preview {
+  grid-column: 1 / -1;
+  border: 1px dashed var(--border-soft, #d8d3ca);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--bg-sand, #faf8f5);
+}
+
+.auto-offer-preview span {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted, #6b6b66);
+}
+
+.auto-offer-preview strong { display: block; margin: 4px 0; font-size: 15px; }
+.auto-offer-preview p { margin: 0; font-size: 13px; }
+.auto-offer-preview small { display: block; margin-top: 6px; font-size: 11px; color: var(--text-muted, #6b6b66); }
+
+.auto-offer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.auto-offer-actions button {
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--border-soft, #e5e1da);
+  background: #fff;
+}
+
+.auto-offer-actions button[type="submit"] { background: #1c1c1c; color: #fff; border-color: #1c1c1c; }
+.auto-offer-actions button[disabled] { opacity: 0.6; cursor: progress; }
+
+.auto-offer-list { display: flex; flex-direction: column; gap: 10px; }
+
+.auto-offer-message {
+  border: 1px dashed var(--border-soft, #e5e1da);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-muted, #6b6b66);
+  font-size: 13px;
+}
+
+.auto-offer-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(90px, 1fr)) auto auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--border-soft, #e5e1da);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.auto-offer-row small { display: block; font-size: 10px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-muted, #6b6b66); }
+.auto-offer-row strong { font-size: 13px; }
+.auto-offer-name span { font-weight: 600; font-size: 14px; }
+.auto-offer-name small { text-transform: none; letter-spacing: 0; margin-top: 3px; }
+
+.auto-offer-status {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  background: #eee;
+  color: #555;
+}
+
+.auto-offer-status.active { background: #e4f5ea; color: #1f7a4d; }
+.auto-offer-status.scheduled { background: #e8eefb; color: #2b4f9e; }
+.auto-offer-status.expired,
+.auto-offer-status.archived { background: #f3f1ee; color: #8a8579; }
+
+.auto-offer-row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.auto-offer-row-actions button {
+  border: 1px solid var(--border-soft, #e5e1da);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 11px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.auto-offer-row-actions button[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+/* The row is a table on a wide screen and a stack on a narrow one. Without this the six columns
+   force horizontal scrolling on a tablet, which the admin responsive spec checks for. */
+@media (max-width: 900px) {
+  .auto-offer-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+  }
+  .auto-offer-name { grid-column: 1 / -1; }
+  .auto-offer-row-actions { grid-column: 1 / -1; }
+}
+
+.auto-offer-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-muted, #6b6b66);
+}

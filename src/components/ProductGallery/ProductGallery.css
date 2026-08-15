@@ -1,0 +1,161 @@
+/* Product gallery. Tokens only — --bg-sand, --primary, --border, --text-* — so it inherits the
+   storefront theme rather than introducing a second palette. */
+
+.pg:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* aspect-ratio, not a fixed height: the frame reserves its space before the photo decodes, so
+   nothing below it moves when the image arrives. Matches .pd-main-image's existing 1/1 so the
+   page's proportions are unchanged. */
+.pg-frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--bg-sand);
+  overflow: hidden;
+}
+
+.pg-frame img {
+  width: 100%;
+  height: 100%;
+  /* contain, not cover: a product photograph must not be cropped or stretched. The sand frame
+     fills whatever the photo's own ratio leaves. */
+  object-fit: contain;
+  display: block;
+}
+
+.pg-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--text-light);
+  letter-spacing: 3px;
+  font-size: 13px;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.pg-placeholder-error {
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* Screen-reader-only. The visible "3 / 7" is aria-hidden because it reads as a fraction. */
+.pg-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pg-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .92);
+  color: var(--text-dark);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.pg-nav:hover { background: #fff; }
+.pg-nav:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.pg-prev { left: 10px; }
+.pg-next { right: 10px; }
+
+.pg-count {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.pg-thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 9px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-thumbs button {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  background: var(--bg-sand);
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pg-thumbs button.active { border-color: var(--primary); }
+.pg-thumbs button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.pg-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* The previous gallery was `display: none` below 750px, so a customer on a phone could not reach
+   any photo except the first — the single largest gap in the old gallery. The strip now scrolls
+   horizontally instead of disappearing: thumbnails keep a fixed width so several are visible and
+   the rest are one swipe away. */
+@media (max-width: 750px) {
+  .pg-thumbs {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+  }
+
+  .pg-thumbs li {
+    flex: 0 0 auto;
+    width: 64px;
+    scroll-snap-align: start;
+  }
+
+  /* Bigger than the 38px default: 44px is the minimum comfortable touch target, and these sit
+     over the photo where a mis-tap is easy. */
+  .pg-nav { width: 44px; height: 44px; }
+}
+
+/* A photo that failed to load. The <img> stays in the DOM — see the note in the component — so
+   this styles the failure rather than removing the element: the browser's own alt-text rendering
+   is what the customer sees inside the frame, and the note below names the problem. */
+.pg-frame img.pg-failed {
+  object-fit: contain;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 12px;
+}
+
+.pg-error-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, .92);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  text-align: center;
+}
