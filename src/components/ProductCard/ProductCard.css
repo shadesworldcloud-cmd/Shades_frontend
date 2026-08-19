@@ -33,7 +33,7 @@
   left: 12px;
   background: var(--primary);
   color: white;
-  font-size: 10px;
+  font-size: var(--fs-micro);
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -46,29 +46,45 @@
   padding: 0 4px;
 }
 
+/* Meller's product card, measured on their homepage grid at 1280 and 375:
+     name  h3         24px / 16px (mobile), w700, uppercase
+     colour em        16px at both widths,  w400, uppercase
+     price span.price 24px / 16px (mobile), w400, NOT uppercase
+   --fs-h3 is already that 24/16 pair, so name and price share it and the colour line takes
+   --fs-lead. An earlier pass had the name at 14px: that came from Meller's
+   `.product-block__title`, which is their editorial/social slider card — its sample content is
+   Instagram handles, not products — so it was the wrong element to copy from. */
 .product-name {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  /* Meller's card name is letter-spacing: normal. The 0.3px here was tuned for Inter at 14px and
+     works against a condensed face at 24px, where the tighter fit is the point. */
+  letter-spacing: normal;
   margin-bottom: 3px;
   color: var(--text-dark);
-}
+  text-transform: uppercase}
 
 .product-color {
-  font-size: 12px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
   color: var(--text-light);
   margin-bottom: 4px;
+  /* Meller uppercases the colour line too (their `em`, 16px w400 uppercase) — the size and weight
+     already matched, only the letter case was missing. */
+  text-transform: uppercase;
 }
 
 .product-price {
-  font-size: 14px;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
   color: var(--text-muted);
   font-weight: 400;
   margin-bottom: 12px;
 }
 
 .product-price-note {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   color: var(--text-light);
   margin: -8px 0 12px;
 }
@@ -84,7 +100,7 @@
   padding: 10px 0;
   background: none;
   border: 1px solid var(--border);
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-dark);
@@ -130,7 +146,7 @@
 }
 
 .qty-control span {
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 500;
   min-width: 20px;
   text-align: center;
@@ -139,11 +155,11 @@
 .product-card-in-bag {
   display: block;
   margin-top: 7px;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.5px;
   color: #397048;
   text-align: center;
 }
 
 /* Wishlist failure, shown on the card instead of in a native alert. */
-.product-card-error{margin-top:4px;color:#8b332a;font-size:11px;line-height:1.4}
+.product-card-error{margin-top:4px;color:#8b332a;font-size:var(--fs-micro);line-height:1.4}

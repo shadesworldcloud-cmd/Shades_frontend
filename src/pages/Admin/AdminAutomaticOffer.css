@@ -14,7 +14,7 @@
 .auto-offer-toolbar p {
   margin: 0;
   max-width: 62ch;
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted, #6b6b66);
 }
 
@@ -24,7 +24,7 @@
   background: #1c1c1c;
   color: #fff;
   padding: 10px 16px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -47,14 +47,14 @@
 }
 
 .auto-offer-form-heading span {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-muted, #6b6b66);
 }
 
-.auto-offer-form-heading h2 { margin: 4px 0 0; font-size: 20px; }
-.auto-offer-form-heading p { margin: 0; font-size: 12px; color: var(--text-muted, #6b6b66); }
+.auto-offer-form-heading h2 { margin: 4px 0 0; font-size: var(--fs-subhead); }
+.auto-offer-form-heading p { margin: 0; font-size: var(--fs-small); color: var(--text-muted, #6b6b66); }
 
 .auto-offer-grid {
   display: grid;
@@ -66,7 +66,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--fs-small);
   color: var(--text-muted, #6b6b66);
 }
 
@@ -75,7 +75,7 @@
   border: 1px solid var(--border-soft, #e5e1da);
   border-radius: 8px;
   padding: 9px 10px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   font-family: inherit;
   color: var(--text-dark, #1c1c1c);
   background: #fff;
@@ -110,15 +110,15 @@
 }
 
 .auto-offer-preview span {
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-muted, #6b6b66);
 }
 
-.auto-offer-preview strong { display: block; margin: 4px 0; font-size: 15px; }
-.auto-offer-preview p { margin: 0; font-size: 13px; }
-.auto-offer-preview small { display: block; margin-top: 6px; font-size: 11px; color: var(--text-muted, #6b6b66); }
+.auto-offer-preview strong { display: block; margin: 4px 0; font-size: var(--fs-body); }
+.auto-offer-preview p { margin: 0; font-size: var(--fs-body); }
+.auto-offer-preview small { display: block; margin-top: 6px; font-size: var(--fs-micro); color: var(--text-muted, #6b6b66); }
 
 .auto-offer-actions {
   display: flex;
@@ -130,7 +130,7 @@
 .auto-offer-actions button {
   border-radius: 8px;
   padding: 9px 16px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   cursor: pointer;
   border: 1px solid var(--border-soft, #e5e1da);
   background: #fff;
@@ -150,7 +150,7 @@
   flex-direction: column;
   gap: 6px;
   color: var(--text-muted, #6b6b66);
-  font-size: 13px;
+  font-size: var(--fs-body);
 }
 
 .auto-offer-row {
@@ -164,13 +164,13 @@
   background: #fff;
 }
 
-.auto-offer-row small { display: block; font-size: 10px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-muted, #6b6b66); }
-.auto-offer-row strong { font-size: 13px; }
-.auto-offer-name span { font-weight: 600; font-size: 14px; }
+.auto-offer-row small { display: block; font-size: var(--fs-micro); letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-muted, #6b6b66); }
+.auto-offer-row strong { font-size: var(--fs-body); }
+.auto-offer-name span { font-weight: 600; font-size: var(--fs-body); }
 .auto-offer-name small { text-transform: none; letter-spacing: 0; margin-top: 3px; }
 
 .auto-offer-status {
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.6px;
   text-transform: uppercase;
   border-radius: 999px;
@@ -192,7 +192,7 @@
   background: #fff;
   border-radius: 8px;
   padding: 7px 11px;
-  font-size: 12px;
+  font-size: var(--fs-small);
   cursor: pointer;
 }
 
@@ -210,7 +210,7 @@
 }
 
 .auto-offer-hint {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   line-height: 1.4;
   color: var(--text-muted, #6b6b66);
 }

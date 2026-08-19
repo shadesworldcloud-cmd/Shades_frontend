@@ -1,6 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300..900&display=swap");
 
 :root {
+  /* Typography lifted from mellerbrand.com, measured 2026-08-20 at viewport 1280 and 375.
+     Meller pairs a plain system-Helvetica body with a bold condensed grotesque for display;
+     there is no serif anywhere on their site, which is why Georgia is gone from this project.
+
+     Their display face is Helvetica Neue LT Std Condensed, self-hosted from their own Shopify
+     CDN under a Linotype licence — as are Favorit and PP Fraktion Sans — so none of those files
+     can be copied here or hotlinked. Roboto Condensed is the substitute, and it was chosen on
+     measured metrics rather than by eye: cap height 71 vs Meller's 72 per 100px em, so the px
+     sizes below render at the physical size Meller renders them; x-height/cap-height 0.7465 vs
+     0.750; same neo-grotesque skeleton. It is 5% wider ("SUNGLASSES" spans 5.50 em-widths
+     against Meller's 5.24). Oswald matched that width almost exactly (5.20) and was still
+     rejected: its caps run 12.5% taller, so every heading would have rendered noticeably
+     larger than its stated size — wrong for a change whose whole point is matching sizes. */
+  --font-body: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
+  --font-display: "Roboto Condensed", "Arial Narrow", Helvetica, Arial, sans-serif;
+
+  /* Meller's measured size ladder. The whole site tops out at 32px and floors at 11px — their
+     largest homepage heading is 32px, where this project previously ran to clamp(48px,5vw,76px).
+     Values marked (mobile) are what Meller drops to at 375px; applied here in the same media
+     queries the project already had, so no new breakpoints are introduced. */
+  --fs-pdp-title: 36px;   /* product page title — 24px (mobile) */
+  --fs-pdp-price: 36px;   /* product page price — holds 36px at 375px, i.e. Meller lets the
+                             price outrank the title on mobile; kept rather than "corrected" */
+  --fs-display: 32px;     /* hero / overlay title — 32px at BOTH 1280 and 375 on Meller */
+  --fs-section: 32px;     /* primary section h2 — 24px (mobile) */
+  --fs-section-sm: 26px;  /* secondary section h2 — 20px (mobile) */
+  --fs-h3: 24px;          /* product card name AND price, section h3 — 16px (mobile) */
+  --fs-subhead: 20px;     /* footer column title, review heading */
+  --fs-cta: 18px;         /* CTA / disclosure heading */
+  --fs-lead: 16px;        /* product colour line (uppercase w400 on Meller) — 16px at both widths */
+  --fs-nav: 14px;         /* nav link — 16px (mobile), see the media block below */
+  --fs-body: 14px;        /* body copy, captions, buttons — NOT the product card name, which is
+                             24/16px: see the note on .product-name in ProductCard.css */
+  --fs-small: 12px;       /* legal, footer bottom */
+  --fs-micro: 11px;       /* Meller's floor — nothing on their site is smaller */
+
   --primary: #1a1a1a;
   --secondary: #f5f0eb;
   --accent: #c8a97e;
@@ -13,11 +49,26 @@
   --danger: #c0392b;
 }
 
+/* Meller's mobile scale, measured at 375px. Overriding the tokens rather than each selector keeps
+   both scales in one place; the per-selector mobile overrides elsewhere in the codebase point at
+   these same tokens so the two cannot drift apart. --fs-display is deliberately NOT listed here:
+   Meller holds the hero at 32px on mobile, and so does this. 750px is the project's existing
+   storefront breakpoint (see .container below) — no new breakpoint is introduced. */
+@media (max-width: 750px) {
+  :root {
+    --fs-pdp-title: 24px;
+    --fs-section: 24px;
+    --fs-section-sm: 20px;
+    --fs-h3: 16px;
+    --fs-nav: 16px;       /* Meller's nav goes UP on mobile: 14px -> 16px */
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,6 +78,10 @@ body {
   min-height: 100vh;
   background-color: var(--bg-white);
   color: var(--text-dark);
+  /* Meller's body copy is 14px, not the 16px UA default this project was inheriting wherever a
+     rule did not state a size. Set here rather than on `*` so an explicit size on a child still
+     wins without a specificity fight. */
+  font-size: var(--fs-body);
 }
 
 a {
@@ -41,6 +96,24 @@ img {
 
 button {
   cursor: pointer;
+}
+
+/* Form controls carry an EXPLICIT font-size in the UA stylesheet (Chrome uses 13.3333px), and an
+   explicit declaration beats inheritance — so `body { font-size: 14px }` never reached a control,
+   and any control without a size rule of its own rendered at 13.3333px, a value that appears
+   nowhere on Meller's ladder. It also leaked into descendants: the product-gallery thumbnail
+   buttons put their label spans at 13.3333px too.
+   The 23 `font-family: inherit` declarations scattered through this codebase are the same fix for
+   the family, applied one component at a time; the size half was simply never done. Doing both
+   here means an unstyled control lands on whichever rung its container already uses. Controls that
+   set their own size are unaffected — those rules come later and win. */
+button,
+input,
+select,
+textarea,
+optgroup {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 :focus-visible { outline: 3px solid #b37a2f; outline-offset: 3px; }
@@ -84,7 +157,7 @@ button {
 .filter-toggle,
 .discovery-filters select,
 .discovery-filters input[type="number"] { min-height: 44px; }
-.filter-error { margin: 0; padding: 10px; border-left: 3px solid #a44d42; background: #fff3f1; color: #7b332b; font-size: 12px; }
+.filter-error { margin: 0; padding: 10px; border-left: 3px solid #a44d42; background: #fff3f1; color: #7b332b; font-size: var(--fs-small); }
 .add-to-bag { min-height: 44px; }
 .qty-control button,
 .pd-qty-control button { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
@@ -92,7 +165,7 @@ button {
 .cart-item-qty button,
 .cart-item-remove { min-width: 44px; min-height: 44px; }
 .back-link { display: inline-flex; min-height: 44px; align-items: center; }
-.cancel-order-button { min-height: 44px; padding: 9px 13px; border: 1px solid #9a4c43; border-radius: 3px; background: #fff; color: #873b34; font-size: 10px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
+.cancel-order-button { min-height: 44px; padding: 9px 13px; border: 1px solid #9a4c43; border-radius: 3px; background: #fff; color: #873b34; font-size: var(--fs-micro); font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
 .cancel-order-button:disabled { opacity: .55; cursor: not-allowed; }
 @media (max-width: 750px) {
   .my-orders-page .order-buttons { align-items: stretch; flex-direction: column; }

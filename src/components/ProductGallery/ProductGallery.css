@@ -31,7 +31,7 @@
   place-items: center;
   color: var(--text-light);
   letter-spacing: 3px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   text-align: center;
   padding: 0 16px;
 }
@@ -83,7 +83,7 @@
   background: rgba(255, 255, 255, .92);
   border: 1px solid var(--border);
   padding: 2px 8px;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 1px;
   color: var(--text-muted);
 }
@@ -141,7 +141,7 @@
    is what the customer sees inside the frame, and the note below names the problem. */
 .pg-frame img.pg-failed {
   object-fit: contain;
-  font-size: 12px;
+  font-size: var(--fs-small);
   color: var(--text-muted);
   padding: 12px;
 }
@@ -156,6 +156,6 @@
   background: rgba(255, 255, 255, .92);
   border-top: 1px solid var(--border);
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--fs-micro);
   text-align: center;
 }

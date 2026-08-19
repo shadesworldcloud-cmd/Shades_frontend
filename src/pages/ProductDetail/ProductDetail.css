@@ -4,7 +4,7 @@
 
 .back-link {
   display: inline-block;
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
   margin-bottom: 32px;
   transition: color 0.2s;
@@ -33,7 +33,7 @@
   height: 100%;
   object-fit: cover;
 }
-.pd-image-placeholder{height:100%;display:grid;place-items:center;color:var(--text-light);letter-spacing:3px}.pd-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:10px}.pd-gallery button{aspect-ratio:1;border:2px solid transparent;background:var(--bg-sand);padding:0;overflow:hidden}.pd-gallery button.active{border-color:var(--primary)}.pd-gallery img{width:100%;height:100%;object-fit:cover}.pd-message{min-height:420px;padding-top:100px;text-align:center}.pd-brand{color:var(--text-muted);font-size:13px;margin:8px 0}.pd-variants{margin:6px 0 28px}.pd-variant-label{display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px;text-transform:uppercase;letter-spacing:1px}.pd-variant-options{display:flex;flex-wrap:wrap;gap:9px}.pd-variant-options button{min-width:94px;border:1px solid var(--border);background:#fff;padding:7px;text-align:left}.pd-variant-options button.active{border:2px solid var(--primary)}.pd-variant-options button:disabled{opacity:.45}.pd-variant-options img{width:100%;height:58px;object-fit:cover;margin-bottom:5px}.pd-variant-options span,.pd-variant-options small{display:block}.pd-variant-options small{font-size:9px;color:#9a3d32}.pd-stock{margin-top:10px;color:#397048;font-size:12px}.pd-stock.low{color:#a04a39}.pd-add-btn:disabled{background:#aaa;cursor:not-allowed}
+.pd-image-placeholder{height:100%;display:grid;place-items:center;color:var(--text-light);letter-spacing:3px}.pd-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:10px}.pd-gallery button{aspect-ratio:1;border:2px solid transparent;background:var(--bg-sand);padding:0;overflow:hidden}.pd-gallery button.active{border-color:var(--primary)}.pd-gallery img{width:100%;height:100%;object-fit:cover}.pd-message{min-height:420px;padding-top:100px;text-align:center}.pd-brand{color:var(--text-muted);font-size:var(--fs-body);margin:8px 0}.pd-variants{margin:6px 0 28px}.pd-variant-label{display:flex;justify-content:space-between;margin-bottom:10px;font-size:var(--fs-small);text-transform:uppercase;letter-spacing:1px}.pd-variant-options{display:flex;flex-wrap:wrap;gap:9px}.pd-variant-options button{min-width:94px;border:1px solid var(--border);background:#fff;padding:7px;text-align:left}.pd-variant-options button.active{border:2px solid var(--primary)}.pd-variant-options button:disabled{opacity:.45}.pd-variant-options img{width:100%;height:58px;object-fit:cover;margin-bottom:5px}.pd-variant-options span,.pd-variant-options small{display:block}.pd-variant-options small{font-size:var(--fs-micro);color:#9a3d32}.pd-stock{margin-top:10px;color:#397048;font-size:var(--fs-small)}.pd-stock.low{color:#a04a39}.pd-add-btn:disabled{background:#aaa;cursor:not-allowed}
 
 .pd-badge {
   position: absolute;
@@ -41,7 +41,7 @@
   left: 16px;
   background: var(--primary);
   color: white;
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   padding: 5px 14px;
@@ -54,7 +54,7 @@
 }
 
 .pd-category {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--text-light);
@@ -63,21 +63,23 @@
 }
 
 .pd-title {
-  font-size: 32px;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--fs-pdp-title);
+  font-weight: 700;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
-}
+  text-transform: uppercase}
 
 .pd-color {
-  font-size: 14px;
+  font-size: var(--fs-body);
   color: var(--text-light);
   margin-bottom: 16px;
 }
 
 .pd-price {
-  font-size: 22px;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: var(--fs-pdp-price);
+  font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 32px;
 }
@@ -86,7 +88,7 @@
 .pd-actions {
   margin-bottom: 40px;
 }
-.pd-wishlist-btn{width:100%;margin-bottom:10px;padding:13px;border:1px solid var(--primary);background:#fff;color:var(--primary);font-size:11px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase}.pd-wishlist-btn.saved{background:#e8eee9}
+.pd-wishlist-btn{width:100%;margin-bottom:10px;padding:13px;border:1px solid var(--primary);background:#fff;color:var(--primary);font-size:var(--fs-micro);font-weight:600;letter-spacing:1.3px;text-transform:uppercase}.pd-wishlist-btn.saved{background:#e8eee9}
 
 .pd-add-btn {
   width: 100%;
@@ -94,7 +96,7 @@
   background: var(--primary);
   color: white;
   border: none;
-  font-size: 13px;
+  font-size: var(--fs-body);
   letter-spacing: 2px;
   text-transform: uppercase;
   font-family: inherit;
@@ -134,14 +136,14 @@
 }
 
 .pd-qty-control span {
-  font-size: 16px;
+  font-size: var(--fs-lead);
   font-weight: 500;
   min-width: 24px;
   text-align: center;
 }
 
 .pd-view-cart {
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -166,7 +168,7 @@
   border-bottom: 2px solid transparent;
   padding: 12px 20px 12px 0;
   margin-right: 12px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-light);
@@ -180,7 +182,7 @@
 }
 
 .pd-tab-content {
-  font-size: 14px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
   line-height: 1.7;
 }
@@ -213,8 +215,9 @@
 
 .pd-related h2 {
   text-align: center;
-  font-size: 24px;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--fs-section);
+  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 40px;
@@ -248,14 +251,20 @@
   transform: scale(1.04);
 }
 
+/* Same card role as .product-card, so the same Meller treatment — their "recently seen" strip
+   reuses the product-block styles rather than shrinking them. */
 .pd-related-name {
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  text-transform: uppercase;
   margin-bottom: 2px;
 }
 
 .pd-related-price {
-  font-size: 13px;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 400;
   color: var(--text-muted);
 }
 
@@ -265,7 +274,7 @@
     gap: 40px;
   }
   .pd-title {
-    font-size: 26px;
+    font-size: var(--fs-pdp-title);
   }
 }
 
@@ -300,7 +309,7 @@
   margin-bottom: 7px;
   background: var(--bg-sand);
   color: var(--text-light);
-  font-size: 10px;
+  font-size: var(--fs-micro);
 }
 
 .pd-gallery {
@@ -320,7 +329,7 @@
   padding: 7px 9px;
   border: 1px solid var(--border);
   background: #fff;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -346,7 +355,7 @@
 
 .pd-tab-note {
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--fs-small);
   color: var(--text-muted);
   font-style: italic;
 }
@@ -364,12 +373,12 @@
   .pd-tabs button {
     padding: 10px 12px 10px 0;
     margin-right: 6px;
-    font-size: 12px;
+    font-size: var(--fs-small);
   }
 }
 
 /* Wishlist failure, shown in the actions block instead of in a native alert. */
-.pd-wishlist-error{flex-basis:100%;margin-top:6px;color:#8b332a;font-size:12px;line-height:1.5}
+.pd-wishlist-error{flex-basis:100%;margin-top:6px;color:#8b332a;font-size:var(--fs-small);line-height:1.5}
 
 /* Shown when the gallery is displaying another colourway's photography because the selected one
    has none of its own. Deliberately quiet — it is a caveat about the picture, not a warning about
@@ -380,6 +389,6 @@
   border: 1px solid var(--border);
   background: var(--bg-sand);
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--fs-micro);
   line-height: 1.5;
 }

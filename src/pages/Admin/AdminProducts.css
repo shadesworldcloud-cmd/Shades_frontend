@@ -1,16 +1,16 @@
-.products-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px }.products-toolbar p{color:#777b74;font-size:13px}.products-toolbar button,.modal-actions button:last-child,.mini-form>button{padding:13px 19px;border:0;border-radius:3px;background:#20251f;color:#fff;font-weight:600}.product-admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.product-admin-stats article{padding:20px;border:1px solid #dfded8;border-radius:5px;background:#fff}.product-admin-stats span{display:block;color:#888;font-size:11px}.product-admin-stats strong{display:block;margin-top:8px;font-family:Georgia,serif;font-size:28px;font-weight:400}.product-filters{display:grid;grid-template-columns:1fr 220px 180px;gap:10px;margin-bottom:18px}.product-filters input,.product-filters select,.product-form-grid input,.product-form-grid textarea,.mini-form input{width:100%;padding:12px;border:1px solid #d8d6cf;border-radius:3px;background:#fff;font:inherit;font-size:12px;outline:none}.product-admin-list{display:grid;gap:8px}.product-admin-row{display:grid;grid-template-columns:58px minmax(190px,1.5fr) repeat(3,minmax(75px,.55fr)) 72px minmax(180px,1fr);gap:15px;align-items:center;padding:14px 16px;border:1px solid #dfded8;border-radius:5px;background:#fff}.product-admin-thumb{width:52px;height:52px;display:grid;place-items:center;overflow:hidden;background:#f1ede5;color:#80663f;font-family:Georgia,serif}.product-admin-thumb img{width:100%;height:100%;object-fit:cover}/* Without this the ellipsis on .product-admin-name small never engages: a grid item's automatic
+.products-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px }.products-toolbar p{color:#777b74;font-size:var(--fs-body)}.products-toolbar button,.modal-actions button:last-child,.mini-form>button{padding:13px 19px;border:0;border-radius:3px;background:#20251f;color:#fff;font-weight:600}.product-admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.product-admin-stats article{padding:20px;border:1px solid #dfded8;border-radius:5px;background:#fff}.product-admin-stats span{display:block;color:#888;font-size:var(--fs-micro)}.product-admin-stats strong{display:block;margin-top:8px;font-family: var(--font-display);font-size:var(--fs-section-sm);font-weight:400}.product-filters{display:grid;grid-template-columns:1fr 220px 180px;gap:10px;margin-bottom:18px}.product-filters input,.product-filters select,.product-form-grid input,.product-form-grid textarea,.mini-form input{width:100%;padding:12px;border:1px solid #d8d6cf;border-radius:3px;background:#fff;font:inherit;font-size:var(--fs-small);outline:none}.product-admin-list{display:grid;gap:8px}.product-admin-row{display:grid;grid-template-columns:58px minmax(190px,1.5fr) repeat(3,minmax(75px,.55fr)) 72px minmax(180px,1fr);gap:15px;align-items:center;padding:14px 16px;border:1px solid #dfded8;border-radius:5px;background:#fff}.product-admin-thumb{width:52px;height:52px;display:grid;place-items:center;overflow:hidden;background:#f1ede5;color:#80663f;font-family: var(--font-display)}.product-admin-thumb img{width:100%;height:100%;object-fit:cover}/* Without this the ellipsis on .product-admin-name small never engages: a grid item's automatic
    minimum size is its min-content width, so the cell grew to fit rather than letting the text clip. */
-.product-admin-row>*{min-width:0}.product-admin-row small{display:block;margin-bottom:5px;color:#92938e;font-size:10px}.product-admin-row strong{font-size:12px}.product-admin-name strong{display:block;font-size:13px}.product-admin-name small{margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stock-low{color:#a04a39}.product-state{padding:6px;border-radius:20px;text-align:center;font-size:9px;font-weight:700}.product-state.active{background:#e5f2e7;color:#376244}.product-state.inactive{background:#eee;color:#777}.product-row-actions{display:flex;justify-content:flex-end;gap:6px}.product-row-actions button,.stock-adjust button,.admin-image-grid button{padding:7px 9px;border:1px solid #d5d3cc;background:#fff;border-radius:3px;font-size:10px}.product-row-actions .danger,.stock-adjust .danger,.admin-image-grid .danger{color:#9a3d32}.products-empty{min-height:220px;display:grid;gap:8px;place-content:center;text-align:center;border:1px dashed #cbc8be;color:#888}.products-empty strong{font:400 22px Georgia,serif;color:#333}
-.admin-modal-backdrop{position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:30px;background:rgba(16,18,15,.62);backdrop-filter:blur(3px)}.admin-product-modal{width:min(760px,100%);max-height:90vh;overflow:auto;padding:28px;border-radius:7px;background:#f8f7f3;box-shadow:0 28px 80px rgba(0,0,0,.25)}.manage-modal{width:min(1100px,100%)}.modal-heading{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:20px;border-bottom:1px solid #dedbd3}.modal-heading span{color:#8b6b43;text-transform:uppercase;letter-spacing:1.5px;font-size:9px}.modal-heading h2{margin-top:6px;font:400 30px Georgia,serif}.modal-heading>button{border:0;background:none;font-size:28px;color:#777}.product-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:24px 0}.product-form-grid label{display:grid;gap:7px;color:#555;font-size:11px;font-weight:600}.product-form-grid .wide,.product-form-grid fieldset.wide{grid-column:1/-1}.product-form-grid fieldset{padding:15px;border:1px solid #d8d6cf}.product-form-grid legend{padding:0 6px;font-size:11px}.category-checks{display:flex;flex-wrap:wrap;gap:14px}.category-checks label{display:flex;align-items:center;gap:5px;font-weight:400}.category-checks input{width:auto}.modal-actions{display:flex;justify-content:flex-end;gap:9px;padding-top:18px;border-top:1px solid #dedbd3}.modal-actions button{padding:12px 18px;border:1px solid #d2d0c9;background:#fff;border-radius:3px}.manage-columns{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:24px}.manage-columns h3{margin-bottom:15px;font:400 20px Georgia,serif}.variant-list{display:grid;gap:8px;margin-bottom:18px}.variant-item{padding:12px;border:1px solid #ddd;background:#fff}.variant-item>div:first-child{margin-bottom:10px}.variant-item small{display:block;margin-top:4px;color:#888;font-size:10px}.stock-adjust{display:flex;gap:6px}.stock-adjust input{width:72px;padding:7px;border:1px solid #ddd}.mini-form{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:15px;border:1px solid #ddd;background:#fff}.mini-form h4,.mini-form .wide{grid-column:1/-1}.mini-form h4{font-size:12px}.mini-form label{display:flex;align-items:center;gap:5px;font-size:10px}.mini-form label input{width:auto}.admin-image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}.admin-image-grid>div{position:relative;aspect-ratio:1;background:#eee;overflow:hidden}.admin-image-grid img{width:100%;height:100%;object-fit:cover}.admin-image-grid button{position:absolute;right:4px;bottom:4px}.admin-image-grid span{position:absolute;left:4px;top:4px;padding:4px;background:#20251f;color:#fff;font-size:8px}
+.product-admin-row>*{min-width:0}.product-admin-row small{display:block;margin-bottom:5px;color:#92938e;font-size:var(--fs-micro)}.product-admin-row strong{font-size:var(--fs-small)}.product-admin-name strong{display:block;font-size:var(--fs-body)}.product-admin-name small{margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stock-low{color:#a04a39}.product-state{padding:6px;border-radius:20px;text-align:center;font-size:var(--fs-micro);font-weight:700}.product-state.active{background:#e5f2e7;color:#376244}.product-state.inactive{background:#eee;color:#777}.product-row-actions{display:flex;justify-content:flex-end;gap:6px}.product-row-actions button,.stock-adjust button,.admin-image-grid button{padding:7px 9px;border:1px solid #d5d3cc;background:#fff;border-radius:3px;font-size:var(--fs-micro)}.product-row-actions .danger,.stock-adjust .danger,.admin-image-grid .danger{color:#9a3d32}.products-empty{min-height:220px;display:grid;gap:8px;place-content:center;text-align:center;border:1px dashed #cbc8be;color:#888}.products-empty strong{font-family: var(--font-display); font-size: var(--fs-subhead); font-weight: 700;color:#333;text-transform: uppercase}
+.admin-modal-backdrop{position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:30px;background:rgba(16,18,15,.62);backdrop-filter:blur(3px)}.admin-product-modal{width:min(760px,100%);max-height:90vh;overflow:auto;padding:28px;border-radius:7px;background:#f8f7f3;box-shadow:0 28px 80px rgba(0,0,0,.25)}.manage-modal{width:min(1100px,100%)}.modal-heading{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:20px;border-bottom:1px solid #dedbd3}.modal-heading span{color:#8b6b43;text-transform:uppercase;letter-spacing:1.5px;font-size:var(--fs-micro)}.modal-heading h2{margin-top:6px;font-family: var(--font-display); font-size: var(--fs-section-sm); font-weight: 700;text-transform: uppercase}.modal-heading>button{border:0;background:none;font-size:var(--fs-section-sm);color:#777}.product-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:24px 0}.product-form-grid label{display:grid;gap:7px;color:#555;font-size:var(--fs-micro);font-weight:600}.product-form-grid .wide,.product-form-grid fieldset.wide{grid-column:1/-1}.product-form-grid fieldset{padding:15px;border:1px solid #d8d6cf}.product-form-grid legend{padding:0 6px;font-size:var(--fs-micro)}.category-checks{display:flex;flex-wrap:wrap;gap:14px}.category-checks label{display:flex;align-items:center;gap:5px;font-weight:400}.category-checks input{width:auto}.modal-actions{display:flex;justify-content:flex-end;gap:9px;padding-top:18px;border-top:1px solid #dedbd3}.modal-actions button{padding:12px 18px;border:1px solid #d2d0c9;background:#fff;border-radius:3px}.manage-columns{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:24px}.manage-columns h3{margin-bottom:15px;font-family: var(--font-display); font-size: var(--fs-cta); font-weight: 700;text-transform: uppercase}.variant-list{display:grid;gap:8px;margin-bottom:18px}.variant-item{padding:12px;border:1px solid #ddd;background:#fff}.variant-item>div:first-child{margin-bottom:10px}.variant-item small{display:block;margin-top:4px;color:#888;font-size:var(--fs-micro)}.stock-adjust{display:flex;gap:6px}.stock-adjust input{width:72px;padding:7px;border:1px solid #ddd}.mini-form{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:15px;border:1px solid #ddd;background:#fff}.mini-form h4,.mini-form .wide{grid-column:1/-1}.mini-form h4{font-size:var(--fs-small)}.mini-form label{display:flex;align-items:center;gap:5px;font-size:var(--fs-micro)}.mini-form label input{width:auto}.admin-image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}.admin-image-grid>div{position:relative;aspect-ratio:1;background:#eee;overflow:hidden}.admin-image-grid img{width:100%;height:100%;object-fit:cover}.admin-image-grid button{position:absolute;right:4px;bottom:4px}.admin-image-grid span{position:absolute;left:4px;top:4px;padding:4px;background:#20251f;color:#fff;font-size:var(--fs-micro)}
 @media(max-width:1050px){.product-admin-row{grid-template-columns:58px 1.5fr repeat(2,.6fr) 72px 1fr}.product-admin-row>div:nth-child(5){display:none}}@media(max-width:820px){.product-admin-stats{grid-template-columns:1fr 1fr}.product-filters{grid-template-columns:1fr}.product-admin-row{grid-template-columns:50px 1fr 70px}.product-admin-row>div:nth-child(n+3):nth-child(-n+5),.product-admin-row>.product-state{display:none}.product-row-actions{grid-column:1/-1;justify-content:flex-start}.manage-columns,.product-form-grid{grid-template-columns:1fr}.admin-modal-backdrop{padding:10px}.product-form-grid .wide{grid-column:auto}.manage-columns{gap:20px}}
-.product-create-modal{width:min(980px,100%)}.photo-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px}.draft-variants{display:grid;gap:12px;margin:8px 0 14px}.draft-variant{padding:15px;border:1px solid #d8d2c8;border-radius:5px;background:#fff}.draft-variant-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.draft-variant-head button,.add-variant-button{border:1px solid #cbc5bb;border-radius:3px;background:#fff;padding:8px 11px}.draft-variant-head button{color:#9a3d32}.variant-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.variant-fields .wide{grid-column:1/-1}.mini-form select{width:100%;padding:12px;border:1px solid #d8d6cf;background:#fff}.admin-image-grid small{position:absolute;left:4px;bottom:4px;padding:3px;background:#fff;color:#333;font-size:8px}@media(max-width:820px){.variant-fields,.photo-inputs{grid-template-columns:1fr}.variant-fields .wide{grid-column:auto}}
+.product-create-modal{width:min(980px,100%)}.photo-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px}.draft-variants{display:grid;gap:12px;margin:8px 0 14px}.draft-variant{padding:15px;border:1px solid #d8d2c8;border-radius:5px;background:#fff}.draft-variant-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.draft-variant-head button,.add-variant-button{border:1px solid #cbc5bb;border-radius:3px;background:#fff;padding:8px 11px}.draft-variant-head button{color:#9a3d32}.variant-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.variant-fields .wide{grid-column:1/-1}.mini-form select{width:100%;padding:12px;border:1px solid #d8d6cf;background:#fff}.admin-image-grid small{position:absolute;left:4px;bottom:4px;padding:3px;background:#fff;color:#333;font-size:var(--fs-micro)}@media(max-width:820px){.variant-fields,.photo-inputs{grid-template-columns:1fr}.variant-fields .wide{grid-column:auto}}
 
 /* ── Image editor ─────────────────────────────────────────────────────────────────────────
    Replaced .admin-image-grid, which was a tile with a Remove button overlaid on the photo.
    Reordering, choosing the primary and editing alt text all need a visible label and a real
    hit target, so each image is now a row with its controls beside it rather than on top of it.
    A list, and an ordered one, because the order is the meaning here. */
-.image-count { margin-bottom: 10px; color: #888; font-size: 10px; }
+.image-count { margin-bottom: 10px; color: #888; font-size: var(--fs-micro); }
 
 .admin-image-editor { display: grid; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
 
@@ -31,17 +31,17 @@
    long alt text or filename would push this column wider than the dialog and scroll the whole modal
    sideways — the same overflow the admin coupon list hit with long codes. */
 .admin-image-meta { display: grid; gap: 5px; min-width: 0; }
-.admin-image-position { font-size: 11px; font-weight: 600; color: #555; }
-.admin-image-position em { margin-left: 6px; padding: 2px 5px; background: #20251f; color: #fff; font-size: 8px; font-style: normal; letter-spacing: .5px; }
-.admin-image-meta small { color: #92938e; font-size: 10px; }
-.admin-image-meta input { width: 100%; padding: 6px; border: 1px solid #ddd; font-size: 11px; }
+.admin-image-position { font-size: var(--fs-micro); font-weight: 600; color: #555; }
+.admin-image-position em { margin-left: 6px; padding: 2px 5px; background: #20251f; color: #fff; font-size: var(--fs-micro); font-style: normal; letter-spacing: .5px; }
+.admin-image-meta small { color: #92938e; font-size: var(--fs-micro); }
+.admin-image-meta input { width: 100%; padding: 6px; border: 1px solid #ddd; font-size: var(--fs-micro); }
 
 .admin-image-actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.admin-image-actions button { padding: 6px 9px; border: 1px solid #d5d3cc; background: #fff; border-radius: 3px; font-size: 10px; }
+.admin-image-actions button { padding: 6px 9px; border: 1px solid #d5d3cc; background: #fff; border-radius: 3px; font-size: var(--fs-micro); }
 .admin-image-actions .danger { color: #9a3d32; }
 .admin-image-actions button:disabled { opacity: .45; cursor: default; }
 
-.upload-progress { grid-column: 1/-1; margin: 0; color: #8b6b43; font-size: 11px; }
+.upload-progress { grid-column: 1/-1; margin: 0; color: #8b6b43; font-size: var(--fs-micro); }
 
 @media (max-width: 820px) {
   .admin-image-editor li { grid-template-columns: 56px 1fr; }
@@ -56,7 +56,7 @@
   border: 1px solid #ddd;
   background: #fff;
   font: inherit;
-  font-size: 10px;
+  font-size: var(--fs-micro);
   color: #555;
 }
 
@@ -73,8 +73,8 @@
 }
 
 .admin-image-group-head { margin-bottom: 9px; }
-.admin-image-group-head h4 { font-size: 12px; display: flex; align-items: center; gap: 8px; }
-.admin-image-group-head small { display: block; margin-top: 3px; color: #92938e; font-size: 10px; }
+.admin-image-group-head h4 { font-size: var(--fs-small); display: flex; align-items: center; gap: 8px; }
+.admin-image-group-head small { display: block; margin-top: 3px; color: #92938e; font-size: var(--fs-micro); }
 
 /* Named on the section itself: an admin filing photos needs to see that this colour is unbuyable
    without cross-referencing the inventory column above. */
@@ -82,7 +82,7 @@
   padding: 2px 6px;
   background: #f0e2df;
   color: #9a3d32;
-  font-size: 8px;
+  font-size: var(--fs-micro);
   font-style: normal;
   letter-spacing: .5px;
   text-transform: uppercase;
@@ -93,7 +93,7 @@
   padding: 10px;
   border: 1px dashed #cbc8be;
   color: #92938e;
-  font-size: 10px;
+  font-size: var(--fs-micro);
   text-align: center;
 }
 
@@ -105,7 +105,7 @@
    The guided Add/Edit flow: numbered steps, one visible at a time. The stepper doubles as
    navigation back to a completed step (done steps show a check); future steps stay disabled so
    validation cannot be skipped by clicking ahead. Visual language matches the rest of the admin:
-   ink #20251f, bronze #8b6b43, Georgia display headings on the sand background. */
+   ink #20251f, bronze #8b6b43, var(--font-display) headings on the sand background. */
 .pw-steps { display: flex; gap: 0; margin: 18px 0 6px; padding: 0; list-style: none; }
 .pw-steps li { flex: 1; position: relative; }
 /* The connector line between steps, drawn behind the pills so the three read as one journey. */
@@ -117,7 +117,7 @@
   position: relative; z-index: 1; width: calc(100% - 14px); margin: 0 7px;
   display: flex; align-items: center; gap: 9px;
   padding: 11px 13px; border: 1px solid #d8d6cf; border-radius: 999px;
-  background: #fff; font-size: 11px; color: #8a8a84; text-align: left;
+  background: #fff; font-size: var(--fs-micro); color: #8a8a84; text-align: left;
   transition: border-color .15s, box-shadow .15s;
 }
 .pw-steps li:first-child button { margin-left: 0; width: calc(100% - 7px); }
@@ -131,18 +131,18 @@
 .pw-steps button:disabled { opacity: .5; cursor: default; }
 .pw-step-number {
   flex: none; display: inline-grid; place-items: center; width: 22px; height: 22px;
-  border-radius: 50%; background: #eceae4; color: #777; font-size: 10px; font-weight: 700;
+  border-radius: 50%; background: #eceae4; color: #777; font-size: var(--fs-micro); font-weight: 700;
 }
 .pw-steps .current .pw-step-number { background: #20251f; color: #fff; }
 .pw-steps .done .pw-step-number { background: #8b6b43; color: #fff; }
 .pw-step-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.pw-step h3 { margin: 20px 0 4px; font: 400 22px Georgia, serif; color: #20251f; }
+.pw-step h3 { margin: 20px 0 4px; font-family: var(--font-display); font-size: var(--fs-subhead); font-weight: 700; color: #20251f;text-transform: uppercase}
 .pw-hint {
   margin: 0 0 14px; padding: 10px 12px; border-left: 3px solid #8b6b43;
-  background: #faf6ef; color: #6f5636; font-size: 12px; line-height: 1.5;
+  background: #faf6ef; color: #6f5636; font-size: var(--fs-small); line-height: 1.5;
 }
-.pw-field-error { display: block; color: #9a3d32; font-size: 10px; font-weight: 400; }
+.pw-field-error { display: block; color: #9a3d32; font-size: var(--fs-micro); font-weight: 400; }
 /* The invalid field itself is marked, not just captioned — scanning a long form for small red
    text is exactly the hunt the focus-first-error behaviour exists to avoid. */
 .pw input.pw-invalid, .pw input[aria-invalid="true"] {
@@ -156,47 +156,47 @@
   margin: -15px -15px 14px; padding: 12px 15px;
   background: #f4f1ea; border-bottom: 1px solid #e2ddd2;
 }
-.pw-variant .draft-variant-head strong { font-size: 12px; letter-spacing: .3px; }
+.pw-variant .draft-variant-head strong { font-size: var(--fs-small); letter-spacing: .3px; }
 .pw-variant-actions { display: flex; gap: 6px; }
 .pw-variant-actions button { color: inherit; }
 .pw-variant-actions .danger { color: #9a3d32; }
 .pw-archived-badge, .pw-main-badge {
-  margin-left: 8px; padding: 2px 6px; font-size: 8px; font-style: normal;
+  margin-left: 8px; padding: 2px 6px; font-size: var(--fs-micro); font-style: normal;
   letter-spacing: .5px; text-transform: uppercase; border-radius: 2px;
 }
 .pw-archived-badge { background: #eee; color: #777; }
 .pw-main-badge { background: #20251f; color: #fff; }
 
 .pw-photos { margin-top: 14px; padding: 12px; border: 1px dashed #cfc9bd; border-radius: 4px; background: #fbfaf7; }
-.pw-photos legend { padding: 0 6px; font-size: 11px; font-weight: 600; color: #6f5636; }
-.pw-photos small { display: block; margin-top: 8px; color: #92938e; font-size: 10px; }
-.pw-file-label { display: grid; gap: 6px; font-size: 11px; font-weight: 600; color: #555; }
+.pw-photos legend { padding: 0 6px; font-size: var(--fs-micro); font-weight: 600; color: #6f5636; }
+.pw-photos small { display: block; margin-top: 8px; color: #92938e; font-size: var(--fs-micro); }
+.pw-file-label { display: grid; gap: 6px; font-size: var(--fs-micro); font-weight: 600; color: #555; }
 .pw-photos .photo-inputs { grid-template-columns: 1fr 1fr; align-items: end; }
 .pw-photos .photo-inputs input[type="text"], .pw-photos .photo-inputs > input { padding: 10px; border: 1px solid #d8d6cf; background: #fff; }
 /* The native file control's button, restyled to match the admin's buttons; the filename text the
    browser renders beside it is left alone. */
-.pw-photos input[type="file"] { padding: 6px; border: 1px solid #d8d6cf; background: #fff; font-size: 11px; color: #777; }
+.pw-photos input[type="file"] { padding: 6px; border: 1px solid #d8d6cf; background: #fff; font-size: var(--fs-micro); color: #777; }
 .pw-photos input[type="file"]::file-selector-button {
   margin-right: 10px; padding: 8px 12px; border: 1px solid #20251f; border-radius: 3px;
-  background: #20251f; color: #fff; font: inherit; font-size: 10px; font-weight: 600; cursor: pointer;
+  background: #20251f; color: #fff; font: inherit; font-size: var(--fs-micro); font-weight: 600; cursor: pointer;
 }
 
 /* Staged (not yet uploaded) photos: previews with a Remove each, so nothing is silently kept. */
 .pw-staged { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
 .pw-staged li {
   display: grid; gap: 4px; width: 96px; padding: 6px;
-  border: 1px solid #ddd; border-radius: 4px; background: #fff; font-size: 9px; text-align: center;
+  border: 1px solid #ddd; border-radius: 4px; background: #fff; font-size: var(--fs-micro); text-align: center;
 }
 .pw-staged li.pw-staged-main { border-color: #8b6b43; box-shadow: 0 0 0 1px #8b6b43; }
 .pw-staged li.pw-staged-main span { color: #6f5636; font-weight: 700; }
 .pw-staged img { width: 100%; height: 68px; object-fit: cover; border-radius: 2px; background: #eee; }
 .pw-staged .pw-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pw-staged button { padding: 4px; border: 1px solid #d5d3cc; background: #fff; border-radius: 3px; font-size: 9px; color: #9a3d32; cursor: pointer; }
+.pw-staged button { padding: 4px; border: 1px solid #d5d3cc; background: #fff; border-radius: 3px; font-size: var(--fs-micro); color: #9a3d32; cursor: pointer; }
 
 .pw-more-choice { display: grid; gap: 10px; margin: 16px 0; }
 .pw-more-choice label {
   display: flex; align-items: center; gap: 10px; padding: 15px 14px;
-  border: 1px solid #d8d6cf; border-radius: 5px; background: #fff; font-size: 12px;
+  border: 1px solid #d8d6cf; border-radius: 5px; background: #fff; font-size: var(--fs-small);
   cursor: pointer; transition: border-color .15s, box-shadow .15s;
 }
 /* The chosen answer is visibly chosen from across the room, not only by the 13px radio dot. */
@@ -207,12 +207,12 @@
 
 .pw-review { display: grid; gap: 8px; margin: 14px 0; }
 .pw-review > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 11px 13px; border: 1px solid #e2e0d9; border-radius: 4px; background: #fff; }
-.pw-review dt { font-size: 10px; font-weight: 700; color: #8b6b43; text-transform: uppercase; letter-spacing: .6px; }
-.pw-review dd { font-size: 12px; }
+.pw-review dt { font-size: var(--fs-micro); font-weight: 700; color: #8b6b43; text-transform: uppercase; letter-spacing: .6px; }
+.pw-review dd { font-size: var(--fs-small); }
 .pw-review-variants { display: grid; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
 .pw-review-variants li {
   display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center;
-  padding: 10px 12px; border: 1px solid #e2e0d9; border-radius: 4px; background: #fff; font-size: 11px;
+  padding: 10px 12px; border: 1px solid #e2e0d9; border-radius: 4px; background: #fff; font-size: var(--fs-micro);
 }
 .pw-review-body { display: grid; gap: 4px; min-width: 0; }
 .pw-review-thumb { width: 56px; height: 56px; }
@@ -221,7 +221,7 @@
   display: grid; place-items: center; width: 100%; height: 100%;
   border: 1px dashed #cbc8be; border-radius: 3px; color: #b9b6ac;
 }
-.pw-review-variants small { color: #92938e; font-size: 10px; }
+.pw-review-variants small { color: #92938e; font-size: var(--fs-micro); }
 .pw-publish { background: #20251f !important; color: #fff !important; border-color: #20251f !important; }
 
 /* The step's actions stay reachable however long the variant list grows — no scrolling back down

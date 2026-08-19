@@ -4,8 +4,9 @@
 
 .collections-heading {
   text-align: center;
-  font-size: 28px;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-sm);
+  font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
   margin-bottom: 40px;
@@ -50,7 +51,7 @@
 }
 
 .collection-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   letter-spacing: 3px;
   text-transform: uppercase;
   opacity: 0.7;
@@ -58,14 +59,15 @@
 }
 
 .collection-card-content h3 {
-  font-size: 32px;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--fs-section);
+  font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 8px;
-}
+  text-transform: uppercase}
 
 .collection-card-content p {
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 300;
   opacity: 0.8;
   margin-bottom: 20px;
@@ -74,7 +76,7 @@
 }
 
 .collection-link {
-  font-size: 13px;
+  font-size: var(--fs-body);
   letter-spacing: 1px;
   font-weight: 500;
   transition: opacity 0.2s;
@@ -95,14 +97,14 @@
     padding: 28px;
   }
   .collection-card-content h3 {
-    font-size: 26px;
+    font-size: var(--fs-section);
   }
 }
 
 .collections-all-link {
   display: inline-block;
   margin-top: 26px;
-  font-size: 12px;
+  font-size: var(--fs-small);
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--primary);

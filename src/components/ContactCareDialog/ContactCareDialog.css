@@ -1,24 +1,24 @@
 /* Sits inside .confirm-dialog, so spacing, typography and the backdrop all come from the shared
    dialog. Only the contact-specific rows are styled here. */
 
-.contact-care-order { display: grid; gap: 6px; margin: 16px 0 4px; font-size: 11px; font-weight: 700;
+.contact-care-order { display: grid; gap: 6px; margin: 16px 0 4px; font-size: var(--fs-micro); font-weight: 700;
   letter-spacing: .06em; text-transform: uppercase; color: #62655e; }
 .contact-care-order input { padding: 11px 12px; border: 1px solid #d7d1c8; border-radius: 3px;
-  background: #fff; font: inherit; font-size: 13px; text-transform: none; letter-spacing: normal; }
+  background: #fff; font: inherit; font-size: var(--fs-body); text-transform: none; letter-spacing: normal; }
 .contact-care-order input:focus-visible { outline: 2px solid #8b6b43; outline-offset: 1px; }
 
 .contact-care-options { display: grid; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
 .contact-care-options li { display: grid; gap: 6px; padding: 15px; border: 1px solid #e0dbd1;
   border-radius: 5px; background: #fbfaf7; }
-.contact-care-label { color: #8b6b43; font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+.contact-care-label { color: #8b6b43; font-size: var(--fs-micro); font-weight: 800; letter-spacing: 1.5px;
   text-transform: uppercase; }
-.contact-care-options strong { font-size: 15px; word-break: break-word; }
-.contact-care-options small { color: #74766f; font-size: 11px; line-height: 1.5; }
+.contact-care-options strong { font-size: var(--fs-body); word-break: break-word; }
+.contact-care-options small { color: #74766f; font-size: var(--fs-micro); line-height: 1.5; }
 
 /* Anchors styled as the dialog's own buttons, so they read as actions while staying real links —
    which is what keeps them working when popups are blocked. */
 .contact-care-action { justify-self: start; margin-top: 4px; padding: 10px 15px; border-radius: 3px;
-  background: #263a31; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .05em;
+  background: #263a31; color: #fff; font-size: var(--fs-micro); font-weight: 700; letter-spacing: .05em;
   text-transform: uppercase; text-decoration: none; }
 .contact-care-action:hover { background: #1a2822; }
 .contact-care-action:focus-visible { outline: 2px solid #8b6b43; outline-offset: 2px; }
@@ -28,5 +28,5 @@
 @media (max-width: 520px) {
   /* Full-width targets on a phone; the dialog itself is already responsive. */
   .contact-care-action { justify-self: stretch; text-align: center; }
-  .contact-care-options strong { font-size: 14px; }
+  .contact-care-options strong { font-size: var(--fs-body); }
 }

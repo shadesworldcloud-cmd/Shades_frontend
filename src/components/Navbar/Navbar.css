@@ -36,7 +36,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 13px;
+  font-size: var(--fs-nav);
   font-weight: 400;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -82,7 +82,7 @@
 .nav-account {
   background: none;
   border: none;
-  font-size: 13px;
+  font-size: var(--fs-body);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-dark);
@@ -95,8 +95,8 @@
   opacity: 0.5;
 }
 
-.nav-user { display: flex; align-items: center; gap: 12px; font-size: 12px; }
-.nav-admin-link { padding: 7px 10px; border-radius: 3px; background: var(--primary); color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
+.nav-user { display: flex; align-items: center; gap: 12px; font-size: var(--fs-small); }
+.nav-admin-link { padding: 7px 10px; border-radius: 3px; background: var(--primary); color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: var(--fs-micro); }
 
 .cart-icon-wrapper {
   position: relative;
@@ -108,7 +108,7 @@
   right: -8px;
   background: var(--primary);
   color: white;
-  font-size: 10px;
+  font-size: var(--fs-micro);
   font-weight: 500;
   width: 18px;
   height: 18px;
@@ -124,7 +124,7 @@
   border-top: 1px solid #e6cfcb;
   background: #f7ecea;
   color: #7d2f29;
-  font-size: 12px;
+  font-size: var(--fs-small);
   line-height: 1.5;
 }
 
@@ -186,7 +186,7 @@
     gap: 20px;
   }
   .navbar-menu li a {
-    font-size: 12px;
+    font-size: var(--fs-nav);
   }
   .navbar-right > .nav-account,
   .nav-user .nav-account {
@@ -229,7 +229,7 @@
   }
 
   .navbar-menu li a {
-    font-size: 20px;
+    font-size: var(--fs-nav);
     letter-spacing: 3px;
   }
 

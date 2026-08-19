@@ -1,7 +1,7 @@
 .shipment-actions { display: flex; justify-content: flex-end; gap: 7px; flex-wrap: wrap; }
 .shipment-card .shipment-issue { border: 1px solid #a95b50; background: #fff; color: #91443a; }
 .shipment-form { grid-template-columns: 1fr 1fr 1fr auto; align-items: end; }
-.shipment-form label { display: grid; gap: 5px; color: #777; font-size: 10px; }
+.shipment-form label { display: grid; gap: 5px; color: #777; font-size: var(--fs-micro); }
 .shipment-form label input { width: 100%; }
 @media (max-width: 560px) {
   .shipment-form { grid-template-columns: 1fr; }

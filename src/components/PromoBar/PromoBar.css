@@ -13,7 +13,7 @@
 }
 
 .promo-bar p {
-  font-size: 12px;
+  font-size: var(--fs-body);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -57,7 +57,7 @@
     padding-right: 12px;
   }
   .promo-bar p {
-    font-size: 11px;
+    font-size: var(--fs-body);
     letter-spacing: 0.5px;
   }
   /* Wrap, never clip: the terms matter more than the strip's height. */
@@ -76,7 +76,7 @@
   border: none;
   width: 44px;
   height: 44px;
-  font-size: 14px;
+  font-size: var(--fs-body);
   color: var(--text-light);
   cursor: pointer;
 }

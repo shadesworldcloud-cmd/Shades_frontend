@@ -18,14 +18,14 @@
 }
 
 .confirm-dialog h2 {
-  font-size: 19px;
+  font-size: var(--fs-cta);
   font-weight: 400;
   letter-spacing: 0.4px;
   margin-bottom: 12px;
 }
 
 .confirm-dialog-body {
-  font-size: 14px;
+  font-size: var(--fs-body);
   line-height: 1.7;
   color: var(--text-muted);
 }
@@ -41,7 +41,7 @@
   background: #fbeeec;
   border-left: 2px solid #9a3d32;
   color: #9a3d32;
-  font-size: 13px;
+  font-size: var(--fs-body);
 }
 
 .confirm-dialog footer {
@@ -54,7 +54,7 @@
 .confirm-dialog footer button {
   padding: 11px 18px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   font-weight: 600;
   letter-spacing: 1.3px;
   text-transform: uppercase;
