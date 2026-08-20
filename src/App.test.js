@@ -12,6 +12,8 @@ jest.mock('./services/api', () => ({
   // mount by the shell this test renders.
   getActiveAutomaticOffer: jest.fn(),
   quoteCart: jest.fn(),
+  // The hero asks for the administrator-configured banner image on mount.
+  getStorefrontSettings: jest.fn(),
 }));
 
 test('renders the storefront navigation', () => {
@@ -19,6 +21,7 @@ test('renders the storefront navigation', () => {
   api.getStoreProducts.mockResolvedValue({ content: [] });
   api.getActiveAutomaticOffer.mockResolvedValue({ active: false });
   api.quoteCart.mockResolvedValue(null);
+  api.getStorefrontSettings.mockResolvedValue({ heroImageUrl: null });
   render(<BrowserRouter><AuthProvider><StoreContextProvider><App /></StoreContextProvider></AuthProvider></BrowserRouter>);
   expect(screen.getByText(/sign in/i)).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /skip to main content/i })).toHaveAttribute('href', '#main-content');

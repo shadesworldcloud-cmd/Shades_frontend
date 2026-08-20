@@ -553,3 +553,25 @@ export const processRefund = (accessToken, paymentId, refundAmount, reason, retu
 export const getWishlist = (accessToken) => authenticatedRequest("/wishlists", accessToken);
 export const addWishlistItem = (accessToken, productId) => authenticatedRequest(`/wishlists/items/${productId}`, accessToken, { method: "POST" });
 export const removeWishlistItem = (accessToken, productId) => authenticatedRequest(`/wishlists/items/${productId}`, accessToken, { method: "DELETE" });
+
+// ── Storefront appearance, administrator-controlled ───────────────────────────────────────────
+// The settings read is public and unauthenticated: the hero image is the first thing on the home
+// page, so it has to resolve for a signed-out visitor. Everything that writes goes through
+// authenticatedRequest under /admin/storefront.
+export const getStorefrontSettings = async () => {
+  const response = await fetch(`${API_URL}/storefront/settings`);
+  return parseResponse(response);
+};
+export const getCuratedBestSellers = (accessToken) =>
+  authenticatedRequest("/admin/storefront/best-sellers", accessToken);
+export const saveCuratedBestSellers = (accessToken, productIds) =>
+  authenticatedRequest("/admin/storefront/best-sellers", accessToken, {
+    method: "PUT", body: JSON.stringify({ productIds }),
+  });
+export const uploadHeroImage = (accessToken, file) => {
+  const form = new FormData();
+  form.append("file", file);
+  return authenticatedRequest("/admin/storefront/hero-image", accessToken, { method: "POST", body: form });
+};
+export const resetHeroImage = (accessToken) =>
+  authenticatedRequest("/admin/storefront/hero-image", accessToken, { method: "DELETE" });
