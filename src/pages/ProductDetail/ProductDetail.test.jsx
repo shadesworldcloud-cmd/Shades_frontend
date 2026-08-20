@@ -121,7 +121,10 @@ test("changing the photo does not change what Add to Bag buys", async () => {
   fireEvent.click(screen.getByRole("button", { name:"Show photo 2 of 2" }));
   expect(mainPhoto(container)).toHaveAttribute("src", "/pink-2.jpg");
   expect(screen.getByText("₹2,099")).toBeInTheDocument();
-  expect(screen.getByText("4 in stock · SKU PINK")).toBeInTheDocument();
+  // The stock line and the SKU are now two separate elements — the SKU sits under the product
+  // name, above the brand — so assert both, which also pins the SKU to the SELECTED variant.
+  expect(screen.getByText("4 in stock")).toBeInTheDocument();
+  expect(document.querySelector(".pd-sku")).toHaveTextContent("PINK");
   fireEvent.click(screen.getByRole("button", { name:"Add Pink to bag" }));
   expect(store.addToCart).toHaveBeenCalledWith("14", 14);
 });
@@ -182,7 +185,8 @@ test("filing that photo against Black keeps it out of Blue's gallery just the sa
 test("opens on the Main Product when it is in stock", async () => {
   await renderDetail(buildStore({}));
   expect(screen.getByRole("button", { name:"Add Blue to bag" })).toBeInTheDocument();
-  expect(screen.getByText("3 in stock · SKU BLUE")).toBeInTheDocument();
+  expect(screen.getByText("3 in stock")).toBeInTheDocument();
+  expect(document.querySelector(".pd-sku")).toHaveTextContent("BLUE");
 });
 
 test("falls back to the first available variant when the Main Product is sold out", async () => {

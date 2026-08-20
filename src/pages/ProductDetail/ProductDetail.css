@@ -93,6 +93,21 @@
   margin-bottom: 4px;
   text-transform: uppercase}
 
+/* The selected colourway's SKU, sitting between the product name and the brand.
+   It used to ride on the stock line as "5 in stock · SKU SKU-20002" — which read as a stutter,
+   because the codes themselves begin with "SKU-", and buried an identifier shoppers quote to
+   support inside a sentence about inventory. On its own line it needs no label.
+   12px in the condensed face is what mellerbrand.com uses for the same field on its product page,
+   so this matches the rest of the type work. It is variant-specific and re-renders with the colour
+   choice, like the price above it. */
+.pd-sku {
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  letter-spacing: 0.8px;
+  color: var(--text-light);
+  margin: 2px 0 6px;
+}
+
 .pd-color {
   font-size: var(--fs-body);
   color: var(--text-light);
