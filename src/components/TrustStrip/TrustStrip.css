@@ -5,9 +5,11 @@
   background: var(--bg-sand);
 }
 
+/* Three columns, not four: the Free Shipping item was removed. Left at four, the three survivors
+   would have hugged the left edge with an empty quarter on the right. */
 .trust-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   text-align: center;
 }
@@ -43,5 +45,10 @@
   .trust-grid {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 32px;
+  }
+  /* An odd number of items in two columns leaves the last one stranded in the left cell, reading as
+     a mistake rather than a layout. Let it span the row so it centres under the pair above. */
+  .trust-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 }
