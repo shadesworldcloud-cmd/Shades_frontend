@@ -41,3 +41,44 @@ test("a colourway with no stock cannot be added even when the product flag says 
   view({ stock: 0 });
   expect(screen.getByRole("button", { name: "Rayban is out of stock" })).toBeDisabled();
 });
+
+// ── Hover reveal of the variant's first additional photo ──────────────────────────────────────
+// The swap is CSS (opacity on :hover / :focus-within), which jsdom does not evaluate — so these
+// assert the part that IS testable and that actually breaks: whether the second frame is in the
+// DOM at all, whether it points at the additional photo, and whether it is hidden from assistive
+// technology. Whether it visually cross-fades is measured in a real browser, not here.
+test("a product whose variant has no additional photo renders a single frame", () => {
+  view();
+  const frames = document.querySelectorAll(".product-card-frame");
+  expect(frames).toHaveLength(1);
+  expect(frames[0]).toHaveAttribute("src", "/blue.jpg");
+  // Without a second photo the container must not claim to have one, or CSS would reserve a
+  // hover state that can never resolve to an image.
+  expect(document.querySelector(".product-card-image")).not.toHaveClass("has-hover-frame");
+});
+
+test("the additional photo is rendered as a second frame over the first", () => {
+  view({ hoverImage: "/blue-angle-2.jpg" });
+  const frames = document.querySelectorAll(".product-card-frame");
+  expect(frames).toHaveLength(2);
+  expect(frames[0]).toHaveAttribute("src", "/blue.jpg");
+  expect(frames[1]).toHaveAttribute("src", "/blue-angle-2.jpg");
+  expect(document.querySelector(".product-card-image")).toHaveClass("has-hover-frame");
+});
+
+test("the hover frame is hidden from assistive technology and adds no second product name", () => {
+  view({ hoverImage: "/blue-angle-2.jpg" });
+  const hover = document.querySelector(".product-card-frame-hover");
+  expect(hover).toHaveAttribute("aria-hidden", "true");
+  expect(hover).toHaveAttribute("alt", "");
+  // Exactly one accessible image for the product, whatever the frame count.
+  expect(screen.getAllByRole("img")).toHaveLength(1);
+  expect(screen.getByRole("img")).toHaveAccessibleName("Rayban");
+});
+
+test("both frames are in the DOM from the start, so hovering never waits on a download", () => {
+  view({ hoverImage: "/blue-angle-2.jpg" });
+  // The reveal must not be a src swap: if the hover photo only entered the DOM on pointerenter,
+  // a cold cache would blank the card at the moment the shopper looked at it.
+  expect(document.querySelectorAll(".product-card-image img")).toHaveLength(2);
+});

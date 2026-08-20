@@ -149,7 +149,14 @@ export const mapProduct = (product) => {
   // It used to be "isPrimary, else the first non-variant image, else images[0]", which ignored
   // whether that photo's colourway was purchasable — so a card reading "Orange / Add Orange to bag"
   // could carry a photograph of a sold-out Blue.
-  const primaryImage = galleryFor(product, firstVariant)[0];
+  const cardGallery = galleryFor(product, firstVariant);
+  const primaryImage = cardGallery[0];
+  // The second frame of the SAME variant's gallery — what the admin uploads under "Additional
+  // photos" — revealed when the shopper hovers the card. Derived here rather than in the card so
+  // the hover photo can never belong to a different colourway than the one the card sells: the
+  // server groups images primary-first, so [1] is that variant's first additional photo.
+  // Undefined when a variant has only its main photo, and the card then has nothing to swap to.
+  const hoverImage = cardGallery[1];
   const defaultVariantImage = firstVariant
     && product.images?.find((image) => String(image.variantId) === String(firstVariant.variantId));
   const defaultVariantPrice = finiteOrNull(firstVariant?.price);
@@ -168,6 +175,8 @@ export const mapProduct = (product) => {
     price: lowestPrice,
     image: primaryImage?.imageUrl || "",
     imageAlt: primaryImage?.altText || product.productName,
+    hoverImage: hoverImage?.imageUrl || "",
+    hoverImageAlt: hoverImage?.altText || "",
     images: product.images || [],
     color: variantLabel(firstVariant),
     category: product.categories?.[0]?.categoryName || "Uncategorised",

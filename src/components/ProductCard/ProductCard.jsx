@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { StoreContext, listingPrice, productPath } from "../../context/StoreContext";
 import { useAuth } from "../../context/AuthContext";
 
-const ProductCard = ({ id, slug, name, price, variantPrice, priceFrom, image, color, isNew, variantId, stock, available = true }) => {
+const ProductCard = ({ id, slug, name, price, variantPrice, priceFrom, image, hoverImage, color, isNew, variantId, stock, available = true }) => {
   const { cartItems, addToCart, isWishlisted, toggleWishlist } = useContext(StoreContext);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -32,8 +32,32 @@ const ProductCard = ({ id, slug, name, price, variantPrice, priceFrom, image, co
     <div className="product-card">
       <button className={`wishlist-heart ${saved ? "saved" : ""}`} onClick={save} aria-label={saved ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}>{saved ? "♥" : "♡"}</button>
       <Link to={productPath({ slug, productId: id })} className="product-card-link">
-        <div className="product-card-image">
-          <img src={image} alt={name} />
+        {/* Two stacked frames rather than swapping one src on hover. Swapping the src would start
+            the download at the moment the pointer arrives and blank the card until it finished —
+            on a cold cache the shopper sees a hole where the product was. Both frames are in the
+            DOM, so the reveal is a cross-fade of something already decoded.
+            The second frame is only rendered when the variant actually has an additional photo;
+            otherwise there is nothing to reveal and the card keeps its single image. */}
+        <div className={`product-card-image ${hoverImage ? "has-hover-frame" : ""}`}>
+          <img className="product-card-frame" src={image} alt={name} />
+          {hoverImage && (
+            <img
+              className="product-card-frame product-card-frame-hover"
+              src={hoverImage}
+              /* Empty alt on purpose: this is the same product from another angle, and the frame
+                 beneath already carries the name. Announcing it twice adds noise, not information. */
+              alt=""
+              aria-hidden="true"
+              /* NOT loading="lazy". Measured: with lazy set, 0 of 5 hover frames were ever fetched
+                 — including the card in the viewport — because the frame sits at opacity 0 and the
+                 browser's lazy heuristic skips images it considers invisible. The first hover then
+                 had to go to the network, which is the exact flash the two-frame approach exists to
+                 avoid. fetchpriority="low" keeps them out of the way of the primary photos and the
+                 rest of the page while still loading them before the pointer arrives. */
+              fetchpriority="low"
+              decoding="async"
+            />
+          )}
           {isNew && <span className="new-badge">New</span>}
         </div>
       </Link>

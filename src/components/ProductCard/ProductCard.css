@@ -27,6 +27,36 @@
   transform: scale(1.04);
 }
 
+/* Hover reveal of the variant's first additional photo.
+   The second frame is absolutely positioned over the first so the card's height never depends on
+   which frame is visible — stacking them in flow, or toggling display, made the grid row jump as
+   the pointer crossed a card. Opacity only: both frames stay laid out and decoded. */
+.product-card-image.has-hover-frame .product-card-frame-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.5s ease;
+}
+
+/* focus-within as well as hover: a keyboard shopper tabbing to the card link gets the same second
+   look a mouse user gets. Touch has no hover at all and simply keeps the main photo, which is why
+   nothing about buying the product depends on this. */
+.product-card:hover .product-card-image.has-hover-frame .product-card-frame-hover,
+.product-card:focus-within .product-card-image.has-hover-frame .product-card-frame-hover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-image img,
+  .product-card-image.has-hover-frame .product-card-frame-hover {
+    transition: none;
+  }
+  /* The swap itself is the point, so it is kept — only the animation goes. */
+  .product-card:hover .product-card-image img {
+    transform: none;
+  }
+}
+
 .new-badge {
   position: absolute;
   top: 12px;

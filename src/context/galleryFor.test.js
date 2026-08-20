@@ -156,3 +156,54 @@ describe("the listing card picks the same photo", () => {
     expect(mapped.color).toBe("Main");
   });
 });
+
+describe("mapProduct hoverImage — the card's hover reveal", () => {
+  // MAIN is sold out in these fixtures, so the card commits ORANGE: the hover photo must therefore
+  // be ORANGE's second frame. Getting this wrong shows the shopper a different colour on hover than
+  // the one the card is selling, which is the same class of bug the gallery rule exists to prevent.
+  const productWith = (images) => ({
+    productId: 14, productName: "Rayban", basePrice: 100, isActive: true,
+    variants: [MAIN, ORANGE, GREEN], images, categories: [], attributes: {},
+  });
+
+  test("is the committed variant's FIRST ADDITIONAL photo, not the main one", () => {
+    const mapped = mapProduct(productWith([
+      image(2, 11, "orange-main", true), image(3, 11, "orange-second"), image(4, 11, "orange-third"),
+      image(1, 10, "main-hero", true),
+    ]));
+    expect(mapped.image).toBe("/img/2.jpg");        // frame one: the main photo
+    expect(mapped.hoverImage).toBe("/img/3.jpg");   // frame two: the first additional photo
+    expect(mapped.hoverImageAlt).toBe("orange-second");
+  });
+
+  test("never borrows another colourway's photo for the hover frame", () => {
+    // ORANGE has exactly one photo; GREEN has several. The hover frame must stay empty rather than
+    // reach across to GREEN's second image.
+    const mapped = mapProduct(productWith([
+      image(2, 11, "orange-only", true),
+      image(5, 12, "green-main", true), image(6, 12, "green-second"),
+    ]));
+    expect(mapped.image).toBe("/img/2.jpg");
+    expect(mapped.hoverImage).toBe("");
+  });
+
+  test("is empty when the committed variant has only its main photo", () => {
+    const mapped = mapProduct(productWith([image(2, 11, "orange-main", true), image(1, 10, "main-hero", true)]));
+    expect(mapped.hoverImage).toBe("");
+    expect(mapped.hoverImageAlt).toBe("");
+  });
+
+  test("follows the borrowed gallery when the committed variant has no photos of its own", () => {
+    // ORANGE has none, so galleryFor falls back to the Main Product's gallery — and the hover frame
+    // must come from that same borrowed gallery rather than from nowhere.
+    const mapped = mapProduct(productWith([image(1, 10, "main-hero", true), image(7, 10, "main-second")]));
+    expect(mapped.image).toBe("/img/1.jpg");
+    expect(mapped.hoverImage).toBe("/img/7.jpg");
+  });
+
+  test("is empty for a product with no images at all, rather than undefined", () => {
+    const mapped = mapProduct(productWith([]));
+    expect(mapped.image).toBe("");
+    expect(mapped.hoverImage).toBe("");
+  });
+});

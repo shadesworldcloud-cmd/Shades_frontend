@@ -121,7 +121,7 @@ export default function BestSellers({ limit = 20 }) {
             {visible.map((item) => (
               <ProductCard key={item._id} id={item._id} slug={item.slug} name={item.name} price={item.price}
                 variantPrice={item.defaultVariantPrice} priceFrom={item.priceFrom}
-                image={item.defaultVariantImage || item.image} color={item.color} isNew={item.isNew}
+                image={item.defaultVariantImage || item.image} hoverImage={item.hoverImage} color={item.color} isNew={item.isNew}
                 variantId={item.defaultVariantId} stock={item.defaultVariantStock} available={item.available} />
             ))}
           </div>

@@ -193,7 +193,7 @@ const ProductGrid = ({ category }) => {
         {invalidPriceRange && <p className="filter-error" role="alert">Minimum price cannot exceed maximum price.</p>}
         <div className="discovery-layout">
           <div className="discovery-results">
-            <div className="product-grid-list">{!productsLoading && !productsError && visible.map((item) => <ProductCard key={item._id} id={item._id} slug={item.slug} name={item.name} price={item.price} variantPrice={item.defaultVariantPrice} priceFrom={item.priceFrom} image={item.defaultVariantImage || item.image} color={item.color} isNew={item.isNew} variantId={item.defaultVariantId} stock={item.defaultVariantStock} available={item.available} />)}</div>
+            <div className="product-grid-list">{!productsLoading && !productsError && visible.map((item) => <ProductCard key={item._id} id={item._id} slug={item.slug} name={item.name} price={item.price} variantPrice={item.defaultVariantPrice} priceFrom={item.priceFrom} image={item.defaultVariantImage || item.image} hoverImage={item.hoverImage} color={item.color} isNew={item.isNew} variantId={item.defaultVariantId} stock={item.defaultVariantStock} available={item.available} />)}</div>
             {/* Hidden at a single page: a lone "1" control is noise, not navigation. */}
             {!productsLoading && !productsError && totalPages > 1 && <nav className="product-pagination" aria-label="Product pages">
               <button type="button" disabled={page <= 1} onClick={() => goToPage(page - 1)}>← Previous</button>
