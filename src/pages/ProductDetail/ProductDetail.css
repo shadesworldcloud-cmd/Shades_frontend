@@ -21,6 +21,29 @@
   align-items: start;
 }
 
+/* A bigger product photograph on wide screens, sized against mellerbrand.com's product page.
+   Measured there at a 1440 viewport (1425 content width): the media column is 796x742 and the buy
+   column 483 — roughly a 62:38 split across the FULL content width. This page was doing 50:50
+   inside a 1200px container, which rendered the photo at 530px, about two thirds of theirs.
+   Two changes, both confined to this page:
+     - the container is allowed to reach 1400px here, instead of the site-wide 1200px;
+     - the grid becomes 1.7fr / 1fr, so the photo takes the larger share.
+   minmax(0, …) on both tracks because an `fr` track's automatic minimum is its content's
+   min-content width, which lets a long unbroken word push a column — and the whole row — wider
+   than the grid.
+   Gated at 1200px and above, measured rather than guessed: at 1100px the 62:38 split leaves the buy
+   column at 350px — it still fits, nothing clips, but the variant tiles and the add button have no
+   room to breathe. At 1200px it is 392px and at 1440px it is 467px, against Meller’s own 483px.
+   Below 1200px the previous 1fr/1fr split is untouched. */
+@media (min-width: 1200px) {
+  .product-detail .container {
+    max-width: 1400px;
+  }
+  .pd-layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  }
+}
+
 /* ── Image ── */
 .pd-main-image {
   position: relative;
