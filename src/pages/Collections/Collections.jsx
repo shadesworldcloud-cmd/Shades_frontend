@@ -73,10 +73,13 @@ export default function Collections() {
 
   return (
     <main className="collections-page"><div className="container">
+      {/* No strapline under the title. The four tiles below carry their own names and blurbs, so a
+          sentence explaining that there are four of them said nothing the page did not already show.
+          The `.collections-header p` rule is kept because the single-collection header below still
+          uses it for the active collection's blurb. */}
       <header className="collections-header">
         <span>Curated by us</span>
         <h1>Collections</h1>
-        <p>Four ways into the range. Open one to see everything in it.</p>
       </header>
 
       {productsLoading && <p className="collections-status">Loading collections…</p>}
