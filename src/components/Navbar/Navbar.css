@@ -98,6 +98,12 @@
 .nav-user { display: flex; align-items: center; gap: 12px; font-size: var(--fs-small); }
 .nav-admin-link { padding: 7px 10px; border-radius: 3px; background: var(--primary); color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: var(--fs-micro); }
 
+/* Portal target for ProductGrid's filter icon — see the note in Navbar.jsx. An empty flex child
+   still consumes one of .navbar-right's 20px gaps, so on every page without a collection the slot
+   has to leave the layout rather than sit there as dead space beside the bag. */
+.nav-filter-slot { display: flex; align-items: center; }
+.nav-filter-slot:empty { display: none; }
+
 .cart-icon-wrapper {
   position: relative;
 }

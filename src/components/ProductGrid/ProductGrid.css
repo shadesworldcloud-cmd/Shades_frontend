@@ -1,4 +1,4 @@
-.product-grid{padding:30px 0 80px}.product-grid .container{max-width:1420px;padding:0 24px}.discovery-bar{position:sticky;z-index:20;top:0;display:grid;grid-template-columns:auto minmax(260px,1fr) auto auto;gap:12px;align-items:center;padding:14px 0;background:#fff}.discovery-bar>div span,.discovery-bar>div strong{display:block}.discovery-bar>div span{color:#8a7352;font-size:var(--fs-micro);font-weight:800;letter-spacing:1.3px;text-transform:uppercase}.discovery-bar>div strong{margin-top:4px;font-family: var(--font-display); font-size: var(--fs-lead);font-weight: 700;text-transform: uppercase}.discovery-search{display:flex;align-items:center;border:1px solid #dcd7ce;background:#faf9f6}.discovery-search>span{padding-left:13px;color:#777;font-size:var(--fs-cta)}.discovery-search input{width:100%;padding:12px;border:0;background:transparent;outline:none}.discovery-bar>select,.filter-toggle{height:43px;padding:0 13px;border:1px solid #d7d2c9;background:#fff;color:#444}.filter-toggle{display:none;background:#293d33;color:#fff}.discovery-layout{display:grid;grid-template-columns:215px 1fr;gap:27px;border-top:1px solid #e5e0d7;padding-top:24px}.discovery-filters{display:grid;align-content:start;gap:20px}.discovery-filters header{display:flex;justify-content:space-between}.discovery-filters header button{border:0;background:none;color:#8a4a40;font-size:var(--fs-micro);text-decoration:underline}.discovery-filters>label,.discovery-filters fieldset label{display:grid;gap:7px;color:#64675f;font-size:var(--fs-micro);font-weight:800;letter-spacing:.7px;text-transform:uppercase}.discovery-filters select,.discovery-filters input[type=number]{width:100%;padding:10px;border:1px solid #d9d4cb;background:#fff}.discovery-filters fieldset{padding:0;border:0}.discovery-filters legend{margin-bottom:9px;color:#64675f;font-size:var(--fs-micro);font-weight:800;letter-spacing:.7px;text-transform:uppercase}.discovery-filters fieldset>div{display:grid;grid-template-columns:1fr 1fr;gap:7px}.discovery-filters .stock-filter{display:flex;align-items:center;text-transform:none}.product-grid-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;row-gap:45px}.no-products{text-align:center;color:var(--text-light);padding:60px 0}.discovery-empty{display:grid;place-items:center;align-content:center;min-height:360px;border:1px dashed #d3cdc3;background:#faf8f4;text-align:center}.discovery-empty>span{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:#293d33;color:#fff;font-family: var(--font-display); font-size: var(--fs-lead)}.discovery-empty h3{margin:16px 0 6px;font-family: var(--font-display); font-size: var(--fs-h3);font-weight: 700;text-transform: uppercase}.discovery-empty p{color:#81837c}.discovery-empty button{margin-top:16px;padding:11px 15px;border:0;background:#293d33;color:#fff}@media(max-width:1050px){.product-grid-list{grid-template-columns:repeat(2,1fr)}.discovery-bar{grid-template-columns:auto 1fr auto}.discovery-bar>select{grid-column:3}.filter-toggle{display:block}.discovery-layout{grid-template-columns:1fr}.discovery-filters{display:none}.discovery-layout.filters-open .discovery-filters{display:grid;grid-template-columns:repeat(3,1fr);padding:18px;border:1px solid #dfd9d0;background:#f8f5ef}.discovery-filters header,.discovery-filters fieldset{grid-column:1/-1}}@media(max-width:700px){.product-grid .container{padding:0 12px}.discovery-bar{position:static;grid-template-columns:1fr 1fr}.discovery-bar>div,.discovery-search{grid-column:1/-1}.discovery-bar>select{grid-column:auto;width:100%}.discovery-layout.filters-open .discovery-filters{grid-template-columns:1fr}.discovery-filters header,.discovery-filters fieldset{grid-column:auto}.product-grid-list{gap:14px;row-gap:30px}.product-grid{padding-bottom:55px}}@media(max-width:430px){.product-grid-list{grid-template-columns:1fr}}
+.product-grid{padding:30px 0 80px}.product-grid .container{max-width:1420px;padding:0 24px}.discovery-bar{position:sticky;z-index:20;top:0;display:grid;grid-template-columns:auto minmax(260px,1fr) auto;gap:12px;align-items:center;padding:14px 0;background:#fff}.discovery-bar>div span,.discovery-bar>div strong{display:block}.discovery-bar>div span{color:#8a7352;font-size:var(--fs-micro);font-weight:800;letter-spacing:1.3px;text-transform:uppercase}.discovery-bar>div strong{margin-top:4px;font-family: var(--font-display); font-size: var(--fs-lead);font-weight: 700;text-transform: uppercase}.discovery-search{display:flex;align-items:center;border:1px solid #dcd7ce;background:#faf9f6}.discovery-search>span{padding-left:13px;color:#777;font-size:var(--fs-cta)}.discovery-search input{width:100%;padding:12px;border:0;background:transparent;outline:none}.discovery-bar>select{height:43px;padding:0 13px;border:1px solid #d7d2c9;background:#fff;color:#444}.discovery-layout{border-top:1px solid #e5e0d7;padding-top:24px}.product-grid-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;row-gap:45px}.no-products{text-align:center;color:var(--text-light);padding:60px 0}.discovery-empty{display:grid;place-items:center;align-content:center;min-height:360px;border:1px dashed #d3cdc3;background:#faf8f4;text-align:center}.discovery-empty>span{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:#293d33;color:#fff;font-family: var(--font-display); font-size: var(--fs-lead)}.discovery-empty h3{margin:16px 0 6px;font-family: var(--font-display); font-size: var(--fs-h3);font-weight: 700;text-transform: uppercase}.discovery-empty p{color:#81837c}.discovery-empty button{margin-top:16px;padding:11px 15px;border:0;background:#293d33;color:#fff}@media(max-width:1250px){.product-grid-list{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:1050px){.product-grid-list{grid-template-columns:repeat(2,1fr)}.discovery-bar{grid-template-columns:auto 1fr auto}.discovery-bar>select{grid-column:3}}@media(max-width:700px){.product-grid .container{padding:0 12px}.discovery-bar{position:static;grid-template-columns:1fr 1fr}.discovery-bar>div,.discovery-search{grid-column:1/-1}.discovery-bar>select{grid-column:auto;width:100%}.product-grid-list{gap:14px;row-gap:30px}.product-grid{padding-bottom:55px}}@media(max-width:430px){.product-grid-list{grid-template-columns:1fr}}
 
 /* ── Pagination ── */
 .product-pagination {
@@ -71,5 +71,130 @@
     min-width: 34px;
     padding: 8px 9px;
     font-size: var(--fs-micro);
+  }
+}
+
+/* ── Collection filter menu (portalled into the navbar, beside the bag) ────────────────────────
+   The Refine panel used to be a 215px column pinned to the left of the grid. It now hangs off an
+   icon in the navbar so the collection itself gets the full container width. Anchored to the right
+   edge of the trigger because the trigger sits at the right end of the bar — anchoring left would
+   push the panel off-screen. */
+.nav-filter { position: relative; display: flex; align-items: center; }
+
+.nav-filter-trigger {
+  position: relative;
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: #27342d;
+}
+.nav-filter-trigger:hover,
+.nav-filter-trigger.open { background: #eee9e1; }
+.nav-filter-trigger svg {
+  width: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+/* Same treatment as .cart-badge so the two icons read as a pair. */
+.nav-filter-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: #293d33;
+  color: #fff;
+  font-size: var(--fs-micro);
+  font-weight: 700;
+}
+
+.nav-filter-panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  width: 320px;
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-white);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .14);
+  text-align: left;
+}
+/* The panel carries the hidden attribute when closed, so it stays out of the tab order instead of
+   being merely invisible. This rule exists because the display:grid above would otherwise win. */
+.nav-filter-panel[hidden] { display: none; }
+
+.nav-filter-panel header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.nav-filter-panel header strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-subhead);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.nav-filter-panel header button {
+  border: 0;
+  background: none;
+  color: #8a4a40;
+  font-size: var(--fs-micro);
+  text-decoration: underline;
+}
+.nav-filter-panel > label,
+.nav-filter-panel fieldset label {
+  display: grid;
+  gap: 7px;
+  color: #64675f;
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+.nav-filter-panel select,
+.nav-filter-panel input[type=number] {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid #d9d4cb;
+  background: #fff;
+  font-size: var(--fs-small);
+}
+.nav-filter-panel fieldset { padding: 0; border: 0; }
+.nav-filter-panel legend {
+  margin-bottom: 9px;
+  color: #64675f;
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+.nav-filter-panel fieldset > div { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.nav-filter-panel .stock-filter { display: flex; align-items: center; gap: 8px; text-transform: none; }
+.nav-filter-panel .stock-filter input { width: auto; min-height: 0; }
+
+/* On a narrow screen a 320px panel anchored right would hang off the edge, so it spans the
+   viewport with a margin instead of tracking the icon. */
+@media (max-width: 480px) {
+  .nav-filter-panel {
+    position: fixed;
+    top: auto;
+    right: 12px;
+    left: 12px;
+    width: auto;
   }
 }

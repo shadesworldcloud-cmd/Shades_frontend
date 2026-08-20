@@ -153,10 +153,11 @@ optgroup {
 /* Shared responsive and accessibility safeguards for active storefront controls. */
 .discovery-search input { min-height: 44px; }
 .discovery-search:focus-within { outline: 3px solid #b37a2f; outline-offset: 2px; }
+/* .filter-toggle and .discovery-filters are gone: the Refine panel moved out of the left column
+   and onto the navbar filter icon, and its own 44px minimums live in ProductGrid.css beside the
+   rest of the panel. */
 .discovery-bar > select,
-.filter-toggle,
-.discovery-filters select,
-.discovery-filters input[type="number"] { min-height: 44px; }
+.nav-filter-trigger { min-height: 44px; }
 .filter-error { margin: 0; padding: 10px; border-left: 3px solid #a44d42; background: #fff3f1; color: #7b332b; font-size: var(--fs-small); }
 .add-to-bag { min-height: 44px; }
 .qty-control button,

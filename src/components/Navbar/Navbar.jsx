@@ -93,6 +93,12 @@ const Navbar = () => {
 
         <div className="navbar-right">
           <NotificationBell />
+          {/* Portal target for the collection filter icon. ProductGrid owns every filter's state
+              and renders its icon plus the Refine panel in here, so the affordance sits beside the
+              bag on listing pages and is simply absent everywhere else. Kept as a slot rather than
+              lifting the filter state into a context: the state is read by nothing but the grid,
+              and three pages would have had to thread it through. */}
+          <div className="nav-filter-slot" id="nav-filter-slot" />
           <div className="cart-icon-wrapper">
             <Link to="/cart" aria-label={`Cart${cartCount ? `, ${cartCount} item${cartCount === 1 ? "" : "s"}` : ""}`}>
               <img

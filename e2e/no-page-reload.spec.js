@@ -82,7 +82,13 @@ test("shop filters, sort and pagination stay in-page", async ({ page }) => {
   await page.waitForTimeout(300);
   await detector.assertNoReload("sort change");
 
-  // The sidebar filters, which are the ones actually on screen at desktop width.
+  // The Refine controls now live in a panel behind the navbar filter icon rather than in a left
+  // sidebar, so they have to be revealed before they can be driven. Hovering is the primary
+  // affordance; the panel stays open while focus is inside it, which is what lets the two
+  // interactions below run back to back.
+  await page.locator(".nav-filter-trigger").hover();
+  await expect(page.locator(".nav-filter-panel")).toBeVisible();
+
   await page.getByLabel("Brand").selectOption({ index: 1 });
   await page.waitForTimeout(300);
   await detector.assertNoReload("brand filter");
@@ -97,16 +103,18 @@ test("shop filters, sort and pagination stay in-page", async ({ page }) => {
     await detector.assertNoReload("pagination");
   }
 
-  // .filter-toggle is display:none until 1050px — the sidebar is always open at desktop, so the
-  // toggle only exists on narrow screens. Exercise it where it is actually rendered.
+  // The navbar filter icon is the one affordance at every width, and on a touch screen clicking it
+  // is the ONLY way in — there is no hover to reveal the panel — so the click path is exercised at
+  // mobile width where it actually matters.
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/shop");
   await page.waitForLoadState("networkidle");
   const mobile = await armReloadDetector(page);
   const toggle = page.getByRole("button", { name: /^Filters/ });
-  await expect(toggle, "the filter toggle is the mobile affordance for the sidebar").toBeVisible();
+  await expect(toggle, "the filter icon is the only way into Refine on a touch screen").toBeVisible();
   await toggle.click();
-  await mobile.assertNoReload("mobile filter toggle");
+  await expect(page.locator(".nav-filter-panel"), "clicking pins the panel open without hover").toBeVisible();
+  await mobile.assertNoReload("mobile filter icon");
 });
 
 test("the Best Sellers carousel arrows do not reload", async ({ page }) => {
