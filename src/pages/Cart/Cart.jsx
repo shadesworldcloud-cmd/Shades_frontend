@@ -35,10 +35,15 @@ const Cart = () => {
   const subtotal = priced ? Number(quote.subtotal) : clientSubtotal;
   const offerQuote = quote?.automaticOffer;
   const discount = priced ? Number(quote.discount) : 0;
-  const tax = priced ? Number(quote.taxAmount) : Number((clientSubtotal * 0.18).toFixed(2));
+  // Prices are tax-inclusive, so the fallback EXTRACTS the tax from the subtotal instead of adding
+  // 18% to it. Getting this wrong is not cosmetic: the old fallback showed a total 18% above what
+  // the server would go on to quote, so the figure moved downwards the moment pricing arrived.
+  const tax = priced ? Number(quote.taxAmount)
+    : Number((clientSubtotal - clientSubtotal / 1.18).toFixed(2));
   const deliveryFee = priced ? Number(quote.shippingAmount)
     : (clientSubtotal === 0 || clientSubtotal >= 500 ? 0 : 49);
-  const total = priced ? Number(quote.totalAmount) : clientSubtotal + tax + deliveryFee;
+  // Tax is inside clientSubtotal already; only carriage is added on top.
+  const total = priced ? Number(quote.totalAmount) : clientSubtotal + deliveryFee;
   const automaticApplied = quote?.appliedPromotion === "AUTOMATIC_OFFER";
   const eligibleVariantIds = new Set(offerQuote?.eligibleVariantIds || []);
   const offerScoped = Boolean(offerQuote) && offerQuote.eligibleVariantIds
@@ -158,7 +163,9 @@ const Cart = () => {
             {quote?.suppressedPromotionReason && (
               <p className="cart-offer-suppressed" role="status" data-testid="cart-offer-suppressed">{quote.suppressedPromotionReason}</p>
             )}
-            <div className="cart-summary-row"><span>Estimated tax</span><span>{money(tax)}</span></div>
+            {/* "Includes", not "Estimated tax": the figure is already inside the subtotal above, and
+                a bare tax row next to a subtotal reads as something being added. */}
+            <div className="cart-summary-row"><span>Includes GST (18%)</span><span>{money(tax)}</span></div>
             <div className="cart-summary-row"><span>Shipping</span><span>{deliveryFee === 0 ? "Free" : money(deliveryFee)}</span></div>
             {deliveryFee > 0 && <p className="cart-free-ship-hint">Add {money(500 - subtotal)} more for free shipping</p>}
             <div className="cart-summary-divider" />

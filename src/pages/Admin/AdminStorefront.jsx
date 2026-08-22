@@ -4,14 +4,24 @@ import {
   getAdminProducts,
   getCuratedBestSellers,
   getStorefrontSettings,
+  resetCollectionImage,
   resetHeroImage,
   saveCuratedBestSellers,
+  uploadCollectionImage,
   uploadHeroImage,
 } from "../../services/api";
 import "./AdminStorefront.css";
 
 /**
- * Home page control: which products are Best Sellers and in what order, and the hero image.
+ * The four collections whose photograph can be replaced. This list must match
+ * StorefrontSettingsService.COLLECTIONS on the server, which validates the name and rejects
+ * anything else — a mismatch here surfaces as a 400 on upload rather than a silent no-op.
+ */
+const COLLECTIONS = ["Men", "Women", "Unisex", "Accessory"];
+
+/**
+ * Home page control: which products are Best Sellers and in what order, the hero image, and the
+ * photograph on each collection card.
  *
  * The curated order is the whole point of the section, so it is edited as a list with explicit
  * Move up / Move down buttons rather than drag-and-drop. Buttons are keyboard-reachable and
@@ -31,11 +41,15 @@ const AdminStorefront = () => {
   const [catalogue, setCatalogue] = useState([]);
   const [addChoice, setAddChoice] = useState("");
   const [heroUrl, setHeroUrl] = useState("");
+  // Keyed by collection name; a collection with no entry is using its bundled photograph.
+  const [collectionUrls, setCollectionUrls] = useState({});
   const [busy, setBusy] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const fileInput = useRef(null);
+  // One input per collection, so clearing the value after an upload clears only that row's input.
+  const collectionInputs = useRef({});
 
   const load = useCallback(async () => {
     setBusy(true);
@@ -52,6 +66,7 @@ const AdminStorefront = () => {
       setSavedIds(ordered.map((item) => item.productId));
       setMissingIds(best?.missingProductIds || []);
       setHeroUrl((settings?.heroImageUrl || "").trim());
+      setCollectionUrls(settings?.collectionImageUrls || {});
       setCatalogue(products?.content || products || []);
     } catch (loadFailure) {
       setError(loadFailure.message || "The storefront settings could not be loaded.");
@@ -147,6 +162,45 @@ const AdminStorefront = () => {
     }
   };
 
+  // Curried so each row can hand the collection name to a shared handler rather than four copies
+  // of the same function differing only in a string.
+  const pickCollectionImage = (collection) => async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setSaving(true);
+    setError("");
+    setNotice("");
+    try {
+      const response = await uploadCollectionImage(accessToken, collection, file);
+      // The server answers with the whole settings object, so the panel re-reads every collection
+      // rather than patching one key and trusting the rest of its local copy.
+      setCollectionUrls(response?.collectionImageUrls || {});
+      setNotice(`${collection} collection photo updated.`);
+    } catch (uploadFailure) {
+      setError(uploadFailure.message || "The image could not be uploaded.");
+    } finally {
+      setSaving(false);
+      // Clear the input so choosing the SAME file again still fires a change event.
+      const input = collectionInputs.current[collection];
+      if (input) input.value = "";
+    }
+  };
+
+  const revertCollection = async (collection) => {
+    setSaving(true);
+    setError("");
+    setNotice("");
+    try {
+      const response = await resetCollectionImage(accessToken, collection);
+      setCollectionUrls(response?.collectionImageUrls || {});
+      setNotice(`${collection} collection photo reverted to the built-in one.`);
+    } catch (revertFailure) {
+      setError(revertFailure.message || "The image could not be reverted.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const revertHero = async () => {
     setSaving(true);
     setError("");
@@ -166,7 +220,8 @@ const AdminStorefront = () => {
       <div className="storefront-intro">
         <span>Home page</span>
         <h2>Storefront</h2>
-        <p>What the home page shows: the Best Sellers line-up and its order, and the banner image.</p>
+        <p>What the home page shows: the Best Sellers line-up and its order, the banner image, and the
+          photograph on each collection card.</p>
       </div>
 
       {error && <p className="storefront-error" role="alert">{error}</p>}
@@ -278,6 +333,60 @@ const AdminStorefront = () => {
             <small>The banner is a wide strip — around 1920×818 shows without cropping.</small>
           </div>
         </div>
+      </div>
+
+      <div className="storefront-panel">
+        <header>
+          <div>
+            <h3>Collection photos</h3>
+            <p>The picture on each collection card, on the home page and on the collections page.
+              JPEG, PNG or GIF.</p>
+          </div>
+        </header>
+        <div className="storefront-collections">
+          {COLLECTIONS.map((collection) => {
+            const url = collectionUrls[collection];
+            return (
+              <div className="storefront-collection" key={collection}>
+                <strong>{collection}</strong>
+                <div className="storefront-collection-preview">
+                  {url
+                    ? <img src={url} alt={`${collection} collection`} />
+                    : (
+                      <p className="storefront-empty">
+                        {/* Accessory ships without a photograph on purpose — it is cases and
+                            cloths, and a model in sunglasses would advertise the wrong thing — so
+                            its empty state is different from the other three. Uploading one here
+                            is now the way to give it a picture. */}
+                        {collection === "Accessory"
+                          ? "No photo — showing its flat colour."
+                          : "Using the built-in photo."}
+                      </p>
+                    )}
+                </div>
+                <label className="storefront-file">
+                  <input
+                    ref={(node) => { collectionInputs.current[collection] = node; }}
+                    type="file"
+                    accept="image/jpeg,image/png,image/gif"
+                    aria-label={`Upload a photo for the ${collection} collection`}
+                    onChange={pickCollectionImage(collection)}
+                    disabled={saving}
+                  />
+                  <span>{saving ? "Uploading…" : "Upload"}</span>
+                </label>
+                {url && (
+                  <button type="button" className="storefront-link" disabled={saving}
+                          onClick={() => revertCollection(collection)}>
+                    Revert
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <small className="storefront-hint">The cards are a portrait 2:3 frame — around 1000×1500
+          shows without cropping. A taller or wider picture is centred and cropped to fit.</small>
       </div>
     </section>
   );

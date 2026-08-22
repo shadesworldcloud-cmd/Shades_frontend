@@ -15,11 +15,24 @@ import { getBestSellers } from "../../services/api";
  * discovery grid resolve to the same default variant, the same price and the same stock ceiling.
  */
 
-/** How many cards a row holds. Five on desktop, fewer as the row would otherwise clip. */
+/**
+ * How many cards a row holds. These are not this component's numbers: they are the column counts
+ * of .product-grid-list, so a Best Sellers card and a discovery grid card are the same size. The
+ * thresholds are the far side of the grid's max-width media queries — CSS drops to three columns
+ * at max-width:1250px, so four columns survive only from 1251px up.
+ *
+ * If the CSS breakpoints move, these must move with them: a row handed more cards than it has
+ * columns clips the last ones.
+ *
+ * The count went from five to four. That is the whole point (five 323.5px cards plus their gaps
+ * need 1721.5px of content and the container has 1372px), but it does change one behaviour: the
+ * paging arrows appear from five products upwards instead of six, because five products no longer
+ * fit in one group.
+ */
 const pageSizeFor = (width) => {
-  if (width >= 1024) return 5;
-  if (width >= 768) return 3;
-  if (width >= 520) return 2;
+  if (width >= 1251) return 4;
+  if (width >= 1051) return 3;
+  if (width >= 431) return 2;
   return 1;
 };
 
@@ -65,8 +78,17 @@ export default function BestSellers({ limit = 20 }) {
     () => entries.slice(currentPage * perPage, currentPage * perPage + perPage),
     [entries, currentPage, perPage]
   );
-  // Arrows are meaningless with a single group — the brief is explicit that they must not appear
-  // at five products or fewer, and "fewer than one full page" is the same situation.
+  // Arrows are meaningless with a single group. The rule used to be written down as "not at five
+  // products or fewer", but that five was only ever perPage's value, not an independent
+  // requirement: the invariant is "more than one group", which is what this expression says and
+  // which is unchanged by the move to four columns. The visible consequence is that arrows now
+  // appear from five products upwards rather than six.
+  //
+  // Deliberately NOT `entries.length > Math.max(perPage, 5)` to keep the old literal threshold:
+  // that would hide the arrows at exactly five curated products while the row still showed four,
+  // leaving the fifth reachable by nothing at all. A slightly eager arrow beats an unreachable
+  // product. A short final group renders fewer cards than there are tracks and does not stretch to
+  // fill them — true before this change too, since 5 % 5 and 20 % 4 are equally likely to divide.
   const showArrows = entries.length > perPage;
 
   const goTo = (next) => {

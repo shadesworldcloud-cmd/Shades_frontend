@@ -256,7 +256,8 @@ const PlaceOrder = () => {
               {quote?.suppressedPromotionReason && (
                 <p className="checkout-note" role="status">{quote.suppressedPromotionReason}</p>
               )}
-              <div className="checkout-row"><span>Estimated tax</span><span>{money(tax)}</span></div>
+              {/* Included in the subtotal, not added to it — see OrderTotals on the server. */}
+              <div className="checkout-row"><span>Includes GST (18%)</span><span>{money(tax)}</span></div>
               <div className="checkout-row"><span>Shipping</span><span>{shipping === 0 ? "Free" : money(shipping)}</span></div>
               <div className="checkout-divider" />
               <div className="checkout-row checkout-total-row"><span>Estimated total</span><span>{money(estimatedTotal)}</span></div>

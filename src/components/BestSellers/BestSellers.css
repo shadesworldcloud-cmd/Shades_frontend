@@ -1,4 +1,30 @@
 .best-sellers { padding: 54px 0 8px; }
+
+/* Best Sellers sits directly above the discovery grid on the home page, so a card here is read
+   side by side with a card there. Measured before this change, at a 1440px viewport: this row used
+   the global .container (max-width 1200, 40px padding -> 1120px of content) at five columns with an
+   18px gap, giving a 209.59px card against the grid's 323.50px. That is 0.65x the width and 0.42x
+   the area, and the row started 126px to the right of the grid's left edge. Worst case was not
+   desktop but 1024-1050px, where this row still showed five columns while the grid had dropped to
+   two: 174.39px against 475.00px, 0.13x the area.
+   Matching .product-grid .container exactly is the only way the two bands agree. Widening the
+   global .container instead was rejected: it would move Cart, Account, PlaceOrder, MyOrders,
+   Notifications, Collections, Shop and Wishlist with it, and the concrete casualty would be
+   CollectionShowcase, whose cards are a fixed 360px tall with background-size:cover and hand-tuned
+   background-position values, and whose scrim contrast was measured against that exact box
+   proportion — widening the card from 548px to 674px at unchanged height moves the crop band those
+   numbers were derived from.
+   CategoryFilter, which sits between the two, deliberately keeps the 1200px container: its heading
+   and pills are centre-aligned, so nothing of it touches the container edge and its width is not
+   observable. Same for CollectionShowcase and TrustStrip below. Hero and PromoBar have no
+   .container at all.
+   The edge this DOES break is the navbar/footer spine: .navbar-inner, .footer-inner and
+   .footer-bottom are all max-width 1200 + 40px padding = 1120px of content, so at a 1440px viewport
+   these cards start 126px to the left of the navbar logo. .product-grid already breaks that spine
+   at the same width, so this makes two left-aligned outliers rather than one; the alternative,
+   narrowing .product-grid to 1120, would shrink the discovery cards, which is the opposite of what
+   was asked for. Flagged rather than silently chosen. */
+.best-sellers .container { max-width: 1420px; padding: 0 24px; }
 .best-sellers-header { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
 .best-sellers-header span { color: #8b6b43; font-size: var(--fs-micro); font-weight: 800; letter-spacing: 1.7px; text-transform: uppercase; }
 .best-sellers-header h2 { margin-top: 8px; font-family: var(--font-display); font-size: var(--fs-display); font-weight: 700;text-transform: uppercase}
@@ -17,15 +43,26 @@
 
 /* The row is a grid rather than a scroller: the component hands it exactly `perPage` cards, so
    there is never overflow to clip or scroll. min-width:0 on the tracks keeps a long product name
-   from widening a column past its share. */
-.best-sellers-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
+   from widening a column past its share.
+   Four columns and a 26px gap are not chosen for this row -- they are copied from
+   .product-grid-list so that a Best Sellers card and a discovery card are the same object. Five
+   columns cannot be made to match at any container width: five 323.5px cards plus four 26px gaps
+   needs 1721.5px of content, and the container has 1372px. */
+.best-sellers-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; }
 .best-sellers-row > * { min-width: 0; }
 
-/* Reserves the height of a real card so the ranking arriving does not shove the page down. */
+/* Reserves the height of a real card so the ranking arriving does not shove the page down.
+   Built from the card's own geometry rather than a flat total, because the total moves with the
+   column width. A card is a 1:1 photo (.product-card-image) plus a text block measured at 156px
+   desktop and 136px once the mobile type ladder takes over at 750px, so height = column width +
+   156. The old flat min-height:330px already under-reserved by 36px at five columns; at four it
+   would have under-reserved by 150px, which is precisely the page jump this element exists to
+   prevent. Verified equal to the real card height at all 26 viewport widths swept. */
 .best-sellers-skeleton {
-  min-height: 330px; border: 1px solid #e6e2d9; border-radius: 6px;
+  min-height: 0; padding-bottom: 156px; border: 1px solid #e6e2d9; border-radius: 6px;
   background: linear-gradient(100deg, #f4f2ec 30%, #eae6dd 50%, #f4f2ec 70%);
 }
+.best-sellers-skeleton::before { content: ""; display: block; aspect-ratio: 1 / 1; }
 
 .best-sellers-error { padding: 34px; border: 1px dashed #d5cec3; border-radius: 6px; text-align: center; color: #7d5a52; }
 .best-sellers-error button { margin-top: 12px; padding: 10px 16px; border: 1px solid #262a24; border-radius: 3px; background: #fff; cursor: pointer; }
@@ -37,11 +74,33 @@
 }
 
 /* Card counts match pageSizeFor() in BestSellers.jsx — if one changes, change both, or a row
-   renders more cards than it has columns and the last ones clip. */
-@media (max-width: 1023px) { .best-sellers-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 767px) { .best-sellers-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+   renders more cards than it has columns and the last ones clip. The JS thresholds are the far side
+   of these max-widths (1251 / 1051 / 431), which pairs exactly for integer viewport widths.
+   It cannot pair exactly for fractional ones: window.innerWidth is rounded to an integer while a
+   media query evaluates the fractional CSS viewport width, so on a display at 125% or 150% scaling
+   a viewport of 1250.2 gets four tracks from CSS and three cards from JS, leaving one track empty
+   in the band [1250.0, 1250.5). That is strictly better than the old 1023/1024 pairing, which left
+   two tracks empty in the same kind of band. Do NOT "fix" it by switching viewportWidth() to
+   document.documentElement.clientWidth: that excludes the classic scrollbar and would open a real
+   ~15px desync band on every Windows and Linux page instead of a half-pixel one.
+   These are the discovery grid's breakpoints (1250 / 1050 / 430), not this row's old ones
+   (1023 / 767 / 519). Keeping separate breakpoints was the largest part of the size mismatch: the
+   two grids stepped down at different widths, so between 1051 and 1250 this row showed five
+   columns against the grid's three, and between 1024 and 1050 five against two. At 519px the error
+   even changed sign — this row went to one column while the grid still had two, making a Best
+   Seller card 1.99x the width of a discovery card. */
+@media (max-width: 1250px) { .best-sellers-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1050px) { .best-sellers-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* The grid narrows its own gutters and gap on phones; copied so the cards stay identical. */
+@media (max-width: 750px) { .best-sellers-skeleton { padding-bottom: 136px; } }
+@media (max-width: 700px) {
+  .best-sellers .container { padding: 0 12px; }
+  .best-sellers-row { gap: 14px; }
+}
+@media (max-width: 430px) { .best-sellers-row { grid-template-columns: minmax(0, 1fr); } }
+/* Header stacking is about the header, not the columns, so it keeps its own breakpoint: at 519px
+   the "Most loved" eyebrow and the arrows stop fitting on one line. */
 @media (max-width: 519px) {
-  .best-sellers-row { grid-template-columns: minmax(0, 1fr); }
   .best-sellers-header { align-items: flex-start; }
   .best-sellers-header h2 { font-size: var(--fs-section); }
 }

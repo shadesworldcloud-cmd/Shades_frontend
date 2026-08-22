@@ -22,10 +22,11 @@ const store = {
   // Checkout now displays and submits the server's quote rather than its own arithmetic, and will
   // not submit at all until that quote has arrived — the amount sent back as expectedTotalAmount has
   // to be the server's own figure. These are the numbers the server would return for two units at
-  // ₹123 with no offer in force: ₹246 + 18% tax + ₹49 shipping under the free-shipping threshold.
+  // ₹123 with no offer in force. Prices are tax-inclusive, so ₹246 of merchandise IS ₹246 to the
+  // customer (₹208.47 net + ₹37.53 GST), plus ₹49 shipping under the free-shipping threshold.
   quote: {
-    subtotal: 246, itemQuantity: 2, discount: 0, taxableAmount: 246,
-    taxAmount: 44.28, shippingAmount: 49, totalAmount: 339.28,
+    subtotal: 246, itemQuantity: 2, discount: 0, taxableAmount: 208.47,
+    taxAmount: 37.53, shippingAmount: 49, totalAmount: 295,
     appliedPromotion: "NONE", appliedPromotionLabel: null,
     suppressedPromotionLabel: null, suppressedPromotionReason: null,
     automaticOffer: null, unresolvedVariantIds: [],
@@ -46,7 +47,9 @@ test("requires review of exact variants, address and final total before placing 
   expect(screen.getByText(/Quantity 2 × ₹123/)).toBeInTheDocument();
   expect((await screen.findAllByText("Asha")).length).toBeGreaterThan(0);
   await waitFor(() => expect(screen.queryByText(/Loading saved addresses/i)).not.toBeInTheDocument());
-  const submit = screen.getByRole("button", { name: /Place order · ₹339.28/i });
+  // ₹295, not ₹339.28: prices are tax-inclusive, so the ₹246 of goods is not grossed up by 18%
+  // before the ₹49 carriage is added. money() drops trailing zeros, hence "₹295".
+  const submit = screen.getByRole("button", { name: /Place order · ₹295/i });
   expect(submit).toBeDisabled();
   const confirmation = screen.getByRole("checkbox", { name: /I reviewed the items, variants, quantities/i });
   fireEvent.click(confirmation);

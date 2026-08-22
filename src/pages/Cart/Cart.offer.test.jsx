@@ -41,8 +41,12 @@ const baseStore = (overrides = {}) => ({
 });
 
 const quoteWithOffer = (overrides = {}) => ({
-  subtotal: 3000, itemQuantity: 3, discount: 500, taxableAmount: 2500,
-  taxAmount: 450, shippingAmount: 0, totalAmount: 2950,
+  // Tax-inclusive: ₹2,500 changes hands, of which ₹381.36 is GST (2500/1.18 = 2118.64 net).
+  // These are the figures OrderTotals actually returns; the old 2500/450/2950 triple described an
+  // additive server that no longer exists, and a fixture that cannot occur is a bad witness even
+  // when the component under test only echoes it.
+  subtotal: 3000, itemQuantity: 3, discount: 500, taxableAmount: 2118.64,
+  taxAmount: 381.36, shippingAmount: 0, totalAmount: 2500,
   appliedPromotion: "AUTOMATIC_OFFER", appliedPromotionLabel: "Weekend pair offer",
   suppressedPromotionLabel: null, suppressedPromotionReason: null,
   automaticOffer: {
@@ -91,8 +95,8 @@ describe("Cart automatic offer", () => {
       cartItems: { "19:21": 1 },
       getTotalCartAmount: () => 1000,
       quote: quoteWithOffer({
-        subtotal: 1000, itemQuantity: 1, discount: 0, taxableAmount: 1000, taxAmount: 180,
-        shippingAmount: 0, totalAmount: 1180, appliedPromotion: "NONE", appliedPromotionLabel: null,
+        subtotal: 1000, itemQuantity: 1, discount: 0, taxableAmount: 847.46, taxAmount: 152.54,
+        shippingAmount: 0, totalAmount: 1000, appliedPromotion: "NONE", appliedPromotionLabel: null,
         automaticOffer: { ...quoteWithOffer().automaticOffer, eligibleQuantity: 1, completeGroups: 0, discount: 0 },
       }),
     }));

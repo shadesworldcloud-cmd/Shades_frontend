@@ -75,13 +75,19 @@ test("the quantity matrix is priced by the server: 0,1,2,3,4,7,10 units of a 2-f
       expect(priced.automaticOffer.completeGroups, `${units} units → groups`).toBe(groups);
       expect(priced.automaticOffer.eligibleQuantity, `${units} units → eligible units`).toBe(units);
     }
-    // Tax is charged on the discounted amount, and the total follows from it — the whole point of
-    // pricing on the server is that these three agree.
-    const taxable = units * OFFER_UNIT_PRICE - discount;
-    expect(Number(priced.taxableAmount)).toBe(taxable);
-    expect(Number(priced.taxAmount)).toBeCloseTo(Number((taxable * 0.18).toFixed(2)), 2);
-    expect(Number(priced.totalAmount)).toBeCloseTo(
-      taxable + Number((taxable * 0.18).toFixed(2)) + (units * OFFER_UNIT_PRICE >= 500 || units === 0 ? 0 : 49), 2);
+    // Prices are tax-inclusive: the discounted merchandise figure IS what the customer pays, and
+    // GST is extracted from it rather than added to it. The whole point of pricing on the server is
+    // that these three agree, so all three are restated here independently of it.
+    const gross = units * OFFER_UNIT_PRICE - discount;
+    const net = Number((gross / 1.18).toFixed(2));
+    const shipping = units * OFFER_UNIT_PRICE >= 500 || units === 0 ? 0 : 49;
+    expect(Number(priced.taxableAmount), `${units} units → net of GST`).toBeCloseTo(net, 2);
+    expect(Number(priced.taxAmount), `${units} units → GST inside the price`)
+      .toBeCloseTo(Number((gross - net).toFixed(2)), 2);
+    // The invoice invariant, checked on the quote: net + GST must be the merchandise amount.
+    expect(Number(priced.taxableAmount) + Number(priced.taxAmount), `${units} units → foots`)
+      .toBeCloseTo(gross, 2);
+    expect(Number(priced.totalAmount), `${units} units → total`).toBeCloseTo(gross + shipping, 2);
   }
 });
 

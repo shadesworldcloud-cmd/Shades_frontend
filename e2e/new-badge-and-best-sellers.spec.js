@@ -311,7 +311,7 @@ test("a product with no stock left drops out of the public ranking", async ({ pa
     "a completely out-of-stock product is not offered as a best seller").toBe(false);
 });
 
-test("the homepage section sits above the category controls and pages five at a time", async ({ page }) => {
+test("the homepage section sits above the category controls and pages four at a time", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
   await page.waitForLoadState("networkidle");
@@ -325,8 +325,30 @@ test("the homepage section sits above the category controls and pages five at a 
     return Boolean(bs.compareDocumentPosition(strip) & Node.DOCUMENT_POSITION_FOLLOWING);
   }), "the section must sit immediately above All/Men/Women/Unisex/Accessory").toBe(true);
 
+  // Four, not five: the row now borrows .product-grid-list's four columns so that a Best Sellers
+  // card is the same size as a discovery card. Measured at 1280px, both are 288.5px wide.
   const cards = page.locator(".best-sellers-row .product-card");
-  await expect(cards).toHaveCount(5);
+  await expect(cards).toHaveCount(4);
+
+  // The point of the change, asserted rather than assumed: a card in this row and a card in the
+  // grid below it must be the same width, and the two rows must share a left edge.
+  const geometry = await page.evaluate(() => {
+    const bs = document.querySelector(".best-sellers-row");
+    const pg = document.querySelector(".product-grid-list");
+    if (!bs || !pg || !bs.firstElementChild || !pg.firstElementChild) return null;
+    const a = bs.firstElementChild.getBoundingClientRect();
+    const b = pg.firstElementChild.getBoundingClientRect();
+    return {
+      bsCardWidth: Math.round(a.width * 100) / 100,
+      pgCardWidth: Math.round(b.width * 100) / 100,
+      leftEdgeDelta: Math.round((bs.getBoundingClientRect().left - pg.getBoundingClientRect().left) * 100) / 100,
+    };
+  });
+  expect(geometry, "both rows must be on the page for this comparison to mean anything").not.toBeNull();
+  expect(geometry.bsCardWidth, `same card width as the discovery grid: ${JSON.stringify(geometry)}`)
+    .toBe(geometry.pgCardWidth);
+  expect(Math.abs(geometry.leftEdgeDelta), `same left edge as the discovery grid: ${JSON.stringify(geometry)}`)
+    .toBeLessThanOrEqual(1);
 
   const previous = page.locator('.best-sellers-arrows button[aria-label="Show previous best sellers"]');
   const next = page.locator('.best-sellers-arrows button[aria-label="Show next best sellers"]');
@@ -348,7 +370,9 @@ test("the homepage section sits above the category controls and pages five at a 
 });
 
 test("the section is responsive and never clips", async ({ page }) => {
-  for (const [width, expected] of [[1280, 5], [768, 3], [375, 1]]) {
+  // Counts follow .product-grid-list's breakpoints (4 above 1250, 3 above 1050, 2 above 430, else
+  // 1), which is what makes the two rows' cards identical. 768 is 2 now, not 3.
+  for (const [width, expected] of [[1280, 4], [1100, 3], [768, 2], [375, 1]]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     await page.waitForLoadState("networkidle");

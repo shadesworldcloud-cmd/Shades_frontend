@@ -64,19 +64,28 @@
   text-transform: uppercase;
 }
 
+/* All four in one row, matching the home page showcase. Was a 2x2 block. */
 .collections-cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
 }
+.collections-cards > * { min-width: 0; }
 
 .collection-tile {
   position: relative;
   display: block;
-  /* Taller than the old 260px: the type now sits in a band at the bottom, and 260px left too
-     little clear photograph above it for the picture to read as a picture. */
-  min-height: 320px;
+}
+
+/* The frame the photograph is cropped into — 2:3, the native aspect of the Women and Unisex
+   sources, so those are shown whole. overflow:hidden is here rather than on the tile so the hover
+   scale is clipped to the picture and not to the words below it. */
+.collection-tile-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
+  background: var(--bg-sand);
 }
 
 .collection-tile-bg {
@@ -85,32 +94,17 @@
   transition: transform 0.5s ease;
 }
 
-/* Scrim for the photographed tiles, matching the home page cards: dark at the bottom, clearing to
-   nothing at the top.
-   It took two measured attempts to get here. A top-weighted gradient was tried first, because the
-   tile body used to flow from the top — but the body is span + h2 + p + small, which filled the
-   whole 260px tile, so text ran straight through the fade and the "N styles" line measured 2.3:1.
-   Darkening the tile uniformly instead did reach AAA, and kept only 16% of the photograph's
-   brightness: a dark rectangle with a picture hidden in it. The fix was structural — the body is
-   now anchored to the bottom (see .collection-tile-body) so the type occupies the lower band and
-   the photograph keeps the top. */
+/* No scrim, and nothing else over the photograph. Two measured gradients preceded this one — a
+   top-weighted fade that let the "N styles" line land at 2.3:1, then a uniform darkening that
+   reached AAA but kept only 16% of the picture's brightness, "a dark rectangle with a picture
+   hidden in it". Both were attempts to make white type survive on top of an image. The type is now
+   in its own block below the picture, so there is nothing to protect and the overlay is removed
+   outright: #1a1a1a on #ffffff measures 17.40:1, against 10.5:1 for the scrim it replaces.
+   Anything moved back over the image needs a scrim again. */
 .collection-tile-bg.has-photo {
   background-size: cover;
   background-repeat: no-repeat;
   transform-origin: center 30%;
-}
-.collection-tile-bg.has-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(18, 18, 18, 0.91) 0%,
-    rgba(18, 18, 18, 0.84) 45%,
-    rgba(18, 18, 18, 0.50) 68%,
-    rgba(18, 18, 18, 0.10) 88%,
-    rgba(18, 18, 18, 0) 100%
-  );
 }
 
 .collection-tile:hover .collection-tile-bg {
@@ -121,41 +115,31 @@
   .collection-tile:hover .collection-tile-bg { transform: none; }
 }
 
-/* Anchored to the bottom so the scrim above can be bottom-weighted and leave the photograph
-   uncovered. Previously this flowed from the top and text crossed the entire tile. */
+/* Below the picture on the page background. The bottom-anchoring and the 320px min-height existed
+   to hold type inside the tile against a bottom-weighted scrim; neither has a job now. */
 .collection-tile-body {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 320px;
-  padding: 30px;
-  color: #fff;
+  padding: 16px 2px 0;
+  color: var(--text-dark);
+  text-align: center;
 }
 
-.collection-tile-body span {
-  font-size: var(--fs-micro);
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-}
-
+/* 24px, not 26px: a tile is 262px wide at four across against 548px at two.
+   No top margin any more — the h2 is the first thing in the body now that the "Explore" eyebrow is
+   gone, and .collection-tile-body's own padding does that spacing. */
 .collection-tile-body h2 {
   font-family: var(--font-display);
-  font-size: var(--fs-section-sm);
+  font-size: var(--fs-h3);
   font-weight: 700;
   letter-spacing: 1px;
-  margin: 8px 0 8px;
+  margin: 0 0 6px;
   text-transform: uppercase}
 
-.collection-tile-body p {
-  font-size: var(--fs-body);
-  line-height: 1.6;
-  max-width: 34ch;
-}
-
+/* The eyebrow and blurb rules that used to sit around this were removed with the markup they
+   styled, rather than left behind as selectors matching nothing. */
 .collection-tile-body small {
   display: block;
-  margin-top: 16px;
+  color: var(--text-muted);
   font-size: var(--fs-micro);
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -172,9 +156,20 @@
   margin-bottom: 20px;
 }
 
+/* Two across below 900px. Four across measures 150.25px per track at 768, narrower than the
+   two-up track on a 320px phone; see CollectionShowcase.css for the full ladder. */
+@media (max-width: 900px) {
+  .collections-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 750px) {
   .collections-cards {
-    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .collection-tile-body {
+    padding: 12px 2px 0;
   }
   .collections-header h1,
   .collections-detail-header h1 {

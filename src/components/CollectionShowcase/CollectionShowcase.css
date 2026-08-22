@@ -12,17 +12,32 @@
   margin-bottom: 40px;
 }
 
+/* Four across, one row: the home page shows the same four storefront categories the category strip
+   and /collections do, and two of them used to be missing here entirely. minmax(0, 1fr) rather than
+   1fr so a long blurb cannot push a track past its share and widen the row. */
 .collections-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
 }
+.collections-grid > * { min-width: 0; }
 
 .collection-card {
   position: relative;
-  min-height: 360px;
-  overflow: hidden;
   cursor: pointer;
+}
+
+/* The frame the photograph is cropped into. 2:3 is the native aspect of the Women and Unisex
+   sources, so those are shown whole; the old card was a 1.52 wide box, which cover reduced to
+   43.8% of each photograph's height. overflow:hidden lives here, not on the card, so the hover
+   scale is clipped to the picture and does not clip the words underneath it.
+   The sand background is what occupies the frame before the photograph has decoded. */
+.collection-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--bg-sand);
 }
 
 .collection-card-bg {
@@ -31,32 +46,20 @@
   transition: transform 0.5s ease;
 }
 
-/* A photographed card needs a scrim or the white text below sits on skin, sky and white clothing
-   and becomes unreadable. Bottom-weighted on purpose: the text is anchored to the bottom of the
-   card, so the gradient is opaque where the words are and clears to nothing by two thirds up,
-   leaving the model and the sunglasses — the actual subject — bright and uncovered.
-   These stops are measured, not eyeballed. A first attempt faded out much sooner and put white
-   11px text on the model's lit forehead at 2.2:1 — below even AA for large text. Reproducing the
-   composite in a canvas (same cover crop, same stops, text opacity included) and sampling every
-   pixel under every text element gives 10.5:1 worst case here, while 71% of the photograph's
-   brightness survives in the top third where the face and the sunglasses are. WCAG: AA large 3:1,
-   AA body 4.5:1, AAA body 7:1. */
+/* There is deliberately NO scrim here any more, and nothing else painted over the photograph.
+   The gradient this replaces was a measured one — bottom-weighted, 10.5:1 worst case, 71% of the
+   picture's brightness surviving in the top third — and it was necessary only because white type
+   was laid over the image. With the type moved into its own block underneath (see
+   .collection-card-content) there is nothing on the photograph to keep legible, so the overlay is
+   gone rather than lightened: a lighter scrim would still be a shade over the picture, and would
+   have been the worst of both.
+   Contrast did not regress by removing it. It improved: #1a1a1a on #ffffff is 17.40:1 against the
+   scrim's 10.5:1. WCAG: AA large 3:1, AA body 4.5:1, AAA body 7:1.
+   If type is ever moved back on top of the image, it needs a scrim again — do not simply reuse
+   white on the bare photograph, which measured 2.2:1 on a lit forehead. */
 .collection-card-bg.has-photo {
   background-size: cover;
   background-repeat: no-repeat;
-}
-.collection-card-bg.has-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(18, 18, 18, 0.91) 0%,
-    rgba(18, 18, 18, 0.84) 45%,
-    rgba(18, 18, 18, 0.50) 68%,
-    rgba(18, 18, 18, 0.10) 88%,
-    rgba(18, 18, 18, 0) 100%
-  );
 }
 
 .collection-card:hover .collection-card-bg {
@@ -73,74 +76,47 @@
   .collection-card:hover .collection-card-bg { transform: none; }
 }
 
+/* Below the photograph, on the page background, centred. Holds only the collection name now —
+   the eyebrow, blurb and "Shop …" link that used to sit here were removed, and their rules with
+   them rather than left as dead selectors. The 40px padding and flex-end alignment went earlier,
+   with the overlay. */
 .collection-card-content {
   position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  padding: 40px;
-  color: white;
+  padding: 16px 2px 0;
+  color: var(--text-dark);
+  text-align: center;
 }
 
-/* Solid, not faded. The 0.7 was a decorative choice that cost real legibility once a photograph
-   sat behind it: at 11px it was the worst-contrast element on the card. Hierarchy here comes from
-   size and letter-spacing, which cost nothing. */
-.collection-eyebrow {
-  font-size: var(--fs-micro);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
+/* --fs-h3, not --fs-section: at four across a card is 262px wide against the old 548px, so a 32px
+   name no longer fits the box. 24px is what the product cards beside it use.
+   margin-bottom is 0 because this is now the last thing in the card; the old 8px separated it from
+   the blurb and would otherwise hang below the row as uneven trailing space. */
 .collection-card-content h3 {
   font-family: var(--font-display);
-  font-size: var(--fs-section);
+  font-size: var(--fs-h3);
   font-weight: 700;
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   text-transform: uppercase}
 
-.collection-card-content p {
-  font-size: var(--fs-body);
-  font-weight: 300;
-  margin-bottom: 20px;
-  max-width: 280px;
-  line-height: 1.5;
-}
-
-.collection-link {
-  font-size: var(--fs-body);
-  letter-spacing: 1px;
-  font-weight: 500;
-  transition: opacity 0.2s;
-}
-
-.collection-card:hover .collection-link {
-  opacity: 0.7;
+/* Two across below 900px, not four and not one.
+   Four is only comfortable while a track stays wide enough for a 24px name and a photograph that
+   still reads as one: 262px at 1440, 218px at 1024, 187px at 901. Measured at 768 it collapses to
+   150.25px — narrower than the two-up track on a 320px phone, which is the wrong way round. And a
+   single column would be four 2:3 portraits stacked, roughly three viewports of scroll for one
+   section. Two across gives 332px at 768 and 348px at 750. */
+@media (max-width: 900px) {
+  .collections-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 750px) {
   .collections-grid {
-    grid-template-columns: 1fr;
-  }
-  .collection-card {
-    min-height: 280px;
+    gap: 14px;
   }
   .collection-card-content {
-    padding: 28px;
-  }
-  .collection-card-content h3 {
-    font-size: var(--fs-section);
+    padding: 12px 2px 0;
   }
 }
 
-.collections-all-link {
-  display: inline-block;
-  margin-top: 26px;
-  font-size: var(--fs-small);
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--primary);
-}

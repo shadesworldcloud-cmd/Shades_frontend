@@ -146,6 +146,38 @@
 }
 .storefront-hero-preview img { width: 100%; height: auto; display: block; }
 .storefront-hero-actions { display: grid; gap: 10px; justify-items: start; }
+
+/* Four collections across, each a portrait preview with its own upload and revert. auto-fit rather
+   than repeat(4) because this panel sits inside the admin console, whose grids are already tight at
+   narrow widths — there is a documented .offer-row overflow at 320px and this must not add another. */
+.storefront-collections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+.storefront-collection { display: grid; gap: 8px; justify-items: start; align-content: start; }
+.storefront-collection > strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+/* 2:3, the same frame the storefront card uses, so what an administrator previews here is the crop
+   a shopper gets rather than a differently-shaped thumbnail. */
+.storefront-collection-preview {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  padding: 8px;
+  border: 1px dashed #cbc8be;
+  border-radius: 5px;
+  background: #f6f4ef;
+  text-align: center;
+}
+.storefront-collection-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.storefront-hint { color: #8a8b86; font-size: var(--fs-micro); }
 .storefront-hero-actions small { color: #8a8b86; font-size: var(--fs-micro); }
 
 /* The native file input is replaced by its own label so the control matches the other buttons; the

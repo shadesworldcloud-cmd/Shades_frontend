@@ -159,9 +159,43 @@ export const getCommunicationPreferences = (accessToken) =>
 export const updateCommunicationPreferences = (accessToken, preferences) =>
   authenticatedRequest("/communication-preferences", accessToken, { method: "PUT", body: JSON.stringify(preferences) });
 
+/**
+ * The whole active catalogue, as one list.
+ *
+ * Pages through the endpoint rather than asking for one big page, because 200 is not a generous
+ * ceiling this side of the wire — it is the server's hard limit. PaginationConfig calls
+ * setMaxPageSize(200), so `size=500` is silently clamped and comes back with 200 rows and no
+ * indication that anything was left behind. The old single `size=200` request therefore capped the
+ * shop at 200 products: with a 256-product catalogue the home grid showed 200 styles, and the
+ * Men/Women/Unisex filters counted 47/54/97 against a real 57/72/124. Nothing errored — the
+ * missing 56 products simply did not exist as far as the storefront was concerned.
+ *
+ * This is the same class of bug as the one getProductBySlug below was written to fix, which was
+ * repaired only for the product page. The listing had the same ceiling and kept it.
+ *
+ * `page.totalPages` is the loop's authority rather than "keep going until a short page", so a
+ * catalogue that happens to be an exact multiple of the page size does not need a wasted extra
+ * request to discover it has ended. The sort is fixed and total-ordering (productId), which is what
+ * makes paging safe: an unstable or non-unique ordering can show the same row on two pages and drop
+ * another entirely.
+ */
 export const getStoreProducts = async () => {
-  const response = await fetch(`${API_URL}/products?size=200&sort=productId,desc`);
-  return parseResponse(response);
+  const PAGE_SIZE = 200;
+  const first = await parseResponse(await fetch(`${API_URL}/products?size=${PAGE_SIZE}&page=0&sort=productId,desc`));
+  const totalPages = first?.totalPages ?? first?.page?.totalPages ?? 1;
+  if (totalPages <= 1) return first;
+
+  const content = [...(first.content || [])];
+  for (let page = 1; page < totalPages; page += 1) {
+    const next = await parseResponse(await fetch(`${API_URL}/products?size=${PAGE_SIZE}&page=${page}&sort=productId,desc`));
+    content.push(...(next.content || []));
+  }
+  // Same shape as a single-page response, so every caller keeps reading `.content`. The pagination
+  // fields are rewritten to describe THIS list rather than left at page 0 of N — including the
+  // nested `page` object parseResponse flattens, which would otherwise still claim 2 pages and
+  // hand a later reader a number that stopped being true here.
+  const pagination = { size: content.length, number: 0, totalPages: 1, totalElements: content.length };
+  return { ...first, ...pagination, page: pagination, content, numberOfElements: content.length };
 };
 
 /**
@@ -575,3 +609,16 @@ export const uploadHeroImage = (accessToken, file) => {
 };
 export const resetHeroImage = (accessToken) =>
   authenticatedRequest("/admin/storefront/hero-image", accessToken, { method: "DELETE" });
+// Collection name in the path, encoded: it is server-validated against a fixed list of four, so an
+// unknown one is a 400 rather than a silently created CONFIG row.
+export const uploadCollectionImage = (accessToken, collection, file) => {
+  const form = new FormData();
+  form.append("file", file);
+  return authenticatedRequest(
+    `/admin/storefront/collection-image/${encodeURIComponent(collection)}`,
+    accessToken, { method: "POST", body: form });
+};
+export const resetCollectionImage = (accessToken, collection) =>
+  authenticatedRequest(
+    `/admin/storefront/collection-image/${encodeURIComponent(collection)}`,
+    accessToken, { method: "DELETE" });
