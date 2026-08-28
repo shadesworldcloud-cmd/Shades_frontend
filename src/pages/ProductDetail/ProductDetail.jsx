@@ -263,7 +263,7 @@ export default function ProductDetail() {
         <p>{shippingCopy.dispatch}</p>
         <p>{shippingCopy.freeShipping}</p>
         <p>Standard delivery: 3–5 business days after dispatch.</p>
-        <p>30-day hassle-free returns.</p>
+        <p>7-day hassle-free exchanges.</p>
       </div>}
     </div></div></div>
     <ProductReviews productId={id} />

@@ -3,7 +3,7 @@ import "./PromoBar.css";
 import { getActiveAutomaticOffer } from "../../services/api";
 
 export const FALLBACK_MESSAGE =
-  "Free shipping on orders of ₹500 or more  ·  30-day easy returns";
+  "Free shipping on orders of ₹500 or more  ·  7-day easy exchanges";
 
 /**
  * The top banner strip.

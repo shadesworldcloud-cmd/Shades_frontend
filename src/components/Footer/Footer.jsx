@@ -29,7 +29,7 @@ const Footer = () => {
           <h4>Help</h4>
           <ul>
             <li><Link to="/info/shipping">Shipping &amp; Delivery</Link></li>
-            <li><Link to="/info/returns">Returns &amp; Refunds</Link></li>
+            <li><Link to="/info/returns">Exchanges</Link></li>
             <li><Link to="/info/faq">FAQ</Link></li>
             <li><Link to="/info/size-guide">Size Guide</Link></li>
           </ul>
