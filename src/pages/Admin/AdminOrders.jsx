@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { createShipment, downloadInvoice, getAdminOrders, updateAdminOrderStatus, updateShipmentStatus } from "../../services/api";
+import { createShipment, createShiprocketShipment, assignShiprocketAwb, scheduleShiprocketPickup, generateShiprocketLabel, downloadInvoice, getAdminOrders, updateAdminOrderStatus, updateShipmentStatus } from "../../services/api";
 import "./AdminOrders.css";
 import "./ShipmentTracking.css";
 import "./InvoiceActions.css";
@@ -73,6 +73,53 @@ export default function AdminOrders() {
     finally { setDownloadingInvoice(false); }
   };
 
+  // ---- Shiprocket actions ----
+  const shiprocketShip = async () => {
+    setSaving(true); setError("");
+    try {
+      const created = await createShiprocketShipment(accessToken, selected.orderId);
+      const apply = (order) => ({
+        ...order,
+        orderStatus: order.orderStatus === "CONFIRMED" ? "PROCESSING" : order.orderStatus,
+        shipments: [{ ...created, provider: created.shippingProvider || "Shiprocket", status: created.shipmentStatus }, ...(order.shipments || [])]
+      });
+      setSelected((c) => apply(c)); setOrders((c) => c.map((o) => o.orderId === selected.orderId ? apply(o) : o));
+      setNotice("Order pushed to Shiprocket. Now assign AWB →");
+    } catch (err) { setError(err.message); } finally { setSaving(false); }
+  };
+
+  const shiprocketAwb = async (s) => {
+    setSaving(true); setError("");
+    try {
+      const awbResult = await assignShiprocketAwb(accessToken, s.shipmentId);
+      if (awbResult.awb_assign_status === 1 || awbResult.awbAssignStatus === 1) {
+        setNotice("AWB assigned! Next: schedule pickup →");
+      } else {
+        setNotice("AWB assignment queued — refresh to see courier details.");
+      }
+      await load(); // refresh orders to pick up new AWB/courier data
+    } catch (err) { setError(err.message); } finally { setSaving(false); }
+  };
+
+  const shiprocketPickup = async (s) => {
+    setSaving(true); setError("");
+    try {
+      await scheduleShiprocketPickup(accessToken, s.shipmentId);
+      setNotice("Pickup scheduled with courier. Generate label →");
+    } catch (err) { setError(err.message); } finally { setSaving(false); }
+  };
+
+  const shiprocketLabel = async (s) => {
+    setSaving(true); setError("");
+    try {
+      const result = await generateShiprocketLabel(accessToken, s.shipmentId);
+      const labelUrl = result?.label_url || result?.labelUrl;
+      if (labelUrl) window.open(labelUrl, "_blank");
+      setNotice("Label generated.");
+      await load();
+    } catch (err) { setError(err.message); } finally { setSaving(false); }
+  };
+
   return <section className="orders-admin">
     {error && <div className="admin-alert error">{error}</div>}{notice && <div className="admin-alert success">{notice}</div>}
     <div className="orders-intro"><div><h2>Orders & fulfillment</h2><p>Review purchases, payments and delivery progress.</p></div><button onClick={load}>Refresh</button></div>
@@ -87,7 +134,7 @@ export default function AdminOrders() {
       <section><h3>Items</h3>{selected.items?.map((item) => <div className="drawer-item" key={item.orderItemId}><div><strong>{item.productName}</strong><small>{item.variantLabel ? `${item.variantLabel} · ` : ""}{item.sku} · {item.quantity} × {money(item.unitPrice)}</small></div><b>{money(item.lineTotal)}</b></div>)}</section>
       <section><h3>Shipping address</h3><p>{selected.shippingAddress?.name} · {selected.shippingAddress?.phone}<br />{selected.shippingAddress?.line1}{selected.shippingAddress?.line2 && `, ${selected.shippingAddress.line2}`}<br />{selected.shippingAddress?.city}, {selected.shippingAddress?.state} {selected.shippingAddress?.pincode}<br />{selected.shippingAddress?.country}</p></section>
       <section><h3>Payment</h3>{selected.payments?.length ? selected.payments.map((p) => <div className="detail-line" key={p.paymentId}><span>{p.method} · {p.provider || "Store"}</span><b>{p.status}</b></div>) : <p>No payment record yet.</p>}</section>
-      <section><h3>Shipment & delivery</h3>{selected.shipments?.map((s) => { const shipmentStatus = s.status || s.shipmentStatus; return <div className="shipment-card" key={s.shipmentId}><div><strong>{s.provider || s.shippingProvider || "Courier pending"}</strong><small>{s.trackingNumber || "No tracking number"} · {label(shipmentStatus)}</small>{s.expectedDeliveryAt && <small>Expected {date(s.expectedDeliveryAt)}</small>}</div><div className="shipment-actions">{(shipmentActions[shipmentStatus] || []).map((action) => <button className={action.status === "FAILED" ? "shipment-issue" : ""} key={action.status} disabled={saving} onClick={() => shipmentProgress(s, action.status)}>{action.label}</button>)}</div></div>})}{selected.shipments?.length === 0 && ["CONFIRMED", "PROCESSING"].includes(selected.orderStatus) && <form className="shipment-form" onSubmit={addShipment}><input placeholder="Courier" maxLength="100" value={shipment.shippingProvider} onChange={(e) => setShipment({ ...shipment, shippingProvider: e.target.value })} required /><input placeholder="Tracking number" maxLength="255" value={shipment.trackingNumber} onChange={(e) => setShipment({ ...shipment, trackingNumber: e.target.value })} required /><label>Expected delivery<input type="datetime-local" min={new Date(Date.now() + 60000).toISOString().slice(0,16)} value={shipment.expectedDeliveryAt} onChange={(e) => setShipment({ ...shipment, expectedDeliveryAt: e.target.value })} /></label><button disabled={saving}>Add shipment</button></form>}</section>
+      <section><h3>Shipment & delivery</h3>{selected.shipments?.map((s) => { const shipmentStatus = s.status || s.shipmentStatus; const isSR = !!(s.shiprocketOrderId || s.shiprocketShipmentId); return <div className="shipment-card" key={s.shipmentId}><div><strong>{s.provider || s.shippingProvider || "Courier pending"}{isSR && <span className="sr-badge">Shiprocket</span>}</strong><small>{s.awbCode ? `AWB: ${s.awbCode}` : s.trackingNumber || "No tracking number"} · {label(shipmentStatus)}</small>{s.courierName && <small>Courier: {s.courierName}</small>}{s.expectedDeliveryAt && <small>Expected {date(s.expectedDeliveryAt)}</small>}{s.labelUrl && <small><a href={s.labelUrl} target="_blank" rel="noopener noreferrer">View label ↗</a></small>}</div><div className="shipment-actions">{isSR && !s.awbCode && <button disabled={saving} onClick={() => shiprocketAwb(s)}>Assign AWB</button>}{isSR && s.awbCode && shipmentStatus === "PACKED" && <button disabled={saving} onClick={() => shiprocketPickup(s)}>Schedule Pickup</button>}{isSR && s.awbCode && !s.labelUrl && <button disabled={saving} onClick={() => shiprocketLabel(s)}>Generate Label</button>}{(shipmentActions[shipmentStatus] || []).map((action) => <button className={action.status === "FAILED" ? "shipment-issue" : ""} key={action.status} disabled={saving} onClick={() => shipmentProgress(s, action.status)}>{action.label}</button>)}</div></div>})}{selected.shipments?.length === 0 && ["CONFIRMED", "PROCESSING"].includes(selected.orderStatus) && <div className="shipment-options"><button className="shiprocket-ship-btn" disabled={saving} onClick={shiprocketShip}>{saving ? "Pushing to Shiprocket…" : "🚀 Ship via Shiprocket"}</button><details className="manual-shipment-toggle"><summary>Or add manually</summary><form className="shipment-form" onSubmit={addShipment}><input placeholder="Courier" maxLength="100" value={shipment.shippingProvider} onChange={(e) => setShipment({ ...shipment, shippingProvider: e.target.value })} required /><input placeholder="Tracking number" maxLength="255" value={shipment.trackingNumber} onChange={(e) => setShipment({ ...shipment, trackingNumber: e.target.value })} required /><label>Expected delivery<input type="datetime-local" min={new Date(Date.now() + 60000).toISOString().slice(0,16)} value={shipment.expectedDeliveryAt} onChange={(e) => setShipment({ ...shipment, expectedDeliveryAt: e.target.value })} /></label><button disabled={saving}>Add shipment</button></form></details></div>}</section>
       <section><h3>Status history</h3><div className="order-timeline">{selected.history?.map((h, index) => <div key={`${h.changedAt}-${index}`}><i></i><span><b>{h.newStatus}</b><small>{h.notes || "Status updated"} · {date(h.changedAt)}</small></span></div>)}</div></section>
       {nextStatus[selected.orderStatus] && <footer><textarea rows="2" placeholder="Internal status note (optional)" value={notes} onChange={(e) => setNotes(e.target.value)} /><button disabled={saving} onClick={progress}>{saving ? "Saving…" : actionLabel[nextStatus[selected.orderStatus]]}</button></footer>}
     </aside></div>}

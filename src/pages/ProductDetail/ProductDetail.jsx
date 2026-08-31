@@ -6,6 +6,7 @@ import ProductReviews from "../../components/ProductReviews/ProductReviews";
 import ProductGallery from "../../components/ProductGallery/ProductGallery";
 import { getProductBySlug, getCanonicalProductSlug } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
+import PincodeCheck from "../../components/PincodeCheck/PincodeCheck";
 
 /** A path segment that is only digits is a legacy /product/{PRODUCT_ID} link, not a slug. */
 const isLegacyNumericId = (segment) => /^\d+$/.test(segment || "");
@@ -262,8 +263,8 @@ export default function ProductDetail() {
       {activeTab === "shipping" && <div>
         <p>{shippingCopy.dispatch}</p>
         <p>{shippingCopy.freeShipping}</p>
-        <p>Standard delivery: 3–5 business days after dispatch.</p>
-        <p>7-day hassle-free exchanges.</p>
+        <PincodeCheck />
+        <p style={{ marginTop: 8 }}>7-day hassle-free exchanges.</p>
       </div>}
     </div></div></div>
     <ProductReviews productId={id} />

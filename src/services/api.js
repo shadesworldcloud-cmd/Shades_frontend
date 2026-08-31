@@ -496,6 +496,32 @@ export const updateShipmentStatus = (accessToken, shipmentId, status) =>
     method: "PATCH", body: JSON.stringify({ status }),
   });
 
+// ---- Shiprocket integration ----
+
+/** Public: check if delivery is available to a pincode */
+export const checkPincodeServiceability = (pincode) =>
+  parseResponse(fetch(`${API_URL}/shiprocket/serviceability?pincode=${pincode}&weight=0.3&cod=false`));
+
+/** Admin: push order to Shiprocket */
+export const createShiprocketShipment = (accessToken, orderId) =>
+  authenticatedRequest(`/shiprocket/orders/${orderId}/ship`, accessToken, { method: "POST" });
+
+/** Admin: assign AWB (courier + tracking) to a shipment */
+export const assignShiprocketAwb = (accessToken, shipmentId) =>
+  authenticatedRequest(`/shiprocket/shipments/${shipmentId}/assign-awb`, accessToken, { method: "POST" });
+
+/** Admin: schedule courier pickup */
+export const scheduleShiprocketPickup = (accessToken, shipmentId) =>
+  authenticatedRequest(`/shiprocket/shipments/${shipmentId}/schedule-pickup`, accessToken, { method: "POST" });
+
+/** Admin: generate shipping label */
+export const generateShiprocketLabel = (accessToken, shipmentId) =>
+  authenticatedRequest(`/shiprocket/shipments/${shipmentId}/generate-label`, accessToken, { method: "POST" });
+
+/** Track a shipment via Shiprocket (authenticated — customer or admin) */
+export const trackShiprocketShipment = (accessToken, shipmentId) =>
+  authenticatedRequest(`/shiprocket/shipments/${shipmentId}/track`, accessToken);
+
 export const getInventoryMovements = (accessToken, variantId) =>
   authenticatedRequest(`/inventory/variants/${variantId}/movements?size=100`, accessToken);
 
