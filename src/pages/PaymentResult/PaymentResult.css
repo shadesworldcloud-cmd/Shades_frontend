@@ -1,0 +1,94 @@
+.payment-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem 1rem;
+}
+
+.payment-result-card {
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+.payment-result-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.payment-result.success .payment-result-icon {
+  background: #22c55e;
+}
+
+.payment-result.failure .payment-result-icon {
+  background: #ef4444;
+}
+
+.payment-result h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+  color: #111;
+}
+
+.payment-result p {
+  color: #555;
+  margin: 0 0 0.5rem;
+  line-height: 1.5;
+}
+
+.payment-detail {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.payment-detail.secondary {
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+.payment-result-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.payment-result-actions .btn-primary,
+.payment-result-actions .btn-secondary {
+  padding: 0.65rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.payment-result-actions .btn-primary {
+  background: #111;
+  color: #fff;
+}
+
+.payment-result-actions .btn-secondary {
+  background: transparent;
+  color: #111;
+  border: 1px solid #ddd;
+}
+
+.payment-result-actions .btn-primary:hover,
+.payment-result-actions .btn-secondary:hover {
+  opacity: 0.85;
+}

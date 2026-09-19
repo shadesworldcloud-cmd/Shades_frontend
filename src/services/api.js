@@ -604,6 +604,11 @@ export const processMockPayment = (accessToken, orderId) =>
     method: "POST", body: JSON.stringify({ paymentMethod: "MOCK" }),
   });
 
+export const initiatePayUPayment = (accessToken, orderId) =>
+  authenticatedRequest(`/payments/payu/initiate/${orderId}`, accessToken, {
+    method: "POST",
+  });
+
 export const getMyReturns = (accessToken) => authenticatedRequest("/returns?size=100", accessToken);
 export const createReturn = (accessToken, request) => authenticatedRequest("/returns", accessToken, { method: "POST", body: JSON.stringify(request) });
 export const cancelReturn = (accessToken, returnId) => authenticatedRequest(`/returns/${returnId}/cancel`, accessToken, { method: "PATCH" });

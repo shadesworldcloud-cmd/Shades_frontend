@@ -18,6 +18,8 @@ import Notifications from "./pages/Notifications/Notifications";
 import StoreInfo from "./pages/StoreInfo/StoreInfo";
 import Shop from "./pages/Shop/Shop";
 import Collections from "./pages/Collections/Collections";
+import PaymentSuccess from "./pages/PaymentResult/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentResult/PaymentFailure";
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -93,6 +95,8 @@ const App = () => {
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute customerOnly><Account /></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute customerOnly><Notifications /></ProtectedRoute>} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
+          <Route path="/payment/failure" element={<PaymentFailure />} />
           <Route path="/info/:page" element={<StoreInfo />} />
         </Routes></div><Footer />
       </>} />

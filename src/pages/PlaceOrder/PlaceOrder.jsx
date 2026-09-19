@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import "./PlaceOrder.css";
 import { StoreContext, resolveCartLines } from "../../context/StoreContext";
 import { useAuth } from "../../context/AuthContext";
-import { createAddress, createOrder, getAddresses, processMockPayment } from "../../services/api";
+import { createAddress, createOrder, getAddresses, initiatePayUPayment } from "../../services/api";
 import { announceCatalogueChanged } from "../../services/catalogueEvents";
 import { pincodeError, sanitisePincode } from "../../services/pincode";
 import { phoneError } from "../../services/phone";
@@ -134,14 +134,27 @@ const PlaceOrder = () => {
         });
         setPendingOrderId(createdOrder.orderId);
       }
-      await processMockPayment(accessToken, createdOrder.orderId);
-      setPendingOrderId(null);
-      clearCartState();
-      // The order deducted stock server-side, so every cached quantity in product_list is now
-      // stale — without this the shopper sees the pre-purchase stock until a full page reload,
-      // and the Add buttons keep offering units that no longer exist.
-      announceCatalogueChanged();
-      navigate("/my-orders", { replace: true, state: { checkoutComplete: true, orderId: createdOrder.orderId } });
+      // Initiate PayU payment — the backend returns form parameters for the PayU hosted checkout.
+      // We build a hidden HTML form and submit it, which redirects the browser to PayU's payment
+      // page. After the customer pays (or cancels), PayU POSTs back to our backend's surl/furl,
+      // which processes the result and 302-redirects the browser to /payment/success or /payment/failure.
+      const payuData = await initiatePayUPayment(accessToken, createdOrder.orderId);
+
+      // Build and auto-submit a hidden form to PayU
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = payuData.action;
+      const fields = ["key", "txnid", "amount", "productinfo", "firstname", "email", "phone", "surl", "furl", "hash"];
+      fields.forEach((field) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = field;
+        input.value = payuData[field] || "";
+        form.appendChild(input);
+      });
+      document.body.appendChild(form);
+      form.submit();
+      return; // browser is navigating to PayU — no further JS runs
     } catch (requestError) {
       setError(createdOrder
         ? `Order #${createdOrder.orderId} was created, but payment confirmation was interrupted: ${requestError.message}. Use the retry button below; you will not be charged twice.`
