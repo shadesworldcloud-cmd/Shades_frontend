@@ -6,7 +6,7 @@ import { createAddress, createOrder, getAddresses, initiatePayUPayment } from ".
 import { announceCatalogueChanged } from "../../services/catalogueEvents";
 import { pincodeError, sanitisePincode } from "../../services/pincode";
 import { phoneError } from "../../services/phone";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const emptyAddress = {
   recipientName: "", phoneNumber: "", addressLine1: "", addressLine2: "",
@@ -23,8 +23,7 @@ const shortDate = (value) => value.toLocaleDateString("en-IN", { day: "numeric",
 
 const PlaceOrder = () => {
   const { accessToken } = useAuth();
-  const { cartItems, product_list, productsLoading, productsError, getTotalCartAmount, appliedOffer, clearCartState, getCartCount, cartSyncing, quote, quoteLoading } = useContext(StoreContext);
-  const navigate = useNavigate();
+  const { cartItems, product_list, productsLoading, productsError, getTotalCartAmount, appliedOffer, getCartCount, cartSyncing, quote, quoteLoading } = useContext(StoreContext);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [useNewAddress, setUseNewAddress] = useState(false);
