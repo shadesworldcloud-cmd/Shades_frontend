@@ -67,8 +67,8 @@ export default function ProductDetail() {
     if (!product?.slug) return;
     const siteUrl = (process.env.REACT_APP_SITE_URL || "https://www.shadesworldindia.com").replace(/\/$/, "");
     const url = `${siteUrl}/product/${product.slug}`;
-    const title = `${product.name} Sunglasses | Shades World`;
-    const description = (product.description || `Shop ${product.name} sunglasses from Shades World.`)
+    const title = `${product.name} Sunglasses | Shades World India`;
+    const description = (product.description || `Shop ${product.name} sunglasses from Shades World India.`)
       .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
     const shortDescription = description.length > 160
       ? `${description.slice(0, 157).trimEnd()}…` : description;

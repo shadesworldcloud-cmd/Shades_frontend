@@ -23,6 +23,16 @@ function jsonReply(value, status = 200) {
   return { ok: status < 400, status, json: async () => value };
 }
 
+test("home page uses the chosen site name and supplied browser icon", () => {
+  const builtHtml = fs.readFileSync(path.join(__dirname, "../build/index.html"), "utf8");
+  const icon = fs.readFileSync(path.join(__dirname, "../build/shades-world-logo.jpg"));
+  const suppliedLogo = fs.readFileSync(path.join(__dirname, "../src/assets/shades-world-logo.jpg"));
+  assert.match(builtHtml, /<title>Shades World India \| Shop Sunglasses Online<\/title>/);
+  assert.match(builtHtml, /"@type":"WebSite","name":"Shades World India"/);
+  assert.match(builtHtml, /rel="icon" type="image\/jpeg" href="\/shades-world-logo\.jpg\?v=2"/);
+  assert.deepEqual(icon, suppliedLogo);
+});
+
 test("sitemap includes every active catalog URL once", async () => {
   global.fetch = async (url) => {
     assert.match(url, /\/products\?page=0&size=200$/);
@@ -60,7 +70,7 @@ test("direct product response contains one canonical, metadata, content and Prod
   assert.equal(res.statusCode, 200);
   assert.equal((res.body.match(/rel="canonical"/g) || []).length, 1);
   assert.equal((res.body.match(/property="og:title"/g) || []).length, 1);
-  assert.match(res.body, /<title>Cala Canyelles Sunglasses \| Shades World<\/title>/);
+  assert.match(res.body, /<title>Cala Canyelles Sunglasses \| Shades World India<\/title>/);
   assert.match(res.body, /<h1>Cala Canyelles Sunglasses<\/h1>/);
   assert.match(res.body, /"@type":"Product"/);
   assert.match(res.body, /"sku":"CALA-BLUE"/);
@@ -83,7 +93,7 @@ test("public shop and information pages have their own initial metadata", async 
   for (const [query, heading, canonical] of [
     [{ page: "shop" }, "Shop Sunglasses Online", "/shop"],
     [{ page: "collection", collection: "men" }, "Men&#39;s Sunglasses", "/collections/men"],
-    [{ page: "info", info: "about" }, "About Shades World Barcelona", "/info/about"],
+    [{ page: "info", info: "about" }, "About Shades World India", "/info/about"],
   ]) {
     const res = response();
     await pageSeo({ method: "GET", query, headers: { host: "example.vercel.app" } }, res);

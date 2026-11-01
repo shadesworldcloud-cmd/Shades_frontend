@@ -1,26 +1,26 @@
 const { SITE_URL, escapeHtml } = require("../lib/seo");
 
 const infoPages = {
-  about: ["About Shades World Barcelona", "Learn about Shades World Barcelona and how we curate eyewear for men, women and unisex styles."],
-  contact: ["Contact Shades World", "Contact Shades World for help with sunglasses, orders and delivery."],
-  shipping: ["Shipping & Delivery", "Find delivery information for Shades World online orders."],
-  returns: ["Exchanges & Returns", "Read the Shades World exchange and return information for online purchases."],
-  faq: ["Frequently Asked Questions", "Answers to common questions about Shades World products and orders."],
-  "size-guide": ["Sunglasses Size Guide", "Find your fit with the Shades World sunglasses size guide."],
-  privacy: ["Privacy Policy", "Read how Shades World handles customer information."],
-  terms: ["Terms & Conditions", "Read the Shades World terms and conditions."],
+  about: ["About Shades World India", "Learn about Shades World India and how we curate eyewear for men, women and unisex styles."],
+  contact: ["Contact Shades World India", "Contact Shades World India for help with sunglasses, orders and delivery."],
+  shipping: ["Shipping & Delivery", "Find delivery information for Shades World India online orders."],
+  returns: ["Exchanges & Returns", "Read the Shades World India exchange and return information for online purchases."],
+  faq: ["Frequently Asked Questions", "Answers to common questions about Shades World India products and orders."],
+  "size-guide": ["Sunglasses Size Guide", "Find your fit with the Shades World India sunglasses size guide."],
+  privacy: ["Privacy Policy", "Read how Shades World India handles customer information."],
+  terms: ["Terms & Conditions", "Read the Shades World India terms and conditions."],
 };
 
 const collections = {
-  men: ["Men's Sunglasses", "Explore Shades World sunglasses and eyewear styles for men."],
-  women: ["Women's Sunglasses", "Explore Shades World sunglasses and eyewear styles for women."],
-  unisex: ["Unisex Sunglasses", "Explore versatile unisex sunglasses from Shades World."],
-  accessory: ["Eyewear Accessories", "Explore sunglasses cases, cloths and care accessories from Shades World."],
+  men: ["Men's Sunglasses", "Explore Shades World India sunglasses and eyewear styles for men."],
+  women: ["Women's Sunglasses", "Explore Shades World India sunglasses and eyewear styles for women."],
+  unisex: ["Unisex Sunglasses", "Explore versatile unisex sunglasses from Shades World India."],
+  accessory: ["Eyewear Accessories", "Explore sunglasses cases, cloths and care accessories from Shades World India."],
 };
 
 function pageDetails(query) {
-  if (query.page === "shop") return { path: "/shop", title: "Shop Sunglasses Online", description: "Browse Shades World sunglasses for men and women. Find unisex and polarized styles in a range of colours.", links: ["/collections/men", "/collections/women", "/collections/unisex"] };
-  if (query.page === "collections") return { path: "/collections", title: "Sunglasses Collections", description: "Explore the Shades World sunglasses collections for men, women and unisex styles.", links: Object.keys(collections).map((name) => `/collections/${name}`) };
+  if (query.page === "shop") return { path: "/shop", title: "Shop Sunglasses Online", description: "Browse Shades World India sunglasses for men and women. Find unisex and polarized styles in a range of colours.", links: ["/collections/men", "/collections/women", "/collections/unisex"] };
+  if (query.page === "collections") return { path: "/collections", title: "Sunglasses Collections", description: "Explore the Shades World India sunglasses collections for men, women and unisex styles.", links: Object.keys(collections).map((name) => `/collections/${name}`) };
   if (query.page === "collection" && collections[query.collection]) {
     const [title, description] = collections[query.collection];
     return { path: `/collections/${query.collection}`, title, description, links: ["/shop"] };
@@ -53,10 +53,10 @@ module.exports = async function pageSeo(req, res) {
     if (!rootPattern.test(html)) throw new Error("HTML template has no root element");
 
     const url = `${SITE_URL}${page.path}`;
-    const title = `${page.title} | Shades World`;
+    const title = page.title.includes("Shades World India") ? page.title : `${page.title} | Shades World India`;
     const head = `<link rel="canonical" href="${escapeHtml(url)}" />`
       + `<meta property="og:type" content="website" />`
-      + `<meta property="og:site_name" content="Shades World" />`
+      + `<meta property="og:site_name" content="Shades World India" />`
       + `<meta property="og:title" content="${escapeHtml(title)}" />`
       + `<meta property="og:description" content="${escapeHtml(page.description)}" />`
       + `<meta property="og:url" content="${escapeHtml(url)}" />`

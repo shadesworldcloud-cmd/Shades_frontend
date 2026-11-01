@@ -104,7 +104,7 @@ export default function MyOrders() {
   return <main className="my-orders-page"><div className="container">
     <header className="orders-page-header"><div><span>Your account</span><h1>My Orders</h1><p>Welcome back, {user?.name?.split(" ")[0]}. Follow every order from confirmation to delivery.</p></div><Link to="/shop">Continue shopping</Link></header>
     {error && <div className="orders-error">{error}</div>}{notice && <div className="orders-notice">{notice}</div>}
-    {loading ? <div className="orders-empty">Loading your orders…</div> : orders.length === 0 ? <div className="orders-empty"><span>SW</span><h2>No orders yet</h2><p>Your Shades World purchases will appear here.</p><Link to="/shop">Explore the collection</Link></div> : <section className="orders-list">{orders.map((order) => {
+    {loading ? <div className="orders-empty">Loading your orders…</div> : orders.length === 0 ? <div className="orders-empty"><span>SW</span><h2>No orders yet</h2><p>Your Shades World India purchases will appear here.</p><Link to="/shop">Explore the collection</Link></div> : <section className="orders-list">{orders.map((order) => {
       const shipment = order.shipments?.[0]; const shipmentStatus = shipment?.status || shipment?.shipmentStatus; const shipmentStage = deliveryStages.indexOf(shipmentStatus); const open = expanded === order.orderId;
       const orderReturns = returns.filter((item) => item.orderId === order.orderId);
       const latestReturn = orderReturns[0];

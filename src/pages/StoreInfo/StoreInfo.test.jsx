@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import StoreInfo from "./StoreInfo";
 
 const cases = [
-  ["about", "About Shades World Barcelona"],
+  ["about", "About Shades World India"],
   ["contact", "Contact us"],
   ["shipping", "Shipping & delivery"],
   ["returns", "Returns & refunds"],

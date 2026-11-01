@@ -34,9 +34,9 @@ module.exports = async function productSeo(req, res) {
     if (!rootPattern.test(html)) throw new Error("HTML template has no root element");
 
     const url = `${SITE_URL}/product/${encodeURIComponent(product.slug)}`;
-    const title = `${product.productName} Sunglasses | Shades World`;
+    const title = `${product.productName} Sunglasses | Shades World India`;
     const description = snippet(product.productDescription
-      || `Shop ${product.productName} sunglasses from Shades World.`);
+      || `Shop ${product.productName} sunglasses from Shades World India.`);
     const variant = primaryVariant(product);
     const image = publicImage(primaryImage(product, variant));
     const price = Number(variant?.price ?? product.basePrice);
@@ -55,6 +55,7 @@ module.exports = async function productSeo(req, res) {
     const head = [
       `<link rel="canonical" href="${escapeHtml(url)}" />`,
       `<meta property="og:type" content="product" />`,
+      `<meta property="og:site_name" content="Shades World India" />`,
       `<meta property="og:title" content="${escapeHtml(title)}" />`,
       `<meta property="og:description" content="${escapeHtml(description)}" />`,
       `<meta property="og:url" content="${escapeHtml(url)}" />`,

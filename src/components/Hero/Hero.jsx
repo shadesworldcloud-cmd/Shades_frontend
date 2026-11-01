@@ -35,7 +35,7 @@ const Hero = () => {
       <div className="hero-image">
         <img
           src={heroImage}
-          alt="Shades World — from Barcelona to the world"
+          alt="Shades World India sunglasses"
           /* A configured image that 404s (deleted from the CDN, say) falls back rather than
              leaving a broken-image icon across the top of the home page. */
           onError={() => setHeroImage(assets.hero_img)}

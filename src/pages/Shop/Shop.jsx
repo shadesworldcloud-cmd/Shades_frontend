@@ -36,7 +36,7 @@ export default function Shop() {
         <header className="shop-header">
           <span>Every frame</span>
           <h1>Shop</h1>
-          <p>The complete Shades World Barcelona collection — filter by category, colour, brand or price.</p>
+          <p>The complete Shades World India collection — filter by category, colour, brand or price.</p>
         </header>
 
       </div>

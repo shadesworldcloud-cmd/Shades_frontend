@@ -278,10 +278,10 @@ const SignIn = () => {
 
   if (mode === "forgot" || mode === "reset" || mode === "verify") return (
     <main className="signin-page">
-      <section className="signin-story" aria-label="Shades World introduction">
+      <section className="signin-story" aria-label="Shades World India introduction">
         <Link to="/" className="signin-brand"><BrandWordmark light /></Link>
         <div className="signin-story-copy"><span className="signin-eyebrow">{mode === "verify" ? "Secure email verification" : "Secure account recovery"}</span><h1>{mode === "verify" ? "Confirm the view is yours." : "A clear way back to your account."}</h1><p>{mode === "verify" ? "Verification links are private, expire after 24 hours and can only be used once." : "Reset links are private, expire after 30 minutes and can only be used once."}</p></div>
-        <p className="signin-story-note">Shades World will never ask you to share a private account link.</p>
+        <p className="signin-story-note">Shades World India will never ask you to share a private account link.</p>
       </section>
       <section className="signin-panel"><div className="signin-card">
         <div className="signin-mobile-brand"><BrandWordmark /></div>
@@ -306,12 +306,12 @@ const SignIn = () => {
 
   return (
     <main className="signin-page">
-      <section className="signin-story" aria-label="Shades World introduction">
+      <section className="signin-story" aria-label="Shades World India introduction">
         <Link to="/" className="signin-brand"><BrandWordmark light /></Link>
         <div className="signin-story-copy">
           <span className="signin-eyebrow">Designed for every point of view</span>
           <h1>{registering ? "Your view. Your account." : "Welcome back to a clearer world."}</h1>
-          <p>{registering ? "Join Shades World to save favourites, shop faster and follow every order." : "Sign in to track orders, save your favourites and discover eyewear selected for you."}</p>
+          <p>{registering ? "Join Shades World India to save favourites, shop faster and follow every order." : "Sign in to track orders, save your favourites and discover eyewear selected for you."}</p>
         </div>
         <p className="signin-story-note">Customers and store administrators use the same secure entrance.</p>
       </section>
@@ -323,9 +323,9 @@ const SignIn = () => {
             <button type="button" aria-pressed={!registering} className={!registering ? "active" : ""} onClick={() => changeMode("signin")}>Sign in</button>
             <button type="button" aria-pressed={registering} className={registering ? "active" : ""} onClick={() => changeMode("register")}>Create account</button>
           </div>
-          <span className="signin-kicker">{registering ? "Join Shades World" : "Your account"}</span>
+          <span className="signin-kicker">{registering ? "Join Shades World India" : "Your account"}</span>
           <h2>{registering ? "Create account" : "Sign in"}</h2>
-          <p className="signin-intro">{registering ? "Create your customer account to shop, save favourites and track orders." : "Use the email and password associated with your Shades World account."}</p>
+          <p className="signin-intro">{registering ? "Create your customer account to shop, save favourites and track orders." : "Use the email and password associated with your Shades World India account."}</p>
 
           <>
             <div className="signin-google" ref={googleButtonRef} aria-label="Continue with Google" />
@@ -381,7 +381,7 @@ const SignIn = () => {
             </button>
           </form>
           {!registering && <p className="signin-create">Didn’t receive the verification email? <button type="button" disabled={submitting} onClick={handleResendVerification}>Resend verification</button></p>}
-          <p className="signin-create">{registering ? "Already have an account?" : "New to Shades World?"} <button type="button" onClick={() => changeMode(registering ? "signin" : "register")}>{registering ? "Sign in" : "Create an account"}</button></p>
+          <p className="signin-create">{registering ? "Already have an account?" : "New to Shades World India?"} <button type="button" onClick={() => changeMode(registering ? "signin" : "register")}>{registering ? "Sign in" : "Create an account"}</button></p>
           <Link to="/" className="signin-back">← Continue shopping as a guest</Link>
         </div>
       </section>

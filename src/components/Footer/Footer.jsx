@@ -47,7 +47,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2026 Shades World Barcelona. All rights reserved.</p>
+        <p>&copy; 2026 Shades World India. All rights reserved.</p>
         <div><Link to="/info/privacy">Privacy</Link><Link to="/info/terms">Terms</Link></div>
       </div>
     </footer>

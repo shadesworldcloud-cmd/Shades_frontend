@@ -25,7 +25,7 @@ export const SUPPORT_EMAIL = "shadesworldindia11@gmail.com";
 export const WHATSAPP_LINK_NUMBER = "918233511042";
 /** How the number is shown to a human. */
 export const WHATSAPP_DISPLAY_NUMBER = "+91 8233511042";
-const BASE_MESSAGE = "Hello Shades World customer care, I need help with my order.";
+const BASE_MESSAGE = "Hello Shades World India customer care, I need help with my order.";
 
 /** The prefilled message, with the order number appended only when one was actually typed. */
 export const careMessage = (orderNumber) => {
@@ -38,7 +38,7 @@ export const whatsappUrl = (orderNumber) =>
   `https://wa.me/${WHATSAPP_LINK_NUMBER}?text=${encodeURIComponent(careMessage(orderNumber))}`;
 
 export const mailtoUrl = (orderNumber) => {
-  const subject = encodeURIComponent("Shades World customer care");
+  const subject = encodeURIComponent("Shades World India customer care");
   return `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${encodeURIComponent(careMessage(orderNumber))}`;
 };
 

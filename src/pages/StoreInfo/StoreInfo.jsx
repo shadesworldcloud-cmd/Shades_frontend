@@ -5,7 +5,7 @@ import ContactCareDialog from "../../components/ContactCareDialog/ContactCareDia
 
 const pages = {
   about: {
-    eyebrow: "Our story", title: "About Shades World Barcelona",
+    eyebrow: "Our story", title: "About Shades World India",
     intro: "Independent eyewear for people who see the world in their own way.",
     sections: [
       ["What we believe", "Eyewear should feel personal, dependable and effortless to shop for. We curate distinctive frames across men’s, women’s and unisex collections, with clear product information and variant-level photography."],
@@ -48,7 +48,7 @@ const pages = {
   },
   faq: {
     eyebrow: "Quick answers", title: "Frequently asked questions",
-    intro: "The most common questions about shopping with Shades World Barcelona.",
+    intro: "The most common questions about shopping with Shades World India.",
     faq: [
       ["Do I need an account to shop?", "You can browse without an account. Sign in is required to save a server-backed cart or wishlist, place an order, track delivery and request an exchange."],
       ["Will my cart remain after I sign out?", "Yes. Items in an authenticated customer’s cart are stored with that account and return after the customer signs in again."],
@@ -70,7 +70,7 @@ const pages = {
   },
   privacy: {
     eyebrow: "Your information", title: "Privacy policy",
-    intro: "How Shades World Barcelona handles information required to operate the store.",
+    intro: "How Shades World India handles information required to operate the store.",
     sections: [
       ["Information we use", "Account details, delivery addresses, cart and wishlist contents, orders, payments recorded by the store, reviews, returns, refunds and support-related communications may be processed."],
       ["Why we use it", "Information is used to authenticate accounts, fulfil purchases, deliver orders, prevent abuse, provide customer support, send transactional notifications and improve store operations."],
@@ -82,7 +82,7 @@ const pages = {
   },
   terms: {
     eyebrow: "Store policies", title: "Terms & conditions",
-    intro: "By placing an order on Shades World Barcelona, you acknowledge and agree to the following terms. Please read them carefully before making a purchase.",
+    intro: "By placing an order on Shades World India, you acknowledge and agree to the following terms. Please read them carefully before making a purchase.",
     sections: [
       ["Exchange policy", "We offer a 7-day exchange window from the date of delivery. To be eligible, products must be unused, unworn, undamaged and returned in their original packaging along with the box, tags and all accessories."],
       ["No returns or refunds", "We do not offer returns or refunds for change of mind, incorrect selection or personal preference. All sales are considered final unless the product qualifies for an exchange under the conditions stated above."],
