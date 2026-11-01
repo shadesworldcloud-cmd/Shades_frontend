@@ -18,6 +18,7 @@ import Notifications from "./pages/Notifications/Notifications";
 import StoreInfo from "./pages/StoreInfo/StoreInfo";
 import Shop from "./pages/Shop/Shop";
 import Collections from "./pages/Collections/Collections";
+import SeoManager from "./components/SeoManager";
 import PaymentSuccess from "./pages/PaymentResult/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentResult/PaymentFailure";
 
@@ -74,7 +75,7 @@ const AdminExitGuard = () => {
 
 const App = () => {
   return (
-    <><a className="skip-link" href="#main-content">Skip to main content</a><ScrollToTop /><AdminExitGuard /><div id="main-content" tabIndex="-1"><Routes>
+    <><a className="skip-link" href="#main-content">Skip to main content</a><ScrollToTop /><AdminExitGuard /><SeoManager /><div id="main-content" tabIndex="-1"><Routes>
       <Route path="/signin" element={<SignIn />} />
       <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
       <Route path="*" element={<>

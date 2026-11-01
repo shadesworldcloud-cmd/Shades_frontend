@@ -62,35 +62,60 @@ export default function ProductDetail() {
 
   const id = product ? String(product.productId) : null;
 
-  /**
-   * Canonical URL and social metadata, pointed at the slug.
-   *
-   * Written straight into document.head rather than through a helper library, because the project
-   * has no metadata layer and adding one for three tags would be a larger change than the tags.
-   * Kept in sync on every product change and left in place on unmount — a stale canonical is only
-   * read by a crawler on a product page, and every product page sets it before paint.
-   */
+  /** Keep client-side navigation metadata aligned with the server-rendered product HTML. */
   useEffect(() => {
     if (!product?.slug) return;
-    const url = `${window.location.origin}${process.env.PUBLIC_URL || ""}/product/${product.slug}`;
+    const siteUrl = (process.env.REACT_APP_SITE_URL || "https://shades-frontend-drab.vercel.app").replace(/\/$/, "");
+    const url = `${siteUrl}/product/${product.slug}`;
+    const title = `${product.name} Sunglasses | Shades World`;
+    const description = (product.description || `Shop ${product.name} sunglasses from Shades World.`)
+      .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const shortDescription = description.length > 160
+      ? `${description.slice(0, 157).trimEnd()}…` : description;
+    const image = String(product.image || "").split("#")[0];
+    const variant = product.variants?.find((item) => item.variantId === product.defaultVariantId);
+    const price = Number(product.defaultVariantPrice ?? product.price);
     const upsert = (selector, create) => {
       let element = document.head.querySelector(selector);
       if (!element) { element = create(); document.head.appendChild(element); }
       return element;
     };
+    const meta = (selector, attribute, value, content) => {
+      const element = upsert(selector, () => document.createElement("meta"));
+      element.setAttribute(attribute, value);
+      element.setAttribute("content", content);
+    };
     const canonical = upsert('link[rel="canonical"]', () => {
       const link = document.createElement("link"); link.rel = "canonical"; return link;
     });
     canonical.href = url;
-    const ogUrl = upsert('meta[property="og:url"]', () => {
-      const meta = document.createElement("meta"); meta.setAttribute("property", "og:url"); return meta;
+    meta('meta[name="description"]', "name", "description", shortDescription);
+    meta('meta[name="robots"]', "name", "robots", "index,follow");
+    meta('meta[property="og:type"]', "property", "og:type", "product");
+    meta('meta[property="og:url"]', "property", "og:url", url);
+    meta('meta[property="og:title"]', "property", "og:title", title);
+    meta('meta[property="og:description"]', "property", "og:description", shortDescription);
+    if (image) meta('meta[property="og:image"]', "property", "og:image", image);
+    meta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
+    const schema = {
+      "@context": "https://schema.org", "@type": "Product",
+      name: product.name, description, url,
+      brand: { "@type": "Brand", name: "Shades World" },
+      ...(image ? { image: [image] } : {}),
+      ...(variant?.sku ? { sku: variant.sku } : {}),
+      ...(Number.isFinite(price) ? { offers: {
+        "@type": "Offer", url, priceCurrency: "INR", price,
+        availability: product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      } } : {}),
+    };
+    const jsonLd = upsert("#product-jsonld", () => {
+      const script = document.createElement("script");
+      script.id = "product-jsonld";
+      script.type = "application/ld+json";
+      return script;
     });
-    ogUrl.setAttribute("content", url);
-    const ogTitle = upsert('meta[property="og:title"]', () => {
-      const meta = document.createElement("meta"); meta.setAttribute("property", "og:title"); return meta;
-    });
-    ogTitle.setAttribute("content", product.name);
-    document.title = `${product.name} · Shades World`;
+    jsonLd.textContent = JSON.stringify(schema).replace(/</g, "\\u003c");
+    document.title = title;
   }, [product]);
 
   // The variant this URL resolves to, by the one shared rule: the Main Product when purchasable,
