@@ -36,7 +36,7 @@ test("sitemap includes every active catalog URL once", async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.headers["content-type"], /application\/xml/);
   assert.equal((res.body.match(/<url>/g) || []).length, 4);
-  assert.match(res.body, /https:\/\/shades-frontend-drab\.vercel\.app\/product\/cala-canyelles/);
+  assert.match(res.body, /https:\/\/www\.shadesworldindia\.com\/product\/cala-canyelles/);
   assert.doesNotMatch(res.body, /draft/);
 });
 

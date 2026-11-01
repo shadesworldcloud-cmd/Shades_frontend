@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const SITE_URL = (process.env.REACT_APP_SITE_URL || "https://shades-frontend-drab.vercel.app").replace(/\/$/, "");
+const SITE_URL = (process.env.REACT_APP_SITE_URL || "https://www.shadesworldindia.com").replace(/\/$/, "");
 
 const infoPages = {
   about: ["About Shades World", "Learn about Shades World and our approach to sunglasses and online shopping."],

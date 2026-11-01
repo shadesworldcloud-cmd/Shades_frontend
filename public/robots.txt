@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shades-frontend-drab.vercel.app/sitemap.xml
+Sitemap: https://www.shadesworldindia.com/sitemap.xml

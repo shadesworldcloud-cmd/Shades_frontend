@@ -65,7 +65,7 @@ export default function ProductDetail() {
   /** Keep client-side navigation metadata aligned with the server-rendered product HTML. */
   useEffect(() => {
     if (!product?.slug) return;
-    const siteUrl = (process.env.REACT_APP_SITE_URL || "https://shades-frontend-drab.vercel.app").replace(/\/$/, "");
+    const siteUrl = (process.env.REACT_APP_SITE_URL || "https://www.shadesworldindia.com").replace(/\/$/, "");
     const url = `${siteUrl}/product/${product.slug}`;
     const title = `${product.name} Sunglasses | Shades World`;
     const description = (product.description || `Shop ${product.name} sunglasses from Shades World.`)
