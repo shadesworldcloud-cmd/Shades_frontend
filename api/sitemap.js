@@ -14,6 +14,8 @@ module.exports = async function sitemap(req, res) {
       if (page + 1 >= totalPages) break;
     }
     const paths = ["/", "/shop", "/collections",
+      ...["men", "women", "unisex", "accessory"].map((name) => `/collections/${name}`),
+      ...["about", "contact", "shipping", "returns", "faq", "size-guide", "privacy", "terms"].map((name) => `/info/${name}`),
       ...products.filter((product) => product.isActive && product.slug)
         .map((product) => `/product/${encodeURIComponent(product.slug)}`)];
     const urls = [...new Set(paths)].map((path) =>

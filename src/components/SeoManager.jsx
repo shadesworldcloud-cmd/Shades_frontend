@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 const SITE_URL = (process.env.REACT_APP_SITE_URL || "https://www.shadesworldindia.com").replace(/\/$/, "");
 
 const infoPages = {
-  about: ["About Shades World", "Learn about Shades World and our approach to sunglasses and online shopping."],
+  about: ["About Shades World Barcelona", "Learn about Shades World Barcelona and how we curate eyewear for men, women and unisex styles."],
   contact: ["Contact Shades World", "Contact Shades World for help with sunglasses, orders and delivery."],
   shipping: ["Shipping & Delivery", "Find delivery information for Shades World online orders."],
   returns: ["Exchanges & Returns", "Read the Shades World exchange and return information for online purchases."],
@@ -12,6 +12,13 @@ const infoPages = {
   "size-guide": ["Sunglasses Size Guide", "Find your fit with the Shades World sunglasses size guide."],
   privacy: ["Privacy Policy", "Read how Shades World handles customer information."],
   terms: ["Terms & Conditions", "Read the Shades World terms and conditions."],
+};
+
+const collectionPages = {
+  men: ["Men's Sunglasses", "Explore Shades World sunglasses and eyewear styles for men."],
+  women: ["Women's Sunglasses", "Explore Shades World sunglasses and eyewear styles for women."],
+  unisex: ["Unisex Sunglasses", "Explore versatile unisex sunglasses from Shades World."],
+  accessory: ["Eyewear Accessories", "Explore sunglasses cases, cloths and care accessories from Shades World."],
 };
 
 function setMeta(selector, attributes) {
@@ -37,9 +44,13 @@ export default function SeoManager() {
     if (pathname === "/shop") {
       title = "Shop Sunglasses Online | Shades World";
       description = "Browse Shades World sunglasses for men and women. Find unisex and polarized styles in a range of colours.";
-    } else if (pathname === "/collections" || pathname.startsWith("/collections/")) {
+    } else if (pathname === "/collections") {
       title = "Sunglasses Collections | Shades World";
       description = "Explore the Shades World sunglasses collections for men, women and unisex styles.";
+    } else if (pathname.startsWith("/collections/")) {
+      const collection = pathname.split("/")[2];
+      if (collectionPages[collection]) [title, description] = collectionPages[collection];
+      title += " | Shades World";
     } else if (pathname.startsWith("/info/")) {
       const page = pathname.split("/")[2];
       if (infoPages[page]) [title, description] = infoPages[page];

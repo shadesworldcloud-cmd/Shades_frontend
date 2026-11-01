@@ -3,10 +3,15 @@
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/product/:slug", "destination": "/api/product-seo?slug=:slug" },
+    { "source": "/shop", "destination": "/api/page-seo?page=shop" },
+    { "source": "/collections", "destination": "/api/page-seo?page=collections" },
+    { "source": "/collections/:collection", "destination": "/api/page-seo?page=collection&collection=:collection" },
+    { "source": "/info/:info", "destination": "/api/page-seo?page=info&info=:info" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "functions": {
     "api/product-seo.js": { "maxDuration": 30 },
+    "api/page-seo.js": { "maxDuration": 30 },
     "api/sitemap.js": { "maxDuration": 30 }
   },
   "headers": [

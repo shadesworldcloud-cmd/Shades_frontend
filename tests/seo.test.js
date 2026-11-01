@@ -4,6 +4,7 @@ const path = require("node:path");
 const { test, afterEach } = require("node:test");
 const sitemap = require("../api/sitemap");
 const productSeo = require("../api/product-seo");
+const pageSeo = require("../api/page-seo");
 
 const originalFetch = global.fetch;
 afterEach(() => { global.fetch = originalFetch; });
@@ -35,8 +36,9 @@ test("sitemap includes every active catalog URL once", async () => {
   await sitemap({ method: "GET" }, res);
   assert.equal(res.statusCode, 200);
   assert.match(res.headers["content-type"], /application\/xml/);
-  assert.equal((res.body.match(/<url>/g) || []).length, 4);
+  assert.equal((res.body.match(/<url>/g) || []).length, 16);
   assert.match(res.body, /https:\/\/www\.shadesworldindia\.com\/product\/cala-canyelles/);
+  assert.match(res.body, /https:\/\/www\.shadesworldindia\.com\/collections\/men/);
   assert.doesNotMatch(res.body, /draft/);
 });
 
@@ -70,4 +72,24 @@ test("unknown product returns a real 404", async () => {
   const res = response();
   await productSeo({ method: "GET", query: { slug: "missing" }, headers: { host: "example.vercel.app" } }, res);
   assert.equal(res.statusCode, 404);
+});
+
+test("public shop and information pages have their own initial metadata", async () => {
+  const builtHtml = fs.readFileSync(path.join(__dirname, "../build/index.html"), "utf8");
+  global.fetch = async (url) => {
+    assert.match(url, /\/index\.html$/);
+    return { ok: true, text: async () => builtHtml };
+  };
+  for (const [query, heading, canonical] of [
+    [{ page: "shop" }, "Shop Sunglasses Online", "/shop"],
+    [{ page: "collection", collection: "men" }, "Men&#39;s Sunglasses", "/collections/men"],
+    [{ page: "info", info: "about" }, "About Shades World Barcelona", "/info/about"],
+  ]) {
+    const res = response();
+    await pageSeo({ method: "GET", query, headers: { host: "example.vercel.app" } }, res);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body, new RegExp(`<h1>${heading}</h1>`));
+    assert.match(res.body, new RegExp(`rel="canonical" href="https://www.shadesworldindia.com${canonical}"`));
+    assert.equal((res.body.match(/rel="canonical"/g) || []).length, 1);
+  }
 });
