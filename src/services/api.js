@@ -498,9 +498,13 @@ export const updateShipmentStatus = (accessToken, shipmentId, status) =>
 
 // ---- Shiprocket integration ----
 
-/** Public: check if delivery is available to a pincode */
+/** Public: raw Shiprocket courier serviceability for a pincode */
 export const checkPincodeServiceability = (pincode) =>
-  parseResponse(fetch(`${API_URL}/shiprocket/serviceability?pincode=${pincode}&weight=0.3&cod=false`));
+  parseResponse(fetch(`${API_URL}/shiprocket/serviceability?pincode=${encodeURIComponent(pincode)}&weight=0.3&cod=false`));
+
+/** Public: expected delivery dates for a pincode ({ serviceable, earliestDate, latestDate, courierName, source }) */
+export const getDeliveryEstimate = (pincode) =>
+  parseResponse(fetch(`${API_URL}/shiprocket/delivery-estimate?pincode=${encodeURIComponent(pincode)}`));
 
 /** Admin: push order to Shiprocket */
 export const createShiprocketShipment = (accessToken, orderId) =>

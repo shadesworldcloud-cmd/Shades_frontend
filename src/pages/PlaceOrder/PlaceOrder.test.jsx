@@ -3,11 +3,12 @@ import { MemoryRouter } from "react-router-dom";
 import PlaceOrder from "./PlaceOrder";
 import { StoreContext } from "../../context/StoreContext";
 import * as api from "../../services/api";
+import { clearDeliveryEstimateCache } from "../../services/deliveryEstimate";
 
 jest.mock("../../context/AuthContext", () => ({ useAuth: () => ({ accessToken: "cookie-session" }) }));
 jest.mock("../../services/api", () => ({
   createAddress: jest.fn(), createOrder: jest.fn(), processMockPayment: jest.fn(),
-  getAddresses: jest.fn(),
+  getAddresses: jest.fn(), getDeliveryEstimate: jest.fn(),
 }));
 
 const store = {
@@ -36,6 +37,8 @@ const store = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  clearDeliveryEstimateCache();
+  window.sessionStorage.clear();
   api.getAddresses.mockResolvedValue([{ addressId: 4, recipientName: "Asha", addressLine1: "1 Market Street",
     city: "Barcelona", state: "Catalonia", pincode: "08001", country: "Spain", isDefault: true }]);
 });
@@ -54,4 +57,68 @@ test("requires review of exact variants, address and final total before placing 
   const confirmation = screen.getByRole("checkbox", { name: /I reviewed the items, variants, quantities/i });
   fireEvent.click(confirmation);
   await waitFor(() => expect(submit).toBeEnabled());
+});
+
+// ---- Expected delivery date (Shiprocket) ----
+
+const indianAddress = { addressId: 7, recipientName: "Ravi", addressLine1: "12 MG Road", city: "Bengaluru",
+  state: "Karnataka", pincode: "560001", country: "India", isDefault: true };
+const renderCheckout = () => render(<MemoryRouter><StoreContext.Provider value={store}><PlaceOrder /></StoreContext.Provider></MemoryRouter>);
+const confirmReview = () => fireEvent.click(screen.getByRole("checkbox", { name: /I reviewed the items, variants, quantities/i }));
+
+test("checkout shows Shiprocket's expected delivery dates for the selected address", async () => {
+  api.getAddresses.mockResolvedValue([indianAddress]);
+  api.getDeliveryEstimate.mockResolvedValue({ pincode: "560001", serviceable: true, earliestDate: "2026-11-14",
+    latestDate: "2026-11-17", courierName: "Xpressbees", courierCount: 2, source: "SHIPROCKET" });
+  renderCheckout();
+
+  const card = await screen.findByTestId("checkout-delivery-estimate");
+  await waitFor(() => expect(card).toHaveTextContent(/Sat.*14.*Nov – Tue.*17.*Nov/));
+  expect(card).toHaveTextContent("Expected delivery to 560001 via Xpressbees");
+  expect(api.getDeliveryEstimate).toHaveBeenCalledWith("560001");
+  confirmReview();
+  await waitFor(() => expect(screen.getByRole("button", { name: /Place order/i })).toBeEnabled());
+});
+
+test("checkout cannot be placed to a pincode Shiprocket cannot deliver to", async () => {
+  api.getAddresses.mockResolvedValue([{ ...indianAddress, pincode: "194101" }]);
+  api.getDeliveryEstimate.mockResolvedValue({ pincode: "194101", serviceable: false, source: "SHIPROCKET" });
+  renderCheckout();
+
+  const card = await screen.findByTestId("checkout-delivery-estimate");
+  await waitFor(() => expect(card).toHaveTextContent("Not deliverable to 194101"));
+  confirmReview();
+  expect(screen.getByRole("button", { name: /Place order/i })).toBeDisabled();
+});
+
+test("a Shiprocket outage shows the standard window and never blocks checkout", async () => {
+  api.getAddresses.mockResolvedValue([indianAddress]);
+  api.getDeliveryEstimate.mockRejectedValue(new Error("Service unavailable"));
+  renderCheckout();
+
+  const card = await screen.findByTestId("checkout-delivery-estimate");
+  await waitFor(() => expect(card).toHaveTextContent("Standard delivery, 3–5 business days after dispatch"));
+  confirmReview();
+  await waitFor(() => expect(screen.getByRole("button", { name: /Place order/i })).toBeEnabled());
+});
+
+test("a new address looks up the delivery date once the pincode is complete", async () => {
+  api.getAddresses.mockResolvedValue([]);
+  api.getDeliveryEstimate.mockResolvedValue({ pincode: "110001", serviceable: true, earliestDate: "2026-11-13",
+    latestDate: "2026-11-13", courierName: "Delhivery", courierCount: 1, source: "SHIPROCKET" });
+  renderCheckout();
+  const pincode = await screen.findByLabelText("PIN code");
+  fireEvent.change(pincode, { target: { value: "1100" } });
+  expect(api.getDeliveryEstimate).not.toHaveBeenCalled();
+  fireEvent.change(pincode, { target: { value: "110001" } });
+  const card = screen.getByTestId("checkout-delivery-estimate");
+  await waitFor(() => expect(card).toHaveTextContent(/Fri.*13.*Nov/));
+  expect(api.getDeliveryEstimate).toHaveBeenCalledWith("110001");
+});
+
+test("international addresses show the standard window without a Shiprocket lookup", async () => {
+  renderCheckout(); // default fixture address is in Spain
+  const card = await screen.findByTestId("checkout-delivery-estimate");
+  await waitFor(() => expect(card).toHaveTextContent("Standard delivery, 3–5 business days after dispatch"));
+  expect(api.getDeliveryEstimate).not.toHaveBeenCalled();
 });

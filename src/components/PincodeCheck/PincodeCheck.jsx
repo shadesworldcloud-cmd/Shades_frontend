@@ -1,57 +1,52 @@
-import React, { useState } from "react";
-import { checkPincodeServiceability } from "../../services/api";
+import React, { useEffect, useState } from "react";
+import {
+  FALLBACK_MAX_DAYS, FALLBACK_MIN_DAYS, fetchDeliveryEstimate, formatDeliveryRange,
+  isIndianPincode, lastDeliveryPincode, rememberDeliveryPincode,
+} from "../../services/deliveryEstimate";
 import "./PincodeCheck.css";
 
 /**
- * Pincode serviceability checker — lets a customer enter their pincode
- * on the product detail page to see if delivery is available and get
- * an estimated delivery time.
+ * Pincode delivery checker on the product page. Shows the expected delivery date(s) from
+ * Shiprocket via the server's /shiprocket/delivery-estimate endpoint. The pincode is remembered
+ * for the session so checkout and other product pages show the same estimate.
  */
 const PincodeCheck = () => {
-  const [pincode, setPincode] = useState("");
+  const [pincode, setPincode] = useState(() => lastDeliveryPincode());
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 
-  const handleCheck = async (e) => {
-    e.preventDefault();
-    const cleaned = pincode.replace(/\D/g, "");
-    if (cleaned.length !== 6) {
+  const check = async (value) => {
+    if (!isIndianPincode(value)) {
       setError("Please enter a valid 6-digit pincode");
       setResult(null);
       return;
     }
-
     setLoading(true);
     setError("");
     setResult(null);
-
-    try {
-      const response = await checkPincodeServiceability(cleaned);
-      const couriers = response?.data?.available_courier_companies || response?.data?.availableCourierCompanies || [];
-
-      if (couriers.length === 0) {
-        setError("Sorry, delivery is not available to this pincode.");
-      } else {
-        // Pick the cheapest courier for display
-        const best = couriers.reduce((a, b) =>
-          (Number(a.estimated_delivery_days || a.estimatedDeliveryDays) <
-           Number(b.estimated_delivery_days || b.estimatedDeliveryDays)) ? a : b
-        );
-        setResult({
-          available: true,
-          estimatedDays: best.estimated_delivery_days || best.estimatedDeliveryDays,
-          courierName: best.courier_name || best.courierName,
-          etd: best.etd,
-          courierCount: couriers.length,
-        });
-      }
-    } catch (err) {
-      setError("Unable to check delivery availability. Please try again.");
-    } finally {
-      setLoading(false);
+    const estimate = await fetchDeliveryEstimate(value);
+    setLoading(false);
+    if (estimate?.serviceable === false) {
+      setError(`Sorry, we don't deliver to ${value} yet.`);
+      return;
     }
+    rememberDeliveryPincode(value);
+    setResult({ ...estimate, checkedPincode: value });
   };
+
+  // A pincode remembered from earlier in the session is checked straight away.
+  useEffect(() => {
+    if (isIndianPincode(pincode)) check(pincode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleCheck = (event) => {
+    event.preventDefault();
+    check(pincode.replace(/\D/g, ""));
+  };
+
+  const confirmed = result && result.source !== "FALLBACK";
 
   return (
     <div className="pincode-check">
@@ -61,6 +56,7 @@ const PincodeCheck = () => {
           inputMode="numeric"
           maxLength={6}
           placeholder="Enter delivery pincode"
+          aria-label="Delivery pincode"
           value={pincode}
           onChange={(e) => {
             setPincode(e.target.value.replace(/\D/g, ""));
@@ -74,20 +70,18 @@ const PincodeCheck = () => {
         </button>
       </form>
 
-      {error && <p className="pincode-check-error">{error}</p>}
+      {error && <p className="pincode-check-error" role="alert">{error}</p>}
 
-      {result?.available && (
-        <div className="pincode-check-result">
-          <p className="pincode-check-success">
-            ✓ Delivery available to {pincode}
-          </p>
+      {result && (
+        <div className="pincode-check-result" data-testid="pincode-check-result">
+          <p className="pincode-check-success">✓ Delivery available to {result.checkedPincode}</p>
           <p className="pincode-check-eta">
-            Estimated delivery: {result.estimatedDays} business day{result.estimatedDays > 1 ? "s" : ""}
-            {result.etd ? ` (by ${result.etd})` : ""}
+            {confirmed ? "Expected delivery" : "Usually delivered"}: <strong>{formatDeliveryRange(result)}</strong>
           </p>
           <p className="pincode-check-courier">
-            via {result.courierName}
-            {result.courierCount > 1 ? ` (+${result.courierCount - 1} more option${result.courierCount > 2 ? "s" : ""})` : ""}
+            {confirmed
+              ? `via ${result.courierName || "our courier partners"}${result.courierCount > 1 ? ` (+${result.courierCount - 1} more option${result.courierCount > 2 ? "s" : ""})` : ""}`
+              : `We couldn't confirm the courier date right now — standard delivery is ${FALLBACK_MIN_DAYS}–${FALLBACK_MAX_DAYS} business days after dispatch.`}
           </p>
         </div>
       )}

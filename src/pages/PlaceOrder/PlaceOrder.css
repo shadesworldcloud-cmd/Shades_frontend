@@ -244,3 +244,5 @@
 
 .checkout-offer strong { font-size: var(--fs-body); }
 .checkout-offer small { font-size: var(--fs-micro); color: var(--text-muted, #6b6b66); line-height: 1.4; }
+.checkout-delivery-card.is-unavailable { border-color: rgba(211,47,47,.45); background: rgba(211,47,47,.05); }
+.checkout-delivery-card.is-unavailable strong { color: #b3261e; }

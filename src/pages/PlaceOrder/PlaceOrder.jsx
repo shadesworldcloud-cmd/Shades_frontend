@@ -7,6 +7,8 @@ import { announceCatalogueChanged } from "../../services/catalogueEvents";
 import { pincodeError, sanitisePincode } from "../../services/pincode";
 import { phoneError } from "../../services/phone";
 import { Link } from "react-router-dom";
+import useDeliveryEstimate from "../../hooks/useDeliveryEstimate";
+import { FALLBACK_MAX_DAYS, FALLBACK_MIN_DAYS, fallbackEstimate, formatDeliveryRange, rememberDeliveryPincode } from "../../services/deliveryEstimate";
 
 const emptyAddress = {
   recipientName: "", phoneNumber: "", addressLine1: "", addressLine2: "",
@@ -14,12 +16,7 @@ const emptyAddress = {
 };
 
 const money = (value) => `₹${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
-const addBusinessDays = (start, days) => {
-  const result = new Date(start); let remaining = days;
-  while (remaining > 0) { result.setDate(result.getDate() + 1); if (![0, 6].includes(result.getDay())) remaining -= 1; }
-  return result;
-};
-const shortDate = (value) => value.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+const isIndia = (country) => String(country || "").trim().toLowerCase() === "india";
 
 const PlaceOrder = () => {
   const { accessToken } = useAuth();
@@ -79,16 +76,26 @@ const PlaceOrder = () => {
   const catalogueBlocked = orderLines.length > 0 && product_list.length === 0 && (productsLoading || Boolean(productsError));
   const selectedAddress = useNewAddress ? address
     : addresses.find((item) => String(item.addressId) === selectedAddressId);
-  const deliveryStart = shortDate(addBusinessDays(new Date(), 3));
-  const deliveryEnd = shortDate(addBusinessDays(new Date(), 5));
   // Only validated for a new address; a saved one was already validated server-side when stored.
   const newAddressPincodeError = useNewAddress ? pincodeError(address.pincode, address.country) : "";
+  // Expected delivery comes from Shiprocket for the address being shipped to. Only Indian pincodes
+  // are looked up (Shiprocket is domestic); anything else shows the standard window.
+  const deliveryPincode = selectedAddress && isIndia(selectedAddress.country) && !newAddressPincodeError
+    ? String(selectedAddress.pincode || "") : "";
+  const delivery = useDeliveryEstimate(deliveryPincode);
+  const shipsAbroad = Boolean(selectedAddress) && !isIndia(selectedAddress.country);
+  const deliveryEstimate = delivery.estimate || (shipsAbroad ? fallbackEstimate() : null);
+  const notServiceable = delivery.status === "ready" && delivery.estimate?.serviceable === false;
+  const deliveryPending = delivery.status === "loading";
   const newAddressPhoneError = useNewAddress ? phoneError(address.phoneNumber) : "";
   const canSubmit = useMemo(() => itemCount > 0 && !submitting && !loadingAddresses && !cartSyncing
     && priced && !quoteLoading
     && unavailableLines.length === 0 && !catalogueBlocked && !newAddressPincodeError && !newAddressPhoneError
-    && reviewConfirmed && (useNewAddress || selectedAddressId),
-  [itemCount, submitting, loadingAddresses, cartSyncing, priced, quoteLoading, unavailableLines.length, catalogueBlocked, newAddressPincodeError, newAddressPhoneError, reviewConfirmed, useNewAddress, selectedAddressId]);
+    && !notServiceable && reviewConfirmed && (useNewAddress || selectedAddressId),
+  [itemCount, submitting, loadingAddresses, cartSyncing, priced, quoteLoading, unavailableLines.length, catalogueBlocked, newAddressPincodeError, newAddressPhoneError, notServiceable, reviewConfirmed, useNewAddress, selectedAddressId]);
+
+  useEffect(() => { if (delivery.status === "ready" && !notServiceable) rememberDeliveryPincode(deliveryPincode); },
+    [delivery.status, notServiceable, deliveryPincode]);
 
   useEffect(() => { setReviewConfirmed(false); }, [estimatedTotal, itemCount]);
 
@@ -274,7 +281,22 @@ const PlaceOrder = () => {
               <div className="checkout-divider" />
               <div className="checkout-row checkout-total-row"><span>Estimated total</span><span>{money(estimatedTotal)}</span></div>
               <div className="checkout-confirmation-card"><span>Deliver to</span><strong>{selectedAddress?.recipientName || "Select an address"}</strong>{selectedAddress && <p>{selectedAddress.addressLine1}{selectedAddress.addressLine2 && `, ${selectedAddress.addressLine2}`}<br />{selectedAddress.city}, {selectedAddress.state} {selectedAddress.pincode}<br />{selectedAddress.country}{selectedAddress.phoneNumber && ` · ${selectedAddress.phoneNumber}`}</p>}</div>
-              <div className="checkout-confirmation-card"><span>Estimated delivery</span><strong>{deliveryStart}–{deliveryEnd}</strong><p>Standard delivery, subject to fulfilment and courier availability.</p></div>
+              <div className={`checkout-confirmation-card checkout-delivery-card${notServiceable ? " is-unavailable" : ""}`} data-testid="checkout-delivery-estimate" aria-live="polite">
+                <span>Estimated delivery</span>
+                {!selectedAddress ? (
+                  <strong>Select an address</strong>
+                ) : deliveryPending ? (
+                  <><strong>Checking delivery date…</strong><p>Asking our courier partners about {deliveryPincode}.</p></>
+                ) : notServiceable ? (
+                  <><strong>Not deliverable to {deliveryPincode}</strong><p role="alert">Our courier partners don't deliver to this pincode yet. Please choose a different address.</p></>
+                ) : deliveryEstimate ? (
+                  <><strong>{formatDeliveryRange(deliveryEstimate)}</strong><p>{deliveryEstimate.source === "SHIPROCKET"
+                    ? `Expected delivery to ${deliveryPincode}${deliveryEstimate.courierName ? ` via ${deliveryEstimate.courierName}` : ""}, including dispatch time. Final date is confirmed when the courier is assigned.`
+                    : `Standard delivery, ${FALLBACK_MIN_DAYS}–${FALLBACK_MAX_DAYS} business days after dispatch, subject to courier availability.`}</p></>
+                ) : (
+                  <strong>Enter a valid pincode</strong>
+                )}
+              </div>
               <p className="checkout-note">The server recalculates current prices, stock, tax and offers. If the final amount differs from {money(estimatedTotal)}, no order or payment will be created.</p>
               {cartSyncing && <p className="checkout-note">Updating your bag before checkout…</p>}
               {(quoteLoading || !priced) && itemCount > 0 && (
